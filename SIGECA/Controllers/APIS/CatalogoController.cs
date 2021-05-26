@@ -4,18 +4,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using SIGECA.Entities;
+using SIGECA.Services;
+
 namespace SIGECA.Controllers.APIS
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CatalogoController : ControllerBase
     {
-        // GET: api/<CatalogoController>
+        private readonly ProductoService _catalogoService;
+
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
+
+        [HttpGet("all")]
+        public async Task<List<Producto>> GetAll()
+        {
+            List<Producto> productos = await _catalogoService.GetAll();
+            return productos;
+        }
+
 
         // GET api/<CatalogoController>/5
         [HttpGet("{id}")]
