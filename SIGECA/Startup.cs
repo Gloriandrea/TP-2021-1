@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using SIGECA.Helpers;
+using SIGECA.Services;
 
 namespace SIGECA
 {
@@ -23,6 +29,36 @@ namespace SIGECA
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            //Configurando dependencia de Clase conector con MongoDB
+            services.Configure<SigecaDataBaseSettings>(
+                Configuration.GetSection(nameof(SigecaDataBaseSettings)));
+            services.AddSingleton<ISigecaDataBaseSettings>(sp =>
+              sp.GetRequiredService<IOptions<SigecaDataBaseSettings>>().Value);
+
+            //Inyectando dependencia de Clase Conectora en la Interfaz padre
+            services.AddSingleton<SigecaDataBaseSettings>(sp =>
+               sp.GetRequiredService<IOptions<SigecaDataBaseSettings>>().Value);
+            services.AddScoped<UsuarioService>();
+
+            //Injectando dependecia de Azure FileStorage
+            services.AddScoped<IFileStorage, AzureFileStorage>();
+
+            //need default token provider
+            services.AddAuthentication(JwtBearerDefaults
+             .AuthenticationScheme)
+                 .AddJwtBearer(options =>
+              options.TokenValidationParameters =
+              new TokenValidationParameters
+              {
+                  ValidateIssuer = false,
+                  ValidateAudience = false,
+                  ValidateLifetime = true,
+                  ValidateIssuerSigningKey = true,
+                  IssuerSigningKey = new SymmetricSecurityKey(
+                 //llave secreta que dice si el token es valido
+                 Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
+                  ClockSkew = TimeSpan.Zero
+              });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +77,11 @@ namespace SIGECA
             app.UseRouting();
 
             app.UseAuthorization();
+
+            //Autorizacion y auntenticacion mediante tokens JWT
+            app.UseAuthentication();
+            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
