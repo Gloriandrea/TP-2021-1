@@ -12,7 +12,7 @@ namespace SIGECA.Controllers
 {
     /*[Route("api/[controller]")]
     [ApiController]*/
-    public class UsuarioController : ControllerBase
+    public class UsuarioController : Controller
     {
         private readonly UsuarioService _usuarioservice;
         private readonly IFileStorage _fileStorage;
