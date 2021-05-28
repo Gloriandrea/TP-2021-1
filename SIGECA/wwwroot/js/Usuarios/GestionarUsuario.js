@@ -1,6 +1,6 @@
 ﻿$(function () {
 
-    $("#testJS").on('click', function (e) {
+    /*$("#testJS").on('click', function (e) {
         console.log("HOLAAA!!!");
 
         $.ajax(
@@ -16,6 +16,6 @@
                 }
             });
     });
-
+    */
 
 });
