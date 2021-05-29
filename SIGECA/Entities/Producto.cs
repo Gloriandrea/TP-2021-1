@@ -36,5 +36,8 @@ namespace SIGECA.Entities
         [BsonElement("stockDisponible")]
         public int stockDisponible { get; set; }
 
+        [BsonElement("urlImagen")]
+        public string urlImagen { get; set; }
+
     }
 }

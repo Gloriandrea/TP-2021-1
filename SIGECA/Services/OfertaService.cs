@@ -9,24 +9,50 @@ namespace SIGECA.Services
 {
     public class OfertaService
     {
-        private readonly IMongoCollection<Oferta> _oferta;
+        private readonly IMongoCollection<Oferta> _ofertaCollection;
 
         public OfertaService(ISigecaDataBaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _oferta = database.GetCollection<Oferta>("Oferta");
+            _ofertaCollection = database.GetCollection<Oferta>("Oferta");
         }
 
-        public List<Oferta> GetAll()
+        public async Task<List<Oferta>> GetAll()
         {
-            return _oferta.Find(x => true).ToList();
+            return await _ofertaCollection.FindAsync(x => true).Result.ToListAsync();
         }
 
-        public Oferta GetById(string ofertaID)
+        public async Task<Oferta> GetById(string ofertaID)
         {
-            return _oferta.Find(x => x.id == ofertaID).FirstOrDefault();
+            return await _ofertaCollection.FindAsync(x => x.id == ofertaID).Result.FirstOrDefaultAsync();
+        }
+
+        public async Task Create(Oferta oferta)
+        {
+            await _ofertaCollection.InsertOneAsync(oferta);
+        }
+
+        public async Task Update(Oferta oferta)
+        {
+            var old = Builders<Oferta>.Filter.Eq(s => s.id, oferta.id);
+            await _ofertaCollection.ReplaceOneAsync(old, oferta);
+        }
+
+        public async Task Update(string _id, Oferta oferta)
+        {
+            await _ofertaCollection.ReplaceOneAsync(old => old.id == _id, oferta);
+        }
+
+        public async Task Delete(Oferta oferta)
+        {
+            await _ofertaCollection.DeleteOneAsync(old => old.id == oferta.id);
+        }
+
+        public async Task Delete(string _id)
+        {
+            await _ofertaCollection.DeleteOneAsync(old => old.id == _id);
         }
     }
 }
