@@ -19,6 +19,11 @@ namespace SIGECA.Services
             _ofertaCollection = database.GetCollection<Oferta>("Oferta");
         }
 
+        public async Task<List<Oferta>> Get()
+        {
+            return await _ofertaCollection.FindAsync(x => true).Result.ToListAsync();
+        }
+
         public async Task<List<Oferta>> GetAll()
         {
             return await _ofertaCollection.FindAsync(x => true).Result.ToListAsync();
@@ -40,7 +45,7 @@ namespace SIGECA.Services
             await _ofertaCollection.ReplaceOneAsync(old, oferta);
         }
 
-        public async Task Update(string _id, Oferta oferta)
+        public async Task UpdateById(string _id, Oferta oferta)
         {
             await _ofertaCollection.ReplaceOneAsync(old => old.id == _id, oferta);
         }
@@ -50,7 +55,7 @@ namespace SIGECA.Services
             await _ofertaCollection.DeleteOneAsync(old => old.id == oferta.id);
         }
 
-        public async Task Delete(string _id)
+        public async Task DeleteById(string _id)
         {
             await _ofertaCollection.DeleteOneAsync(old => old.id == _id);
         }
