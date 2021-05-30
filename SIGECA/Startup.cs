@@ -59,6 +59,15 @@ namespace SIGECA
                  Encoding.UTF8.GetBytes(Configuration["jwt:key"])),
                   ClockSkew = TimeSpan.Zero
               });
+
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddRazorPages();
+
+            #region Colecciones APIS
+            services.AddSingleton<ProductoService>();
+            services.AddSingleton<OfertaService>();
+            #endregion
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

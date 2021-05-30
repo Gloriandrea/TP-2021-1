@@ -5,41 +5,41 @@
     ViewData["Title"] = "Gestionar Producto";
 }
 
-<h2 class="mt-3">Catálogo</h2>
+
+<h2 class="mt-3">Producto</h2>
 <div class="row">
     <div class="col">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Catálogo</li>
+                <li class="breadcrumb-item active" aria-current="page">Producto</li>
             </ol>
         </nav>
     </div>
     <div class="col">
-        <button class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#registrarProducto">Agregar Producto a Catálogo</button>
+        <button class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#registrarProducto">Agregar Nuevo Producto</button>
     </div>
 </div>
-<p style="color:gray;">@Model.Count() productos en catálogo</p>
+<p style="color:gray;">@Model.Count() productos</p>
 
-<table id="TableCatalogo" class="table">
+<table id="TableProducto" class="table">
     <thead class="thead-light">
         <tr>
             <th scope="col">@Html.DisplayNameFor(model => model.nombre)</th>
             <th scope="col">@Html.DisplayNameFor(model => model.tipoVenta)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.stockDisponible)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.precio) (x Kg)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.stockAdquirido)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.precio) (por Kg)</th>
             <th scope="col">Acciones</th>
         </tr>
     </thead>
     <tbody>
         @if (Model != null)
         {
-            @foreach (var product in Model)
-            {
+            @foreach (var product in Model) { 
                 <tr>
                     <td>@Html.DisplayFor(modelItem => product.nombre)</td>
                     <td>@Html.DisplayFor(modelItem => product.tipoVenta)</td>
-                    <td>@Html.DisplayFor(modelItem => product.stockDisponible)</td>
+                    <td>@Html.DisplayFor(modelItem => product.stockAdquirido)</td>
                     <td>S/. @Html.DisplayFor(modelItem => product.precio)</td>
                     <td>
                         <button class="btn"><img class="fas fa-eye" /></button>
@@ -48,7 +48,7 @@
                     </td>
                 </tr>
             }
-
+            
         }
 
     </tbody>
@@ -110,7 +110,7 @@
     </div>
 </div>
 
-<div class="modal" id="consultarProducto" tabindex="-1" aria-labelledby="consultarProductoLabel" aria-hidden="true">
+<div class="modal fade" id="consultarProducto" tabindex="-1" aria-labelledby="consultarProductoLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -162,12 +162,13 @@
         </div>
     </div>
 </div>
+
 @section scripts{
     <script type="text/javascript" src="@Url.Content("~/js/Loaders/dropzone.min.js")"></script>
     <script src="~/js/Catalogo/catalogo.js"></script>
     <script>
         $(document).ready(function () {
-            $('#TableCatalogo').DataTable({
+            $('#TableProducto').DataTable({
                 "language": {
                     "processing": "Procesando...",
                     "lengthMenu": "Mostrar _MENU_ registros",

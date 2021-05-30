@@ -30,5 +30,8 @@ namespace SIGECA.Entities
 
         [BsonElement("productoID")]
         public string productoID { get; set; }
+
+        [BsonElement("estado")]
+        public string estado { get; set; }
     }
 }

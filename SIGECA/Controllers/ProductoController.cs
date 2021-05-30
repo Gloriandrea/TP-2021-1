@@ -10,9 +10,8 @@ using System.Threading.Tasks;
 
 namespace SIGECA.Controllers
 {
-    public class CatalogoController : Controller
+    public class ProductoController : Controller
     {
-
         UrlAPI urlAPI;
         public async Task<IActionResult> Index()
         {
@@ -20,15 +19,8 @@ namespace SIGECA.Controllers
 
             var httpClient = new HttpClient();
             var json = await httpClient.GetStringAsync(urlAPI.Producto);
-            List<Producto> productos = JsonConvert.DeserializeObject<List<Producto>>(json);
-            List<Producto> catalogo = new List<Producto>();
-
-            foreach(var producto in productos) 
-            {
-                if (producto.stockDisponible > 0) catalogo.Add(producto);
-            }
-
-            return View(catalogo);
+            IEnumerable<Producto> productos = JsonConvert.DeserializeObject<List<Producto>>(json);
+            return View(productos);
         }
     }
 }
