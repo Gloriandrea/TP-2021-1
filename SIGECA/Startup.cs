@@ -66,6 +66,7 @@ namespace SIGECA
             #region Colecciones APIS
             services.AddSingleton<ProductoService>();
             services.AddSingleton<OfertaService>();
+            services.AddSingleton<CompraService>();
             #endregion
 
         }

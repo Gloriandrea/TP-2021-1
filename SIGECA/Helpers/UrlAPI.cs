@@ -12,7 +12,8 @@ namespace SIGECA.Helpers
             this.Producto = this.Urapp + "/api/Producto";
             this.Oferta = this.Urapp + "/api/Oferta";
             this.Catalogo = this.Urapp + "/api/Catalogo";
-            this.Usuario = this.Usuario + "/api/Usuario";
+            this.Usuario = this.Urapp + "/api/Usuario";
+            this.Compra = this.Urapp + "/api/Compra";
         }
 
         public string Urapp { get; }
@@ -20,6 +21,6 @@ namespace SIGECA.Helpers
         public string Oferta { get; }
         public string Catalogo { get; }
         public string Usuario { get; }
-
+        public string Compra { get; }
     }
 }

@@ -17,6 +17,8 @@ namespace SIGECA.Entities
         public string proveedorID { get; set; }
         [BsonElement("costoTotal")]
         public double costoTotal { get; set; }
+        [BsonElement("fecha")]
+        public DateTime fecha { get; set; }
         [BsonElement("items")]
         public List<itemProducto> items { get; set; }
     }
