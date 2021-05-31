@@ -12,11 +12,14 @@ namespace SIGECA.Helpers
             this.Producto = this.Urapp + "/api/Producto";
             this.Oferta = this.Urapp + "/api/Oferta";
             this.Catalogo = this.Urapp + "/api/Catalogo";
+            this.Usuario = this.Usuario + "/api/Usuario";
         }
 
         public string Urapp { get; }
         public string Producto { get; }
         public string Oferta { get; }
         public string Catalogo { get; }
+        public string Usuario { get; }
+
     }
 }

@@ -10,10 +10,10 @@ namespace SIGECA.Controllers
 {
     public class ClienteController : UsuarioController
     {
-        public ClienteController(UsuarioService usuarioservice, IFileStorage fileStorage) : base(usuarioservice, fileStorage)
+        /*public ClienteController(UsuarioService usuarioservice, IFileStorage fileStorage) : base(usuarioservice, fileStorage)
         {
 
-        }
+        }*/
 
         public async Task<IActionResult> Index()
         {
