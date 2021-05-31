@@ -19,12 +19,12 @@ namespace SIGECA.Services
             _usuarios = database.GetCollection<Usuario>("Usuarios");
         }
 
-        public List<Usuario> GetAll()
+        public async Task<List<Usuario>> GetAll()
         {
             return _usuarios.Find(x => true).ToList();
         }
 
-        public Usuario GetById(string usuarioID)
+        public async Task<Usuario> GetById(string usuarioID)
         {
             return _usuarios.Find(x => x.id == usuarioID).FirstOrDefault();
         }

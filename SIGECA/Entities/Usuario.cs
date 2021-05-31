@@ -29,16 +29,16 @@ namespace SIGECA.Entities
 
         [BsonElement("contraseña")]
         public string contraseña { get; set; }
+        public DatosUsuario datos { get; set; }
     }
 
     public class Cliente : Usuario
     {
-        public DatosUsuario datos { get; set; }
+       
     }
 
     public class Trabajador : Usuario
     {
-        public DatosUsuario datos { get; set; }
         public DatosLaborales laboral { get; set; }
     }
 

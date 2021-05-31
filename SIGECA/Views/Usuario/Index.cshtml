@@ -1,5 +1,5 @@
 ﻿@using SIGECA.Entities;
-@model IEnumerable<Producto>
+@model IEnumerable<Usuario>
 @{
     ViewData["Title"] = "Gestionar Producto";
 }
@@ -33,10 +33,10 @@
         <table id="TableUsuario" class="table">
             <thead class="thead-light">
                 <tr>
-                    <th scope="col">@Html.DisplayNameFor(model => model.nombre)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.tipoVenta)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.stockDisponible)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.precio) (x Kg)</th>
+                    <th scope="col">Nombre de Usuario</th>
+                    <th scope="col">Tipo de Usuario</th>
+                    <th scope="col">Numero Documento</th>
+                    <th scope="col">Estado</th>
                     <th scope="col">Acciones</th>
                 </tr>
             </thead>
@@ -46,10 +46,10 @@
                     @foreach (var product in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => product.nombre)</td>
-                            <td>@Html.DisplayFor(modelItem => product.tipoVenta)</td>
-                            <td>@Html.DisplayFor(modelItem => product.stockDisponible)</td>
-                            <td>S/. @Html.DisplayFor(modelItem => product.precio)</td>
+                            <td>@Html.DisplayFor(modelItem => product.nombreUsuario)</td>
+                            <td>@Html.DisplayFor(modelItem => product.tipoUsuario)</td>
+                            <td>@Html.DisplayFor(modelItem => product.datos.numeroDocumento)</td>
+                            <td>@Html.DisplayFor(modelItem => product.estado)</td>
                             <td>
                                 <button class="btn"><img class="fas fa-eye" /></button>
                                 <button class="btn"><img class="fas fa-edit" /></button>
@@ -285,4 +285,5 @@
 
 @section scripts{
     <script type="text/javascript" src="~/js/Usuarios/GestionarUsuario.js"></script>
+    <script src="~/js/Usuarios/GestionarUsuario.js"></script>
 }
