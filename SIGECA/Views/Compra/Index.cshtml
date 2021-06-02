@@ -1,3 +1,56 @@
-﻿<h1>
-    Hola mi nombre es TP5
-</h1>
+﻿@using SIGECA.Entities;
+@model IEnumerable<Compra>
+@{
+    ViewData["Title"] = "Gestionar Compra";
+}
+
+<h2 class="mt-3">Compras</h2>
+<div class="row">
+    <div class="col">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Compra</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="col">
+        <button class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target=""><i class="fas fa-plus"></i> Agregar Compra</button>
+    </div>
+</div>
+<p style="color:gray;">Hay @Model.Count() compras registradas</p>
+<table id="tableCompra" class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Nombre del proveedor</th>
+            <th scope="col">Número RUC</th>
+            <th scope="col">Costo</th>
+            <th scope="col">Fecha Registro</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var compra in Model)
+            {
+                <tr>
+                    <td>Nacho's Meat</td>
+                    <td>20112233445</td>
+                    <td>S/. @compra.costoTotal</td>
+                    <td>@compra.fecha.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a class="btn" style="color: #4AB6B6"><i class="fas fa-eye"></i></a>
+                        <a class="btn" style="color: #4AB6B6"><i class="fas fa-edit"></i></a>
+                        <a class="btn" style="color: red"><i class="fas fa-ban"></i></a>
+                    </td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <script src="~/js/Compra/GestionarCompra.js"></script>
+}
