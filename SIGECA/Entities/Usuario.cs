@@ -21,14 +21,16 @@ namespace SIGECA.Entities
         [BsonElement("tipoUsuario")]
         public string tipoUsuario { get; set; }
 
+        [BsonElement("contraseña")]
+        public string contraseña { get; set; }
+
         [BsonElement("estado")]
         public string estado { get; set; }
 
         [BsonElement("nombreUsuario")]
         public string nombreUsuario { get; set; }
 
-        [BsonElement("contraseña")]
-        public string contraseña { get; set; }
+        [BsonElement("datos")]
         public DatosUsuario datos { get; set; }
     }
 
@@ -46,6 +48,7 @@ namespace SIGECA.Entities
      public class DatosUsuario
      {
         public string email { get; set; }
+        public DateTime? fechaNacimiento { get; set; }
         public string nombre { get; set; }
         public string apellido { get; set; }
         public string telefono { get; set; }
@@ -58,7 +61,6 @@ namespace SIGECA.Entities
     {
         public string tipoContrato { get; set; }
         public string sueldoID { get; set; }
-        public List<Remuneracion> remuneraciones { get; set; }
     }
 
     public class Remuneracion {

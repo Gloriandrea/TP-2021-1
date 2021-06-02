@@ -34,11 +34,10 @@ namespace SIGECA
                 Configuration.GetSection(nameof(SigecaDataBaseSettings)));
             services.AddSingleton<ISigecaDataBaseSettings>(sp =>
               sp.GetRequiredService<IOptions<SigecaDataBaseSettings>>().Value);
-
+            services.AddScoped<UsuarioService>();
             //Inyectando dependencia de Clase Conectora en la Interfaz padre
             services.AddSingleton<SigecaDataBaseSettings>(sp =>
                sp.GetRequiredService<IOptions<SigecaDataBaseSettings>>().Value);
-            services.AddScoped<UsuarioService>();
 
             //Injectando dependecia de Azure FileStorage
             services.AddScoped<IFileStorage, AzureFileStorage>();

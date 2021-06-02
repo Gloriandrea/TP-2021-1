@@ -8,11 +8,6 @@
     <li class="breadcrumb-item active" style="padding:10px 5px">Vista de Administrador</li>
 </ol>
 
-<button type="button" class="btn btn-outline-success btn-block"
-        id="testJS">
-    <i class="fas fa-user-check"></i>
-    <span>Test JS</span>
-</button>
 <div class="card mb-4">
     <div class="card-header">
         <div class="row">
@@ -22,7 +17,8 @@
             </div>
             <div class="col-2 col-sm-2 col-lg-2 col-xl-2">
                 <button type="button" class="btn btn-outline-success btn-block"
-                        data-bs-toggle="modal" data-bs-target="#registrarUsuario">
+                        id="btnRegistrarUsuario"
+                       >
                     <i class="fas fa-user-check"></i>
                     <span>Registrar Usuario</span>
                 </button>
@@ -43,16 +39,16 @@
             <tbody>
                 @if (Model != null)
                 {
-                    @foreach (var product in Model)
+                    @foreach (var usuario in Model)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => product.nombreUsuario)</td>
-                            <td>@Html.DisplayFor(modelItem => product.tipoUsuario)</td>
-                            <td>@Html.DisplayFor(modelItem => product.datos.numeroDocumento)</td>
-                            <td>@Html.DisplayFor(modelItem => product.estado)</td>
+                            <td>@Html.DisplayFor(modelItem => usuario.nombreUsuario)</td>
+                            <td>@Html.DisplayFor(modelItem => usuario.tipoUsuario)</td>
+                            <td>@Html.DisplayFor(modelItem => usuario.datos.numeroDocumento)</td>
+                            <td>@Html.DisplayFor(modelItem => usuario.estado)</td>
                             <td>
-                                <button class="btn"><img class="fas fa-eye" /></button>
-                                <button class="btn"><img class="fas fa-edit" /></button>
+                                <button class="btn"><img class="fas fa-eye"  /></button>
+                                <button class="btn btnModificarUsuario" data-usuario-id="@usuario.id" ><img class="fas fa-edit" /></button>
                                 <button class="btn"><img class="fas fa-ban" /></button>
                             </td>
                         </tr>
@@ -61,163 +57,194 @@
                 }
             </tbody>
         </table>
-        <!--table class="table table-striped table-hover" id="tableUsuarios">
-            <thead class="table-dark">
-                <tr class="table-active">
-                    <th>Nombre Completo</th>
-                    <th>Tipo Documento</th>
-                    <th >Nro. Documento</th>
-                    <th >Tipo Usuario</th>
-                    <th >Accion</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Gloria Llerena</td>
-                    <td>DNI</td>
-                    <td>12345678</td>
-                    <td>Administrador</td>
-                    <td>
-                        <div class="row">
-                            <div class="col-4">
-                                <button type="button" class="btn btn-block btn-outline-danger">
-                                    <i class="fas fa-user-slash"></i>
-                                    <span>Deshabilitar</span>
-                                </button>
-                            </div>
-                            <div class="col-4">
-                                <button type="button" class="btn btn-block btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modificarUsuario">
-                                    <i class="fas fa-user-edit"></i>
-                                    <span>Actualizar</span>
-                                </button>
-                            </div>
-                            <div class="col-4">
-                                <button type="button" class="btn btn-block btn-outline-info" data-bs-toggle="modal" data-bs-target="#consultarUsuario">
-                                    <i class="far fa-address-card"></i>
-                                    <span>Consutar</span>
-                                </button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table-->
     </div>
 </div>
 
-<div class="modal" id="registrarUsuario" tabindex="-1" aria-labelledby="registrarUsuarioLabel" aria-hidden="true">
+<div class="modal" id="modalRegistrarUsuario" tabindex="-1" aria-labelledby="registrarUsuarioLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="registrarUsuarioLabel">Registrar Nuevo Usuario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="modal-body">
-                <form class="row g-3">
-                    <div class="row">
-                        <div class="mb-3 col-6">
+                <form action="@Url.Action("RegistrarUsuario","Usuario")" id="frmRegistrarUsuario" method="post">
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="nombre" class="form-label">Nombres:</label>
-                            <input class="form-control" id="nombreUsuarioRegistrar" placeholder="Jose Alberto">
+                            <input class="form-control" id="nombreUsuarioRegistrar" name="datos.nombre" placeholder="Jose Alberto">
                         </div>
-                        <div class="mb-3 col-6">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="apellido" class="form-label">Apellidos:</label>
-                            <input class="form-control" id="apellidoUsuarioRegistrar" placeholder="Ramirez Perez">
+                            <input class="form-control" id="apellidoUsuarioRegistrar" name="datos.apellido" placeholder="Ramirez Perez">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="mb-3 col-6">
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="email" class="form-label">E-Mail: </label>
-                            <input type="email" class="form-control" id="emailUsuarioRegistrar" placeholder="ejemplo@dominio.com">
+                            <input type="email" class="form-control" id="emailUsuarioRegistrar"
+                                   name="datos.email"
+                                   placeholder="ejemplo@dominio.com">
                         </div>
-                        <div class="mb-3 col-6">
-                            <label for="celular" class="form-label">Nro Celular:</label>
-                            <input class="form-control" id="celularUsuarioRegistrar" placeholder="998877665">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="telefono" class="form-label">Nro Telefono:</label>
+                            <input class="form-control" id="telefonoUsuarioRegistrar"
+                                   name="datos.telefono"
+                                   placeholder="998877665">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="mb-3 col-12">
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
                             <label for="direccion" class="form-label">Direccion</label>
-                            <textarea class="form-control" id="direccionUsuarioRegistrar" rows="3" placeholder="Av. cerca 123 - Distrito"></textarea>
+                            <textarea class="form-control" id="direccionUsuarioRegistrar"
+                                      name="datos.direccion"
+                                      rows="3" placeholder="Av. cerca 123 - Distrito"></textarea>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="mb-3 col-6">
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="tipoDocumento" class="form-label">Tipo Documento: </label>
-                            <select class="form-select" id="tipoDocumentoUsuarioRegistrar" aria-label="Default select example">
+                            <select class="form-select form-control" id="tipoDocumentoUsuarioRegistrar"
+                                    name="datos.tipoDocumento"
+                                    aria-label="Default select example">
                                 <option selected value="DNI">D.N.I.</option>
                                 <option value="CI">Carnet De Extranjeria</option>
                                 <option value="Pasaporte">Pasaporte</option>
                             </select>
                         </div>
-                        <div class="mb-3 col-6">
-                            <label for="celular" class="form-label">Numero Documento:</label>
-                            <input class="form-control" id="celularUsuarioRegistrar" placeholder="12345678">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="numeroDocumento" class="form-label">Numero Documento:</label>
+                            <input class="form-control" id="telefonoUsuarioRegistrar"
+                                   name="datos.numeroDocumento" placeholder="12345678">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="tipoUsuario" class="form-label">Tipo Usuario: </label>
+                            <select class="form-select form-control" id="tipoUsuarioUsuarioRegistrar"
+                                    name="tipoUsuario"
+                                    aria-label="Default select example">
+                                <option selected value="Administrador">Administrador</option>
+                                <option value="Vendedor">Vendedor</option>
+                                <option value="Cajero">Cajero</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="fechaNacimiento" class="form-label">Fecha Nacimiento:</label>
+                            <input class="form-control" id="fechaNacimientoUsuarioRegistrar"
+                                   name="datos.fechaNacimiento" placeholder="yyyy-mm-dd">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Registrar Usuario</button>
+                <div class="row" style="padding: 5px 5%;width:100%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-primary"
+                                id="btnRegistrarUsuarioModal">Registrar Usuario</button>
+                    </div>
+                </div>
+                </div>
             </div>
-        </div>
     </div>
 </div>
 
-<div class="modal" id="modificarUsuario" tabindex="-1" aria-labelledby="modificarUsuarioLabel" aria-hidden="true">
+<div class="modal" id="modalModificarUsuario" tabindex="-1" aria-labelledby="modificarUsuarioLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="registrarUsuarioLabel">Modificar Usuario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="modificarUsuarioLabel">Modificar Usuario</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="modal-body">
-                <form class="row g-3">
-                    <div class="row">
-                        <div class="mb-3 col-6">
+                <form action="@Url.Action("modificarUsuario","Usuario")" id="frmModificarUsuario" method="post">
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="nombre" class="form-label">Nombres:</label>
-                            <input class="form-control" id="nombreUsuarioModificar" placeholder="Jose Alberto">
+                            <input class="form-control" id="nombreUsuarioModificar" name="datos.nombre" placeholder="Jose Alberto">
                         </div>
-                        <div class="mb-3 col-6">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="apellido" class="form-label">Apellidos:</label>
-                            <input class="form-control" id="apellidoUsuarioModificar" placeholder="Ramirez Perez">
+                            <input class="form-control" id="apellidoUsuarioModificar" name="datos.apellido" placeholder="Ramirez Perez">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="mb-3 col-6">
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="email" class="form-label">E-Mail: </label>
-                            <input type="email" class="form-control" id="emailUsuarioModificar" placeholder="ejemplo@dominio.com">
+                            <input type="email" class="form-control" id="emailUsuarioModificar"
+                                   name="datos.email"
+                                   placeholder="ejemplo@dominio.com">
                         </div>
-                        <div class="mb-3 col-6">
-                            <label for="celular" class="form-label">Nro Celular:</label>
-                            <input class="form-control" id="celularUsuarioModificar" placeholder="998877665">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="telefono" class="form-label">Nro Telefono:</label>
+                            <input class="form-control" id="telefonoUsuarioModificar"
+                                   name="datos.telefono"
+                                   placeholder="998877665">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="mb-3 col-12">
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
                             <label for="direccion" class="form-label">Direccion</label>
-                            <textarea class="form-control" id="direccionUsuarioModificar" rows="3" placeholder="Av. cerca 123 - Distrito"></textarea>
+                            <textarea class="form-control" id="direccionUsuarioModificar"
+                                      name="datos.direccion"
+                                      rows="3" placeholder="Av. cerca 123 - Distrito"></textarea>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="mb-3 col-6">
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="tipoDocumento" class="form-label">Tipo Documento: </label>
-                            <select class="form-select" id="tipoDocumentoUsuarioModificar" aria-label="Default select example">
+                            <select class="form-select form-control" id="tipoDocumentoUsuarioModificar"
+                                    name="datos.tipoDocumento"
+                                    aria-label="Default select example">
                                 <option selected value="DNI">D.N.I.</option>
                                 <option value="CI">Carnet De Extranjeria</option>
                                 <option value="Pasaporte">Pasaporte</option>
                             </select>
                         </div>
-                        <div class="mb-3 col-6">
-                            <label for="celular" class="form-label">Numero Documento:</label>
-                            <input class="form-control" id="celularUsuarioModificar" placeholder="12345678">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="numeroDocumento" class="form-label">Numero Documento:</label>
+                            <input class="form-control" id="numeroDocumentoUsuarioModificar"
+                                   name="datos.numeroDocumento" placeholder="12345678">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="tipoUsuario" class="form-label">Tipo Usuario: </label>
+                            <select class="form-select form-control" id="tipoUsuarioUsuarioModificar"
+                                    name="tipoUsuario"
+                                    aria-label="Default select example">
+                                <option selected value="Administrador">Administrador</option>
+                                <option value="Vendedor">Vendedor</option>
+                                <option value="Cajero">Cajero</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="fechaNacimiento" class="form-label">Fecha Nacimiento:</label>
+                            <input class="form-control" id="fechaNacimientoUsuarioModificar"
+                                   name="datos.fechaNacimiento" placeholder="yyyy-mm-dd">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Modificar Usuario</button>
+                <div class="row" style="padding: 5px 5%;width:100%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-primary"
+                                id="btnModificarUsuarioModal">
+                            Modificar Usuario
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -281,9 +308,10 @@
     </div>
 </div>
 
+<input type="hidden" id="URL_ObtenerUsuarioPorID" value="@Url.Action("ObtenerUsuarioID", "Usuario")" />
 <input type="hidden" id="URL_UsuariosListar" value="@Url.Action("GetAll", "Usuario")" />
 
 @section scripts{
-    <script type="text/javascript" src="~/js/Usuarios/GestionarUsuario.js"></script>
-    <script src="~/js/Usuarios/GestionarUsuario.js"></script>
+    <script type="text/javascript" src="~/js/Usuarios/GestionarUsuario.js">
+    </script>
 }

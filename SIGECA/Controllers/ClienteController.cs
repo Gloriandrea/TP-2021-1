@@ -8,16 +8,12 @@ using System.Threading.Tasks;
 
 namespace SIGECA.Controllers
 {
-    public class ClienteController : UsuarioController
+    public class ClienteController :Controller
     {
-        /*public ClienteController(UsuarioService usuarioservice, IFileStorage fileStorage) : base(usuarioservice, fileStorage)
-        {
-
-        }*/
-
         public async Task<IActionResult> Index()
         {
             return View();
         }
+
     }
 }

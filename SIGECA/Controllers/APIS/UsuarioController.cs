@@ -19,8 +19,8 @@ namespace SIGECA.Controllers.APIS
             _usuarioService = usuarioService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
         {
             return Ok(await _usuarioService.GetAll());
         }
