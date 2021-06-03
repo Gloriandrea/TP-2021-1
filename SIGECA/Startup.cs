@@ -35,8 +35,6 @@ namespace SIGECA
             services.AddSingleton<ISigecaDataBaseSettings>(sp =>
               sp.GetRequiredService<IOptions<SigecaDataBaseSettings>>().Value);
             services.AddScoped<UsuarioService>();
-            services.AddScoped<ProveedorService>();
-            services.AddScoped<CompraService>();
             //Inyectando dependencia de Clase Conectora en la Interfaz padre
             services.AddSingleton<SigecaDataBaseSettings>(sp =>
                sp.GetRequiredService<IOptions<SigecaDataBaseSettings>>().Value);
@@ -67,6 +65,7 @@ namespace SIGECA
             #region Colecciones APIS
             services.AddSingleton<ProductoService>();
             services.AddSingleton<OfertaService>();
+            services.AddSingleton<CompraService>();
             #endregion
 
         }
