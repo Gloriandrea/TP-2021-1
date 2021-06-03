@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿var itemsProductos = [];
+var costoTotal = 0.00;
+$(document).ready(function () {
 
     $('#tableCompra').DataTable({
         "language": {
@@ -195,6 +197,15 @@ function addItem() {
                 "<td>" + costo + "</td>"+
         "</tr>";
     $('#itemCompra > tbody').append(row);
+
+    costoTotal += parseFloat(costo);
+    var item = new Object();
+    item.nombre = nombre;
+    item.cantidad = parseInt(cantidad);
+    item.unidadMedida = unidad;
+    item.costo = parseFloat(costo);
+
+    itemsProductos.push(item);
 };
 
 function clearDataCompra() {
@@ -202,9 +213,85 @@ function clearDataCompra() {
     $('#cantidadCompraRegistrar').val('');
     $('#unidadCompraRegistrar').val('');
     $('#costoCompraRegistrar').val('');
+    $('#itemCompra tbody').empty();
+    itemsProductos = [];
 }
 
 function cerrarModal() {
     clearDataCompra();
     $('#itemCompra tbody').empty();
 }
+
+$("#btnRegistrarCompraModal").on("click", function () {
+    var Compra = new Object();
+
+    Compra.proveedorID = $('#proveedorCompraRegistrar').val();
+    Compra.costoTotal = costoTotal;
+    Compra.items = itemsProductos;
+
+    console.log(Compra);
+
+    $.ajax({
+        type: 'post',
+        url: 'Compra/RegistrarCompra',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(Compra),
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            if (data.result == "success") {
+                //Escondiendo el Modal
+                $("#modalRegistrarCompra").modal('hide');
+                //Limpiando los Campos de Texto
+                clearDataCompra();
+                //Recargar Tabla
+                $('.datatable-compra').dataTable().fnDraw();
+                //Mostrando el Mensaje de Exito
+                Swal.fire({
+                    title: '<strong>Listo!</strong>',
+                    icon: 'success',
+                    html:
+                        'Compra Registrado Satisfactoriamente',
+                    showCloseButton: true,
+                    showCancelButton: false,
+                    focusConfirm: false,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText:
+                        '<i class="fa fa-thumbs-up"></i> Continuar',
+                    confirmButtonAriaLabel: 'Continuar',
+                });
+            }
+            else {
+                Swal.fire({
+                    title: '<strong>Error!</strong>',
+                    icon: 'error',
+                    html:
+                        'Lo sentimos, Ocurrió un error Inesperado',
+                    showCloseButton: true,
+                    showCancelButton: false,
+                    focusConfirm: false,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText:
+                        '<i class="fa fa-thumbs-down"></i> Volver',
+                    confirmButtonAriaLabel: 'Volver',
+                });
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+            Swal.fire({
+                title: '<strong>Error!</strong>',
+                icon: 'error',
+                html:
+                    'Error del Servidor - Status 500',
+                showCloseButton: true,
+                showCancelButton: false,
+                focusConfirm: false,
+                confirmButtonColor: '#d33',
+                confirmButtonText:
+                    '<i class="fa fa-thumbs-down"></i> Volver',
+                confirmButtonAriaLabel: 'Volver',
+            });
+        }
+    });
+});
