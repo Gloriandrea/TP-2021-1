@@ -37,6 +37,26 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var usuario in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => usuario.nombreUsuario)</td>
+                            <td>@Html.DisplayFor(modelItem => usuario.tipoUsuario)</td>
+                            <td>@Html.DisplayFor(modelItem => usuario.datos.numeroDocumento)</td>
+                            <td>@Html.DisplayFor(modelItem => usuario.estado)</td>
+                            <td>
+                                <button class="btn"><img class="fas fa-eye" /></button>
+                                <button class="btn btnModificarUsuario" data-usuario-id="@usuario.id"><img class="fas fa-edit" /></button>
+                                <button class="btn"><img class="fas fa-ban" /></button>
+                            </td>
+                        </tr>
+                    }
+
+                }
+            </tbody>
         </table>
     </div>
 </div>
