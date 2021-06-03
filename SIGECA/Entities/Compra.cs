@@ -18,7 +18,7 @@ namespace SIGECA.Entities
         [BsonElement("costoTotal")]
         public double costoTotal { get; set; }
         [BsonElement("fecha")]
-        public DateTime fecha { get; set; }
+        public DateTime fecha { get; set; } = DateTime.Now;
         [BsonElement("items")]
         public List<itemProducto> items { get; set; }
     }

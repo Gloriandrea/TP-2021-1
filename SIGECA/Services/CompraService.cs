@@ -32,5 +32,14 @@ namespace SIGECA.Services
             _compra.InsertOne(compra);
             return compra;
         }
+        public async Task<Compra> UpdateCompra(Compra compra)
+        {
+            var update = Builders<Compra>.Update.Set("proveedorID", compra.proveedorID)
+                                            .Set("costoTotal", compra.costoTotal)
+                                            .Set("items",compra.items);
+            var filters = Builders<Compra>.Filter.Eq("id", compra.id);
+            _compra.UpdateOne(filters, update);
+            return compra;
+        }
     }
 }

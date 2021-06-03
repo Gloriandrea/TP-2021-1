@@ -14,25 +14,29 @@ namespace SIGECA.Controllers
     public class CompraController : Controller
     {
         private readonly CompraService _compraService;
-        public CompraController(CompraService compraService)
+        private readonly ProveedorService _proveedorService;
+        public CompraController(CompraService compraService, ProveedorService proveedorService)
         {
             _compraService = compraService;
+            _proveedorService = proveedorService;
         }
         public async Task<IActionResult> Index()
         {
-            List<Compra> compras = await _compraService.GetAll();
-            return View(compras);
+            var model = new ModelCompra();
+            model.compras = await _compraService.GetAll();
+            model.proveedores = await _proveedorService.GetAll();
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> RegistrarCompra(Compra compra)
+        public async Task<ActionResult> RegistrarCompra([FromBody] Compra compra)
         {
             Object result = null;
             try
             {
                 compra.fecha = DateTime.Now;
                 compra = (Compra)await _compraService.CreateCompra(compra);
-                result = new { result = "success", title = "Satisfactorio", message = "Usuario Registrado Correctamente", url = "Usuario/Registro" };
+                result = new { result = "success", title = "Satisfactorio", message = "Compra Registrado Correctamente", url = "Compra/Registro" };
                 return Content(JsonConvert.SerializeObject(result));
             }
             catch (Exception ex)
@@ -40,6 +44,29 @@ namespace SIGECA.Controllers
                 result = new { result = "error", title = "Error", message = "Lo sentimos, hubo un problema no esperado. Vuelva a intentar por favor. " + ex.Message, url = "" };
                 return Content(JsonConvert.SerializeObject(result));
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ObtenerCompraID(String idcompra)
+        {
+            Object result = null;
+            Compra compra = await _compraService.GetById(idcompra);
+            result = new { result = "success", title = "Satisfactorio", value = compra, url = "Usuario/Registro" };
+            return Content(JsonConvert.SerializeObject(result));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ActualizarCompra(Compra compra)
+        {
+            Object result = null;
+            Compra compraActualizado = await _compraService.UpdateCompra(compra);
+            result = new { result = "success", title = "Satisfactorio", value = compraActualizado, url = "Usuario/ActualizarUsuario" };
+            return Content(JsonConvert.SerializeObject(result));
+        }
+        public class ModelCompra
+        {
+            public IEnumerable<Compra> compras { get; set; }
+            public IEnumerable<Proveedor> proveedores { get; set; }
         }
     }
 }

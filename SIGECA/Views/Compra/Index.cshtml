@@ -1,5 +1,4 @@
-﻿@using SIGECA.Entities;
-@model IEnumerable<Compra>
+﻿@model SIGECA.Controllers.CompraController.ModelCompra
 @{
     ViewData["Title"] = "Gestionar Compra";
 }
@@ -15,11 +14,11 @@
         </nav>
     </div>
     <div class="col">
-        <button class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#modalRegistrarCompra"><i class="fas fa-plus"></i> Agregar Compra</button>
+        <button class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#modalRegistrarCompra" onclick="clearDataCompra();"><i class="fas fa-plus"></i> Agregar Compra</button>
     </div>
 </div>
-<p style="color:gray;">Hay @Model.Count() compras registradas</p>
-<table id="tableCompra" class="table">
+<p style="color:gray;">Hay @Model.compras.Count() compras registradas</p>
+<table id="tableCompra" class="table datatable-compra">
     <thead class="thead-light">
         <tr>
             <th scope="col">Nombre del proveedor</th>
@@ -32,7 +31,7 @@
     <tbody>
         @if (Model != null)
         {
-            @foreach (var compra in Model)
+            @foreach (var compra in Model.compras)
             {
                 <tr>
                     <td>Nacho's Meat</td>
@@ -56,21 +55,19 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="registrarUsuarioLabel">Registrar Nueva Compra</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" onclick="cerrarModal();" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="@Url.Action("RegistrarCompra","Compra")" id="frmRegistrarCompra" method="post">
                     <div class="row" style="padding: 5px 5%">
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="tipoUsuario" class="form-label">Proveedor: </label>
-                            <select class="form-select form-control" id="proveedorCompraRegistrar"
-                                    name="proveedor"
-                                    aria-label="Default select example">
-                                <option selected value="Administrador">Administrador</option>
-                                <option value="Vendedor">Vendedor</option>
-                                <option value="Cajero">Cajero</option>
+                            <select class="form-select form-control" id="proveedorCompraRegistrar" name="proveedor" aria-label="Default select example">
+                                @foreach (var proveedor in Model.proveedores)
+                                {
+                                    <option selected value="@proveedor.id">@proveedor.nombreEmpresa</option>
+                                }
                             </select>
                         </div>
                     </div>
@@ -109,7 +106,6 @@
                             
                         </tbody>
                     </table>
-                </form>
             </div>
             <div class="modal-footer">
                 <div class="row" style="padding: 5px 5%;width:100%">
