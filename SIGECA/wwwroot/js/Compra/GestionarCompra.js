@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿$(document).ready(function () {
 
     $('#tableCompra').DataTable({
         "language": {
@@ -183,3 +183,28 @@
     });
 
 });
+
+function addItem() {
+    var nombre = $('#productoCompraRegistrar').val();
+    var cantidad = $('#cantidadCompraRegistrar').val();
+    var unidad = $('#unidadCompraRegistrar').val();
+    var costo = $('#costoCompraRegistrar').val();
+    var row = "<tr>" +
+                "<td>" + nombre + "</td>" +
+                "<td>" + cantidad + "</td>" +
+                "<td>" + costo + "</td>"+
+        "</tr>";
+    $('#itemCompra > tbody').append(row);
+};
+
+function clearDataCompra() {
+    $('#productoCompraRegistrar').val('');
+    $('#cantidadCompraRegistrar').val('');
+    $('#unidadCompraRegistrar').val('');
+    $('#costoCompraRegistrar').val('');
+}
+
+function cerrarModal() {
+    clearDataCompra();
+    $('#itemCompra tbody').empty();
+}

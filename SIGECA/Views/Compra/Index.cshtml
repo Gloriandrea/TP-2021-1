@@ -15,7 +15,7 @@
         </nav>
     </div>
     <div class="col">
-        <button class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target=""><i class="fas fa-plus"></i> Agregar Compra</button>
+        <button class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#modalRegistrarCompra"><i class="fas fa-plus"></i> Agregar Compra</button>
     </div>
 </div>
 <p style="color:gray;">Hay @Model.Count() compras registradas</p>
@@ -50,6 +50,83 @@
         }
     </tbody>
 </table>
+
+<div class="modal" id="modalRegistrarCompra" tabindex="-1" aria-labelledby="registrarUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registrarUsuarioLabel">Registrar Nueva Compra</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("RegistrarCompra","Compra")" id="frmRegistrarCompra" method="post">
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="tipoUsuario" class="form-label">Proveedor: </label>
+                            <select class="form-select form-control" id="proveedorCompraRegistrar"
+                                    name="proveedor"
+                                    aria-label="Default select example">
+                                <option selected value="Administrador">Administrador</option>
+                                <option value="Vendedor">Vendedor</option>
+                                <option value="Cajero">Cajero</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-4">
+                            <label for="producto" class="form-label">Producto: </label>
+                            <input type="text" class="form-control" id="productoCompraRegistrar" name="producto">
+                        </div>
+                        <div class="col-6 col-sm-2">
+                            <label for="cantidad" class="form-label">Cantidad:</label>
+                            <input class="form-control" id="cantidadCompraRegistrar" name="cantidadItem">
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <label for="unidadMedida" class="form-label">Unidad Medida:</label>
+                            <input class="form-control" id="unidadCompraRegistrar" name="unidadMedida">
+                        </div>
+                        <div class="col-6 col-sm-2">
+                            <label for="costoItem" class="form-label">Costo:</label>
+                            <input class="form-control" id="costoCompraRegistrar" name="costoItem">
+                        </div>
+                        <div class="col-6 col-sm-1" style="display:flex">
+                            <a class="btn btn-primary" id="agregaritemCompra" onclick="addItem();" style="align-self:flex-end"><i class="fas fa-plus"></i></a>
+                        </div>
+                    </div>
+                    <hr />
+                    <table id="itemCompra" class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Nombre del producto</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Costo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="row" style="padding: 5px 5%;width:100%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" onclick="cerrarModal();" class="btn btn-block btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-primary" id="btnRegistrarCompraModal">
+                            Registrar Compra
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section scripts{
     <script src="~/js/Compra/GestionarCompra.js"></script>
