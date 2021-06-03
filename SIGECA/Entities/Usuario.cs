@@ -36,7 +36,7 @@ namespace SIGECA.Entities
 
     public class Cliente : Usuario
     {
-       
+        
     }
 
     public class Trabajador : Usuario

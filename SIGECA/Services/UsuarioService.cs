@@ -40,7 +40,11 @@ namespace SIGECA.Services
             _usuarios.InsertOne(usuario);
             return usuario;
         }
-
+        public async Task<Cliente> CreateUsuarioCliente(Cliente usuario)
+        {
+            _usuarios.InsertOne(usuario);
+            return usuario;
+        }
         public async Task<Usuario> UpdateUsuario(Usuario usuario)
         {
             var update = Builders<Usuario>.Update.Set("datos", usuario.datos)
