@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using SIGECA.Entities;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,21 @@ namespace SIGECA.Services
         {
             _usuarios.InsertOne(usuario);
             return usuario;
+        }
+
+        public async Task<Usuario> UpdateUsuario(Usuario usuario)
+        {
+            var update = Builders<Usuario>.Update.Set("datos", usuario.datos)
+                                            .Set("tipoUsuario", usuario.tipoUsuario);
+            var filters = Builders<Usuario>.Filter.Eq("id", usuario.id);
+            _usuarios.UpdateOne(filters, update);
+            return usuario;
+        }
+        public async Task UpdateEstadoUsuario(string usuarioid, string estado)
+        {
+            var update = Builders<Usuario>.Update.Set("estado", estado=="activo"?"inactivo":"activo");
+            var filters = Builders<Usuario>.Filter.Eq("id", usuarioid);
+           _usuarios.UpdateOne(filters, update);
         }
 
         public async Task<Cliente> CreateUsuarioCliente(Cliente usuario)

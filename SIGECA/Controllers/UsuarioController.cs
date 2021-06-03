@@ -55,7 +55,31 @@ namespace SIGECA.Controllers
             Usuario usuario = await _usuarioService.GetById(idusuario);
             result = new { result = "success", title = "Satisfactorio", value = usuario, url = "Usuario/Registro" };
             return Content(JsonConvert.SerializeObject(result));
-            
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ActualizarUsuario(Usuario usuario)
+        {
+            Object result = null;
+            Usuario usuarioActualizado = await _usuarioService.UpdateUsuario(usuario);
+            result = new { result = "success", title = "Satisfactorio", value = usuarioActualizado, url = "Usuario/ActualizarUsuario" };
+            return Content(JsonConvert.SerializeObject(result));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CambiarEstadoUsuario(string usuarioid, string estadoActual)
+        {
+            Object result = null;
+            await _usuarioService.UpdateEstadoUsuario(usuarioid, estadoActual);
+            result = new { result = "success", title = "Satisfactorio", url = "Usuario/ActualizarUsuario" };
+            return Content(JsonConvert.SerializeObject(result));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<List<Usuario>>> ObtenerUsuarios()
+        {
+            List<Usuario> usuarios = await _usuarioService.GetAll();
+            return Json(new { recordsFiltered = usuarios.Count, recordsTotal = usuarios.Count, data = usuarios });
         }
 
         [HttpPost]
