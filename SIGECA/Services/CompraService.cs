@@ -27,5 +27,10 @@ namespace SIGECA.Services
         {
             return await _compra.FindAsync(x => x.id == compraID).Result.FirstOrDefaultAsync();
         }
+        public async Task<Compra> CreateCompra(Compra compra)
+        {
+            _compra.InsertOne(compra);
+            return compra;
+        }
     }
 }

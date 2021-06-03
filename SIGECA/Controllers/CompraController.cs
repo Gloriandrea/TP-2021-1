@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SIGECA.Entities;
 using SIGECA.Helpers;
+using SIGECA.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,33 @@ namespace SIGECA.Controllers
 {
     public class CompraController : Controller
     {
-        UrlAPI urlAPI;
+        private readonly CompraService _compraService;
+        public CompraController(CompraService compraService)
+        {
+            _compraService = compraService;
+        }
         public async Task<IActionResult> Index()
         {
-            urlAPI = new UrlAPI($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}");
-
-            var httpClient = new HttpClient();
-            var json = await httpClient.GetStringAsync(urlAPI.Compra);
-            IEnumerable<Compra> compras = JsonConvert.DeserializeObject<List<Compra>>(json);
+            List<Compra> compras = await _compraService.GetAll();
             return View(compras);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RegistrarCompra(Compra compra)
+        {
+            Object result = null;
+            try
+            {
+                compra.fecha = DateTime.Now;
+                compra = (Compra)await _compraService.CreateCompra(compra);
+                result = new { result = "success", title = "Satisfactorio", message = "Usuario Registrado Correctamente", url = "Usuario/Registro" };
+                return Content(JsonConvert.SerializeObject(result));
+            }
+            catch (Exception ex)
+            {
+                result = new { result = "error", title = "Error", message = "Lo sentimos, hubo un problema no esperado. Vuelva a intentar por favor. " + ex.Message, url = "" };
+                return Content(JsonConvert.SerializeObject(result));
+            }
         }
     }
 }
