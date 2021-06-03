@@ -34,11 +34,20 @@ namespace SIGECA.Services
             return _usuarios.Find(x => x.id == usuarioID).FirstOrDefault();
         }
 
+        public async Task<List<Usuario>> GetByType(string usuarioTipo)
+        {
+            return _usuarios.Find(x => x.tipoUsuario == usuarioTipo).ToList();
+        }
         public async Task<Trabajador> CreateUsuarioTrabajar(Trabajador usuario)
         {
             _usuarios.InsertOne(usuario);
             return usuario;
         }
 
+        public async Task<Cliente> CreateUsuarioCliente(Cliente usuario)
+        {
+            _usuarios.InsertOne(usuario);
+            return usuario;
+        }
     }
 }

@@ -57,5 +57,35 @@ namespace SIGECA.Controllers
             return Content(JsonConvert.SerializeObject(result));
             
         }
+
+        [HttpPost]
+        public async Task<ActionResult> RegistrarCliente(Cliente usuario)
+        {
+            Object result = null;
+            try
+            {
+                usuario.nombreUsuario = usuario.datos.email;
+                usuario.contraseña = usuario.datos.numeroDocumento;
+                usuario.estado = "activo";
+                usuario = (Cliente)await _usuarioService.CreateUsuarioCliente(usuario);
+                result = new { result = "success", title = "Satisfactorio", message = "Cliente Registrado Correctamente", url = "Cliente/Registro" };
+                return Content(JsonConvert.SerializeObject(result));
+            }
+            catch (Exception ex)
+            {
+                result = new { result = "error", title = "Error", message = "Lo sentimos, hubo un problema no esperado. Vuelva a intentar por favor. " + ex.Message, url = "" };
+                return Content(JsonConvert.SerializeObject(result));
+            }
+        }
+
+        public async Task<IActionResult> Index2()
+        {
+            //urlAPI = new UrlAPI($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}");
+
+            /*var httpClient = new HttpClient();
+            var json = await httpClient.GetStringAsync(urlAPI.Usuario);*/
+            List<Usuario> usuarios = /*new List<Usuario>();*/await _usuarioService.GetByType("Cliente");
+            return View(usuarios);
+        }
     }
 }
