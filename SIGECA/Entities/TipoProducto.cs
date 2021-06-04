@@ -22,10 +22,10 @@ namespace SIGECA.Entities
         public string nombreTipo { get; set; }
 
         [BsonElement("precioNormal")]
-        public string precioNormal { get; set; }
+        public int precioNormal { get; set; }
 
         [BsonElement("tipoVenta")]
-        public int tipoVenta { get; set; }
+        public string tipoVenta { get; set; }
 
         [BsonElement("precioOferta")]
         public int precioOferta { get; set; }

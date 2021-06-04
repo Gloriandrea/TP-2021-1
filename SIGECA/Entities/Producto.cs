@@ -51,5 +51,8 @@ namespace SIGECA.Entities
         [BsonElement("urlImagen")]
         public string urlImagen { get; set; }
 
+        [BsonElement("ofertaID")]
+        public string ofertaID { get; set; }
+
     }
 }
