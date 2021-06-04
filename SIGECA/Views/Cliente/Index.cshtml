@@ -2,64 +2,91 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    ViewData["Title"] = "Registrar Cliente";
 }
 
 <div class="account-pages mt-5 mb-5">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-xl-10">
-                        <div class="card bg-pattern">
-                            <div class="card-body p-4">
-                                <div class="row">
-                                    <div class="col-xl-6 col-sm-6">
-                                        <div class="p-sm-3">
-                                            <h4 class="mt-3 mt-lg-0">Registrar Cliente</h4>
-                                            <form action="#">
-                                                <div class="form-group mb-3">
-                                                    <label for="fullname">Nombre de usuario</label>
-                                                    <input class="form-control" type="text" id="fullname" placeholder="Ingrese su nombre" required>
-                                                </div>
-                                                <div class="form-group mb-3">
-                                                    <label for="emailaddress2">Correo Electronico</label>
-                                                    <input class="form-control" type="email" id="emailaddress" required placeholder="Ingrese su correo">
-                                                </div>
-                                                <div class="form-group mb-3">
-                                                    <label for="password">Contraseña</label>
-                                                    <input class="form-control" type="password" required id="password" placeholder="Ingrese la contraseña">
-                                                </div>
-                                                <div class="form-group mb-3">
-                                                    <label for="password2">Contraseña</label>
-                                                    <input class="form-control" type="password" required id="password2" placeholder="Confirmar contraseña">
-                                                </div>
-                                                <div class="form-group mb-0">
-                                                    <button class="btn btn-success btn-sm float-sm-right" type="submit"> Sign Up </button>
-                                                    <div class="custom-control custom-checkbox pt-1">
-                                                        <input type="checkbox" class="custom-control-input" id="checkbox-signup">
-                                                        <label class="custom-control-label" for="checkbox-signup">I accept <a href="javascript: void(0);" class="text-dark">Terms and Conditions</a></label>
-                                                    </div>
-                                                </div>
-                                            </form>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10">
+                <div class="card bg-pattern">
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-xl-6 col-sm-6">
+                                <div class="p-sm-3">
+                                    <h4 class="mt-3 mt-lg-0">Registrar Cliente</h4>
+                                    <form action="@Url.Action("RegistrarCliente","Cliente")" id="frmRegistrarCliente" method="post">
+                                        <div class="form-group mb-3">
+                                            <label for="fullname">Nombre de usuario:</label>
+                                            <input class="form-control" type="text" id="usuarioClienteRegistrar" name="nombreUsuario" placeholder="Ingresar Usuario">
                                         </div>
-                                        
-                                    </div> <!-- end col -->
-                                    <div class="col-xl-6 col-sm-6">
-                                        <div class="p-sm-3">
-                                            <img src="https://www.iconpacks.net/icons/1/free-user-login-icon-305-thumb.png" class="img-fluid" alt="Responsive image" width ="100%" >
+                                        <div class="form-group mb-3">
+                                            <label for="emailaddress2">Correo Electronico</label>
+                                            <input class="form-control" type="email" id="correoClienteRegistrar" name="datos.email" placeholder="Ingrese su correo">
                                         </div>
-                                        
-                                    </div> <!-- end col -->
+                                        <div class="form-group mb-3">
+                                            <label for="password">Contraseña</label>
+                                            <input class="form-control" type="password" id="passwordClienteRegistrar" name="contraseña" placeholder="Ingrese la contraseña">
+                                        </div>
+                                        <hr />
+                                        <div class="form-group mb-3">
+                                            <label for="nombre">Nombre</label>
+                                            <input class="form-control" type="text" id="nombreClienteRegistrar" name="datos.nombre" placeholder="Ingrese nombre">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="apellido">Apellido</label>
+                                            <input class="form-control" type="text" id="apellidoClienteRegistrar" name="datos.apellido" placeholder="Ingrese apellido">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="telefono">Nro Telefono</label>
+                                            <input class="form-control" type="text" id="telefonoClienteRegistrar" name="datos.telefono" placeholder="991234567">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="fechaNacimiento" class="form-label">Fecha Nacimiento:</label>
+                                            <input class="form-control" id="fechaNacimientoClienteRegistrar" name="datos.fechaNacimiento" placeholder="yyyy-mm-dd">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="direccion" class="form-label">Direccion</label>
+                                            <textarea class="form-control" id="direccionClienteRegistrar" name="datos.direccion" rows="3" placeholder="Av. cerca 123 - Distrito"></textarea>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="tipoDocumento" class="form-label">Tipo Documento </label>
+                                            <select class="form-select form-control" id="tipoDocumentoClienteRegistrar" name="datos.tipoDocumento" aria-label="Default select example">
+                                                <option selected value="DNI">D.N.I.</option>
+                                                <option value="CI">Carnet De Extranjeria</option>
+                                                <option value="Pasaporte">Pasaporte</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="numeroDocumento" class="form-label">Numero Documento</label>
+                                            <input class="form-control" id="numeroDocumentoClienteRegistrar" name="datos.numeroDocumento" placeholder="12345678">
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <button class="btn btn-success btn-sm float-sm-right" id="btnRegistrarCliente"> Registrar Cliente </button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <!-- end row-->
 
-                            </div> <!-- end card-body -->
+                            </div> <!-- end col -->
+                            <div class="col-xl-6 col-sm-6" style="align-self: center;">
+                                <div class="p-sm-3">
+                                    <img src="https://www.iconpacks.net/icons/1/free-user-login-icon-305-thumb.png" class="img-fluid" alt="Responsive image" width="100%">
+                                </div>
+                            </div> <!-- end col -->
                         </div>
-                        <!-- end card -->
+                        <!-- end row-->
 
-                    </div> <!-- end col -->
+                    </div> <!-- end card-body -->
                 </div>
-                <!-- end row -->
-            </div>
-            <!-- end container -->
-        </div>
-        <!-- end page -->
+                <!-- end card -->
 
+            </div> <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</div>
+
+@section scripts{
+    <script src="~/js/Cliente/Cliente.js"></script>
+}

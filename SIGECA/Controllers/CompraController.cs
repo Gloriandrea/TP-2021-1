@@ -51,17 +51,24 @@ namespace SIGECA.Controllers
         {
             Object result = null;
             Compra compra = await _compraService.GetById(idcompra);
-            result = new { result = "success", title = "Satisfactorio", value = compra, url = "Usuario/Registro" };
+            result = new { result = "success", title = "Satisfactorio", value = compra, url = "Compra/Registro" };
             return Content(JsonConvert.SerializeObject(result));
         }
 
         [HttpPost]
-        public async Task<ActionResult> ActualizarCompra(Compra compra)
+        public async Task<ActionResult> ActualizarCompra([FromBody] Compra compra)
         {
             Object result = null;
             Compra compraActualizado = await _compraService.UpdateCompra(compra);
-            result = new { result = "success", title = "Satisfactorio", value = compraActualizado, url = "Usuario/ActualizarUsuario" };
+            result = new { result = "success", title = "Satisfactorio", value = compraActualizado, url = "Compra/ActualizarUsuario" };
             return Content(JsonConvert.SerializeObject(result));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<List<Compra>>> ObtenerCompras()
+        {
+            List<Compra> compras = await _compraService.GetAll();
+            return Json(new { recordsFiltered = compras.Count, recordsTotal = compras.Count, data = compras });
         }
         public class ModelCompra
         {
