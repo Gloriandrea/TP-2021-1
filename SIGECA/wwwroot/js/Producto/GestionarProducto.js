@@ -1,5 +1,24 @@
-﻿$(document).ready(function () {
-   
+﻿//Dropzone.autoDiscover = false;
+$(function () {
+    /*Dropzone.options.urlImagenProducto = {
+        url: "/Account/Create",
+        dictDefaultMessage: 'Arrastrar una imagen para subir <span>o CLIC AQUÍ</span>',
+        autoProcessQueue: false,
+        maxFiles: 1,
+        addRemoveLinks: true,
+        acceptedFiles: "image/*",
+        init: function () {
+            myDropzone = this;
+            this.on("addedfile", function (file) {
+                console.log("hola");
+                console.log(file);
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function (event) {
+                };
+            });
+        }
+    };*/
 
     $('.datatable-producto').DataTable(
         {
@@ -38,10 +57,10 @@
             },
             "columns": [
                 { "data": "nombre" },
-                { "data": "tipoProducto.nombreTipo"},
+                { "data": "categoria.nombre"},
                 { "data": "tipoVenta" },
                 { "data": "precio" },
-                { "data": "stockDisponible" },
+                { "data": "stock" },
                 {
                     "render": function (data, type, full, meta) {
                         return '<button class="btn btnVisualizarProducto" data-producto-id="' + full.id + '"><img class="fas fa-eye" /></button>' +
@@ -58,8 +77,6 @@
             ]
         });
 
-
-
     $('#fechaNacimientoUsuarioRegistrar').datepicker({
         "format": "yyyy-mm-dd"
     });
@@ -68,20 +85,24 @@
         "format": "yyyy-mm-dd"
     });
 
-});
+    //REGISTRO DE PRODUCTOS
+    /*$("#myDropzone1").dropzone({
+        url: "/Account/Create",
+        method:"post",
+        dictDefaultMessage: 'Arrastrar una imagen para subir <span>o CLIC AQUÍ</span>',
+        autoProcessQueue: false,
+        maxFiles: 1,
+        addRemoveLinks: true,
+        acceptedFiles: "image/*",
+       
+    });*/
 
-$(function () {
-
-
-
-
-    //REGISTRO DE USUARIOS
     function limpiarModalRegistrar() {
         $("#nombreRegistrarProducto").val('');
         $("#precioRegistrarProducto").val('');
-        $("#tipoProductoRegistrarProducto").val('');
+        $("#categoriaProductoRegistrarProducto").eq(0).prop('selected', true);
         $("#precioOfertaRegistrarProducto").val('');
-        $("#imagenRegistrarProducto").val('');
+        $("#imagenRegistrarProducto option").val('');
     }
 
     $("#btnRegistrarProducto").on("click", function () {
@@ -156,7 +177,7 @@ $(function () {
         });
     });
 
-    //MODIFICACION DE USUARIOS
+    //MODIFICACION DE PRODUCTOS
     $('.datatable-producto').on('click', '.btnModificarProducto', function (e) {
         e.preventDefault();
         var productoID = $(this).attr('data-producto-id');
@@ -167,13 +188,13 @@ $(function () {
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
                 if (data.result == "success") {
-                    var usuario = data.value;
-                    $("#idProductoModificar").val(usuario.id);
-                    $("#nombreModificarProducto").val(usuario.nombre);
-                    $("#precioModificarProducto").val(usuario.precio);
-                    $("#descripcionModificarProducto").val(usuario.descripcion);
-                    $("#tipoProductoModificarProducto").val(usuario.tipoProductoID);
-                    $("#tipoVentaModificarProducto").val(usuario.tipoVenta);
+                    var producto = data.value;
+                    $("#idProductoModificar").val(producto.id);
+                    $("#nombreModificarProducto").val(producto.nombre);
+                    $("#precioModificarProducto").val(producto.precio);
+                    $("#descripcionModificarProducto").val(producto.descripcion);
+                    $("#categoriaProductoModificarProducto").val(producto.categoriaID);
+                    $("#tipoVentaModificarProducto").val(producto.tipoVenta);
                     $("#modalModificarProducto").modal('show');
                 }
                 else {
@@ -251,7 +272,7 @@ $(function () {
 
     });
 
-    //VISUALIZACION DE USUARIOS
+    //VISUALIZACION DE PRODUCTOS
     $('#TableUsuario').on('click', '.btnVisualizarUsuario', function (e) {
         e.preventDefault();
         var usuarioID = $(this).attr('data-producto-id');
@@ -286,7 +307,7 @@ $(function () {
     });
 
     //CAMBIO DE ESTADO DE USUARIOS
-    $('#TableUsuario').on('click', '.btnCambiarEstadoUsuario', function (e) {
+    /*$('#TableUsuario').on('click', '.btnCambiarEstadoUsuario', function (e) {
         var usuarioID = $(this).attr('data-usuario-id');
         $.ajax({
             url: $("#URL_ObtenerUsuarioPorID").val(),
@@ -349,6 +370,6 @@ $(function () {
                 console.log("ERROR AL OBTENER LOS DATOS");
             }
         });
-    });
+    });*/
 
 });

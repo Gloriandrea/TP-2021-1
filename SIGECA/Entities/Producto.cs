@@ -9,19 +9,15 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace SIGECA.Entities
 {
-    [BsonDiscriminator(RootClass = true)]
     public class Producto
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
 
-        //[Required]
-        //[MaxLength(50, ErrorMessage = "tamaño maximo 50 caracteres")]
-        //[MinLength(1, ErrorMessage = "Minimo 1 Caracteres")]
-        [Display(Name = "Tipo de Producto", ShortName = "Tipo", Description = "Tipo de Producto")]
-        [BsonElement("tipoProductoID")]
-        public string tipoProductoID { get; set; }
+        [Display(Name = "Categoria de Producto", ShortName = "Categoria", Description = "Categoria a la que pertenece el producto")]
+        [BsonElement("categoriaID")]
+        public string categoriaID { get; set; }
 
         [Display(Name = "Nombre del Producto", ShortName = "Nombre", Description = "Nombre del Producto")]
         [BsonElement("nombre")]
@@ -35,24 +31,26 @@ namespace SIGECA.Entities
         [BsonElement("tipoVenta")]
         public string tipoVenta { get; set; }
 
+        [Display(Name = "Unidad de Medida", ShortName = "Unidad Medida", Description = "Unidad de Medida del producto")]
+        [BsonElement("unidadMedida")]
+        public string unidadMedida { get; set; }
+
         [Display(Name = "Precio", ShortName = "Precio", Description = "Precio del Producto")]
         [BsonElement("precio")]
-        public int precio { get; set; }
+        public double precio { get; set; }
 
-        [Display(Name = "Stock Adquirido", ShortName = "StockA", Description = "Stock Adquirido del Producto")]
-        [BsonElement("stockAdquirido")]
-        public int stockAdquirido { get; set; }
-
-        [Display(Name = "Stock Disponible", ShortName = "StockD", Description = "Stock Disponible del Producto")]
-        [BsonElement("stockDisponible")]
-        public int stockDisponible { get; set; }
+        [Display(Name = "Stock en Venta", ShortName = "Stock", Description = "Stock en venta del Producto")]
+        [BsonElement("stock")]
+        public int stock { get; set; }
 
         [Display(Name = "Imagen", ShortName = "Img", Description = "Imagen del Producto")]
         [BsonElement("urlImagen")]
         public string urlImagen { get; set; }
 
-        [BsonElement("ofertaID")]
-        public string ofertaID { get; set; }
+        [Display(Name = "Codigo QR", ShortName = "QRCode", Description = "CodigoQR del Producto")]
+        [BsonElement("codigoQR")]
+        public string codigoQR { get; set; }
+
 
     }
 }

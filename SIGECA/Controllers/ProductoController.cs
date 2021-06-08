@@ -22,8 +22,8 @@ namespace SIGECA.Controllers
         public async Task<IActionResult> Index()
         {
             List<Producto> productos = await _productoService.GetAll();
-            List<TipoProducto> tipoProductos = await _productoService.GetAllTipoProducto();
-            ViewBag.tiposProductos = tipoProductos;
+            List<Categoria> categoriaProductos = await _productoService.GetAllCategoriaProducto();
+            ViewBag.categoriaProductos = categoriaProductos;
             return View(productos);
         }
 
@@ -39,8 +39,7 @@ namespace SIGECA.Controllers
             Object result = null;
             try
             {
-                producto.stockAdquirido = 0;
-                producto.stockDisponible = 0;
+                producto.stock = 0;
                 producto = await _productoService.CreateProducto(producto);
                 result = new { result = "success", title = "Satisfactorio", message = "Producto Registrado Correctamente", url = "Producto/Registro" };
                 return Content(JsonConvert.SerializeObject(result));

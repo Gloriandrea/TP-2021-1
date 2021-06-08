@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Gestionar Producto";
-    List<TipoProducto> tiposProductos = (List<TipoProducto>)ViewBag.tiposProductos;
+    List<Categoria> categoriaProductos = (List<Categoria>)ViewBag.categoriaProductos;
 }
 
 
@@ -31,7 +31,7 @@
     <thead class="thead-light">
         <tr>
             <th>Nombre</th>
-            <th>TipoProducto</th>
+            <th>Categoria</th>
             <th>Tipo Venta</th>
             <th>Precio</th>
             <th>Stock en Venta</th>
@@ -59,9 +59,16 @@
                                    placeholder="Filete de Cerdo" name="nombre">
                         </div>
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="precio" class="form-label">Precio Normal:</label>
-                            <input type="number" class="form-control" id="precioRegistrarProducto"
-                                   placeholder="998877665" name="precio">
+                            <label for="categoria" class="form-label">Categoria del Producto:</label>
+                            <select class="form-select form-control" id="categoriaRegistrarProducto"
+                                    name="categoriaID"
+                                    aria-label="Default select example">
+                                @for (int i = 0; i < categoriaProductos.Count; i++)
+                                {
+                                    <option value="@categoriaProductos[i].id">@categoriaProductos[i].nombre</option>
+                                }
+
+                            </select>
                         </div>
                     </div>
                     <div class="row" style="padding: 5px 5%">
@@ -74,26 +81,12 @@
                     </div>
                     <div class="row" style="padding: 5px 5%">
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="tipoProducto" class="form-label">Tipo de Producto:</label>
-                            <select class="form-select form-control" id="tipoProductoRegistrarProducto"
-                                    name="tipoProductoID"
-                                    aria-label="Default select example">
-                                @for (int i = 0; i < tiposProductos.Count; i++)
-                                {
-                                    if (i == 0)
-                                    {
-                                        <option selected value="@tiposProductos[i].id">@tiposProductos[i].nombreTipo</option>
-}
-                                    else
-                                    {
-                                        <option value="@tiposProductos[i].id">@tiposProductos[i].nombreTipo</option>
-}
-                                }
-
-                            </select>
+                            <label for="precio" class="form-label">Precio Normal:</label>
+                            <input type="number" class="form-control" id="precioRegistrarProducto"
+                                   placeholder="S/. 34.00" name="precio">
                         </div>
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="tipoVenta" class="form-label">Tipo de Producto:</label>
+                            <label for="tipoVenta" class="form-label">Tipo de Venta:</label>
                             <select class="form-select form-control" id="tipoVentaRegistrarProducto"
                                     name="tipoVenta"
                                     aria-label="Default select example">
@@ -102,7 +95,36 @@
                             </select>
                         </div>
                     </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="unidadMedida" class="form-label">Unidad de Medida:</label>
+                            <select class="form-select form-control" id="unidadMedidaRegistrarProducto"
+                                    name="unidadMedida"
+                                    aria-label="Default select example">
+                                <option selected value="Kilogramos">Kilogramos (Kg.)</option>
+                                <option value="Gramos">Gramos (Gr.)</option>
+                                <option value="Unidad">Unidades (Und.)</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Stock de Productos:</label>
+                            <input type="number" class="form-control" id="stockRegistrarProducto"
+                                   placeholder="40" name="stock">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+
+                            <div class="dropzone"  id="myDropzone1">
+                                <div class="fallback">
+                                    <input name="urlImagen" type="file" id="urlImagenRegistrarProducto" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </form>
+                
             </div>
             <div class="modal-footer">
                 <div class="row" style="padding: 5px 5%;width:100%">
@@ -153,13 +175,13 @@
                     </div>
                     <div class="row" style="padding: 5px 5%">
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="tipoProducto" class="form-label">Tipo de Producto:</label>
-                            <select class="form-select form-control" id="tipoProductoModificarProducto"
-                                    name="tipoProductoID"
+                            <label for="categoriaProducto" class="form-label">Categoria del Producto:</label>
+                            <select class="form-select form-control" id="categoriaProductoModificarProducto"
+                                    name="categoriaID"
                                     aria-label="Default select example">
-                                @for (int i = 0; i < tiposProductos.Count; i++)
+                                @for (int i = 0; i < categoriaProductos.Count; i++)
                                 {
-                                    <option value="@tiposProductos[i].id">@tiposProductos[i].nombreTipo</option>
+                                        <option value="@categoriaProductos[i].id">@categoriaProductos[i].nombre</option>
                                 }
 
                             </select>
@@ -198,7 +220,6 @@
 
 
 @section scripts{
-    <script type="text/javascript" src="@Url.Content("~/js/Loaders/dropzone.min.js")"></script>
     <script src="~/js/Producto/GestionarProducto.js"></script>
 }
 

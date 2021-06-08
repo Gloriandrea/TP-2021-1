@@ -26,7 +26,7 @@
         <tr>
             <th scope="col">@Html.DisplayNameFor(model => model.nombre)</th>
             <th scope="col">@Html.DisplayNameFor(model => model.tipoVenta)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.stockDisponible)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.stock)</th>
             <th scope="col">@Html.DisplayNameFor(model => model.precio) (x Kg)</th>
             <th scope="col">Acciones</th>
         </tr>
@@ -39,7 +39,7 @@
                 <tr>
                     <td>@Html.DisplayFor(modelItem => product.nombre)</td>
                     <td>@Html.DisplayFor(modelItem => product.tipoVenta)</td>
-                    <td>@Html.DisplayFor(modelItem => product.stockDisponible)</td>
+                    <td>@Html.DisplayFor(modelItem => product.stock)</td>
                     <td>S/. @Html.DisplayFor(modelItem => product.precio)</td>
                     <td>
                         <button class="btn"><img class="fas fa-eye" /></button>

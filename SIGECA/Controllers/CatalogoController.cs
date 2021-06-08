@@ -25,7 +25,7 @@ namespace SIGECA.Controllers
 
             foreach(var producto in productos) 
             {
-                if (producto.stockDisponible > 0) catalogo.Add(producto);
+                if (producto.stock > 0) catalogo.Add(producto);
             }
 
             return View(catalogo);

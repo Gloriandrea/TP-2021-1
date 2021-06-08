@@ -11,8 +11,8 @@ namespace SIGECA.Services
 {
     public class ProductoService
     {
-        private readonly IMongoCollection<Producto> _productoCollection;
-        private readonly IMongoCollection<TipoProducto> _tipoProducto;
+        private readonly IMongoCollection<Producto> _producto;
+        private readonly IMongoCollection<Categoria> _categoria;
         /*private readonly IMongoCollection<Producto> _productoCollection;*/
 
         public ProductoService(ISigecaDataBaseSettings settings)
@@ -20,99 +20,100 @@ namespace SIGECA.Services
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _productoCollection = database.GetCollection<Producto>("Producto");
-            _tipoProducto = database.GetCollection<TipoProducto>("TipoProducto");
+            _producto = database.GetCollection<Producto>("Producto");
+            _categoria = database.GetCollection<Categoria>("Categoria");
         }
 
         public async Task<List<Producto>> Get()
         {
-            return await _productoCollection.Find(x => true).ToListAsync();
+            return await _producto.Find(x => true).ToListAsync();
         }
 
         public async Task<List<Producto>> GetAll()
         {
-            return await _productoCollection.FindAsync(x => true).Result.ToListAsync();
+            return await _producto.FindAsync(x => true).Result.ToListAsync();
         }
 
         public async Task<Producto> GetById(string productoID)
         {
-            return await _productoCollection.Find(x => x.id == productoID).FirstOrDefaultAsync();
+            return await _producto.Find(x => x.id == productoID).FirstOrDefaultAsync();
         }
 
         public async Task Create(Producto producto)
         {
-            await _productoCollection.InsertOneAsync(producto);
+            await _producto.InsertOneAsync(producto);
         }
 
         public async Task Update(Producto producto)
         {
             var old = Builders<Producto>.Filter.Eq(s => s.id, producto.id);
-            await _productoCollection.ReplaceOneAsync(old, producto);
+            await _producto.ReplaceOneAsync(old, producto);
         }
 
         public async Task UpdateById(string _id, Producto producto)
         {
-            await _productoCollection.ReplaceOneAsync(old => old.id == _id, producto);
+            await _producto.ReplaceOneAsync(old => old.id == _id, producto);
         }
 
         public async Task Delete(Producto producto)
         {
-            await _productoCollection.DeleteOneAsync(old => old.id == producto.id);
+            await _producto.DeleteOneAsync(old => old.id == producto.id);
         }
 
         public async Task DeleteById(string _id)
         {
-            await _productoCollection.DeleteOneAsync(old => old.id == _id);
+            await _producto.DeleteOneAsync(old => old.id == _id);
         }
 
-        public async Task<List<TipoProducto>> GetAllTipoProducto() {
-            return await _tipoProducto.Find(x => true).ToListAsync();
+        public async Task<List<Categoria>> GetAllCategoriaProducto() {
+            return await _categoria.Find(x => true).ToListAsync();
         }
 
         public async Task<List<ProductoDTO>> GetAllProductoDTO()
         {
             List<ProductoDTO> productos = new List<ProductoDTO>();
             var lookup = new BsonDocument("$lookup",
-                              new BsonDocument
-                                  {
-                                    { "from", "TipoProducto" },
-                                    { "let",
-                            new BsonDocument("tipProdID", "$tipoProductoID") },
-                                    { "pipeline",
-                            new BsonArray
-                                    {
-                                        new BsonDocument("$match",
-                                        new BsonDocument("$expr",
-                                        new BsonDocument("$eq",
-                                        new BsonArray
+                                            new BsonDocument
+                                                {
+                                                    { "from", "Categoria" },
+                                                    { "let",
+                                            new BsonDocument("catProdID", "$categoriaID") },
+                                                    { "pipeline",
+                                            new BsonArray
                                                     {
-                                                        new BsonDocument("$toObjectId", "$$tipProdID"),
-                                                        "$_id"
-                                                    })))
-                                    } },
-                                    { "as", "TipoProducto" }
-                                  });
-           var project =  new BsonDocument("$project",
-            new BsonDocument
-                {
-                            { "_id", "$_id" },
-                            { "nombre", "$nombre" },
-                            { "descripcion", "$descripcion" },
-                            { "tipoVenta", "$tipoVenta" },
-                            { "precio", "$precio" },
-                            { "stockAdquirido", "$stockAdquirido" },
-                            { "stockDisponible", "$stockDisponible" },
-                            { "urlImagen", "$urlImagen" },
-                            { "tipoProducto",
-                    new BsonDocument("$arrayElemAt",
-                    new BsonArray
-                                {
-                                    "$TipoProducto",
-                                    0
-                                }) }
-                });
+                                                        new BsonDocument("$match",
+                                                        new BsonDocument("$expr",
+                                                        new BsonDocument("$eq",
+                                                        new BsonArray
+                                                                    {
+                                                                        new BsonDocument("$toObjectId", "$$catProdID"),
+                                                                        "$_id"
+                                                                    })))
+                                                    } },
+                                                    { "as", "CategoriaProducto" }
+                                                });
+            var project = new BsonDocument("$project",
+                                 new BsonDocument
+                                     {
+                                        { "_id", "$_id" },
+                                        { "categoria",
+                                new BsonDocument("$arrayElemAt",
+                                new BsonArray
+                                            {
+                                                "$CategoriaProducto",
+                                                0
+                                            }) },
+                                        { "nombre", "$nombre" },
+                                        { "descripcion", "$descripcion" },
+                                        { "tipoVenta", "$tipoVenta" },
+                                        { "unidadMedida", "$unidadMedida" },
+                                        { "precio", "$precio" },
+                                        { "stock", "$stock" },
+                                        { "urlImagen", "$urlImagen" },
+                                        { "codigoQR", "$codigoQR" }
+                                     });
 
-            productos = await _productoCollection.Aggregate()
+            productos = await _producto.Aggregate()
                 .AppendStage<dynamic>(lookup)
                 .AppendStage<ProductoDTO>(project)
                 .ToListAsync();
@@ -122,7 +123,7 @@ namespace SIGECA.Services
 
         public async Task<Producto> CreateProducto(Producto producto)
         {
-            _productoCollection.InsertOne(producto);
+            _producto.InsertOne(producto);
             return producto;
         }
 
@@ -132,10 +133,10 @@ namespace SIGECA.Services
             var update = Builders<Producto>.Update.Set("nombre", producto.nombre)
                                            .Set("descripcion", producto.descripcion)
                                            .Set("tipoVenta", producto.tipoVenta)
-                                           .Set("tipoProducto", producto.tipoProductoID)
+                                           .Set("categoriaID", producto.categoriaID)
                                            .Set("precio", producto.precio);
             var filters = Builders<Producto>.Filter.Eq("id", producto.id);
-            _productoCollection.UpdateOne(filters, update);
+            _producto.UpdateOne(filters, update);
             return producto;
         }
     }
