@@ -1,0 +1,98 @@
+﻿<h1 class="mt-3">COBRO DE VENTAS</h1>
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active" style="padding:10px 5px">Vista de Administrador</li>
+</ol>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <div class="row">
+            <div class=" col-10 col-sm-10 col-lg-10 col-xl-10">
+                <i class="fas fa-table mr-1"></i>
+                <h1>Ventas a Cobrar</h1>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <form class="d-flex">
+                <input id="codigoVenta" class="form-control me-2  col-6 mx-auto" type="search" placeholder="Código de Venta" aria-label="Codigo de Venta">
+                <button class="btn btn-outline-success" id="btnBuscarVenta" type="button">Buscar código de Venta</button>
+            </form>
+        </div>
+    </nav>
+
+
+</div>
+
+
+
+
+<div class="container-fluid" id="imp1">
+
+    <div class="card-body">
+        <table id="TableCobro" class="table datatable-Cobro">
+            <thead class="thead-light">
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unid.</th>
+                    <th>Precio Total</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <form class="row">
+        <div class=" form-group col-1 align-items-center">
+            <h5> <label for="Total" class="form-label" style="height:5px">  TOTAL:  </label></h5>
+        </div>
+
+
+        <div class=" form-group col-2 align-items-center">
+            <input class="form-control" readonly="readonly" style="border-top-style:none ; border-left-style:none; border-right-style:none;
+                border-right-style: none; border-bottom-style:none">
+        </div>
+
+        <div class="form-group col-1">
+            <h5> <label for="Efectivo" class="form-label">Efectivo:</label></h5>
+        </div>
+
+        <div class="form-group col-2">
+            <input class="form-control" style="border-top-style:none ; border-left-style:none; border-right-style:none;
+                border-right-style: none; border-bottom-style:none">
+        </div>
+
+
+        <div class="form-group col-1">
+            <h5><label for="Vuelto" class="form-label">Vuelto: </label></h5>
+        </div>
+
+        <div class="form-group col-2">
+            <input class="form-control" readonly="readonly" style="border-top-style:none ; border-left-style:none; border-right-style:none;
+                border-right-style: none; border-bottom-style:none">
+        </div>
+    </form>
+
+</div>
+
+
+<div class="form-group col-2,5">
+    <button class="btn btn-outline-success form-control" type="submit" onclick="imprim1(imp1)">Registrar Cobro</button>
+</div>
+
+<input type="hidden" id="URL_ObtenerVentaPorCodigoVenta" value="@Url.Action("ObtenerVentaPorCodigoVenta", "Pago")" />
+
+<script>
+    function imprim1(imp1) {
+        var printContents = document.getElementById('imp1').innerHTML;
+        w = window.open();
+        w.document.write(printContents);
+        w.document.close(); // necessary for IE >= 10
+        w.focus(); // necessary for IE >= 10
+        w.print();
+        w.close();
+        return true;
+    }
+</script>
+<script src="~/js/Pago/Pago.js"></script>
