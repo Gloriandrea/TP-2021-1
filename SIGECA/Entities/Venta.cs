@@ -9,7 +9,7 @@ namespace SIGECA.Entities
 {
     [BsonDiscriminator(RootClass = true)]
     [BsonKnownTypes(
-       typeof(VantaPresencial),
+       typeof(VentaPresencial),
        typeof(VentaOnline))]
     public class Venta
     {
@@ -42,7 +42,7 @@ namespace SIGECA.Entities
         public double subtotal { get; set; }
     }
 
-    public class VantaPresencial : Venta { 
+    public class VentaPresencial : Venta { 
         public string usuarioID { get; set; }
     }
 

@@ -16,8 +16,8 @@
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
             <form class="d-flex">
-                <input class="form-control me-2  col-6 mx-auto" type="search" placeholder="Código de Venta" aria-label="Codigo de Venta">
-                <button class="btn btn-outline-success" type="submit">Buscar código de Venta</button>
+                <input id="codigoVenta" class="form-control me-2  col-6 mx-auto" type="search" placeholder="Código de Venta" aria-label="Codigo de Venta">
+                <button class="btn btn-outline-success" id="btnBuscarVenta" type="button">Buscar código de Venta</button>
             </form>
         </div>
     </nav>
@@ -81,6 +81,7 @@
     <button class="btn btn-outline-success form-control" type="submit" onclick="imprim1(imp1)">Registrar Cobro</button>
 </div>
 
+<input type="hidden" id="URL_ObtenerVentaPorCodigoVenta" value="@Url.Action("ObtenerVentaPorCodigoVenta", "Pago")" />
 
 <script>
     function imprim1(imp1) {
@@ -94,3 +95,4 @@
         return true;
     }
 </script>
+<script src="~/js/Pago/Pago.js"></script>
