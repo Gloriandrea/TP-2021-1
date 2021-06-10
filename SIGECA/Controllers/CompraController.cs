@@ -34,7 +34,7 @@ namespace SIGECA.Controllers
             Object result = null;
             try
             {
-                compra.fecha = DateTime.Now;
+                compra.fecha = DateTime.Now; 
                 compra = (Compra)await _compraService.CreateCompra(compra);
                 result = new { result = "success", title = "Satisfactorio", message = "Compra Registrado Correctamente", url = "Compra/Registro" };
                 return Content(JsonConvert.SerializeObject(result));
