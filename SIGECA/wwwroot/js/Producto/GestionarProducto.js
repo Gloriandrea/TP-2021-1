@@ -1,10 +1,19 @@
-﻿//Dropzone.autoDiscover = false;
+﻿Dropzone.autoDiscover = true;
+$("#myDropzone1").dropzone({
+    url: "/Producto",
+    dictDefaultMessage: 'Arrastrar una imagen para subir <span>o CLIC AQUÍ</span>',
+    autoProcessQueue: false,
+    maxFiles: 1,
+    addRemoveLinks: true,
+    acceptedFiles: "image/*",
+
+});
 $(function () {
     /*Dropzone.options.urlImagenProducto = {
         url: "/Account/Create",
         dictDefaultMessage: 'Arrastrar una imagen para subir <span>o CLIC AQUÍ</span>',
         autoProcessQueue: false,
-        maxFiles: 1,
+        maxFiles: 1 ,
         addRemoveLinks: true,
         acceptedFiles: "image/*",
         init: function () {
@@ -48,7 +57,6 @@ $(function () {
                 "sSearch": "Buscar:",
                 "sProcessing": "",
                 "sInfoFiltered": "",
-                "sInfoFiltered": '',
                 "sZeroRecords": "No se encontro registros",
                 "sInfoEmpty": "No hay registros para mostrar"
             },
@@ -86,16 +94,7 @@ $(function () {
     });
 
     //REGISTRO DE PRODUCTOS
-    /*$("#myDropzone1").dropzone({
-        url: "/Account/Create",
-        method:"post",
-        dictDefaultMessage: 'Arrastrar una imagen para subir <span>o CLIC AQUÍ</span>',
-        autoProcessQueue: false,
-        maxFiles: 1,
-        addRemoveLinks: true,
-        acceptedFiles: "image/*",
-       
-    });*/
+  
 
     function limpiarModalRegistrar() {
         $("#nombreRegistrarProducto").val('');
