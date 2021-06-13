@@ -20,7 +20,7 @@ namespace SIGECA.Services
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            //_producto = database.GetCollection<Producto>("Producto");
+            _producto = database.GetCollection<Producto>("Producto");
             _categoria = database.GetCollection<Categoria>("Categoria");
         }
 

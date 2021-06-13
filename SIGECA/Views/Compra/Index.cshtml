@@ -14,7 +14,7 @@
         </nav>
     </div>
     <div class="col">
-        <button class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#modalRegistrarCompra" onclick="clearDataCompra();"><i class="fas fa-plus"></i> Agregar Compra</button>
+        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalRegistrarCompra" onclick="clearDataCompra();"><i class="fas fa-plus"></i> Agregar Compra</button>
     </div>
 </div>
 <p style="color:gray;">Hay @Model.compras.Count() compras registradas</p>
@@ -35,62 +35,77 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="registrarUsuarioLabel">Registrar Nueva Compra</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" onclick="cerrarModal();" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" onclick="cerrarModal();" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                    <div class="row" style="padding: 5px 5%">
-                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="proveedor" class="form-label">Proveedor: </label>
-                            <select class="form-select form-control" id="proveedorCompraRegistrar" name="proveedor" aria-label="Default select example">
-                                @foreach (var proveedor in Model.proveedores)
-                                {
-                                    <option selected value="@proveedor.id">@proveedor.nombreEmpresa</option>
-                                }
-                            </select>
-                        </div>
+                <div class="row" style="padding: 5px 5%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="proveedor" class="form-label">Proveedor: </label>
+                        <select class="form-select form-control" id="proveedorCompraRegistrar" name="proveedor" aria-label="Default select example">
+                            @foreach (var proveedor in Model.proveedores)
+                            {
+                                <option value="@proveedor.id">@proveedor.nombreEmpresa</option>
+                            }
+                        </select>
                     </div>
-                    <hr />
-                    <div class="row" style="padding: 5px 5%">
-                        <div class="col-6 col-sm-4">
-                            <label for="producto" class="form-label">Producto: </label>
-                            <input type="text" class="form-control" id="productoCompraRegistrar" name="producto">
-                        </div>
-                        <div class="col-6 col-sm-2">
-                            <label for="cantidad" class="form-label">Cantidad:</label>
-                            <input class="form-control" id="cantidadCompraRegistrar" name="cantidadItem">
-                        </div>
-                        <div class="col-6 col-sm-3">
-                            <label for="unidadMedida" class="form-label">Unidad Medida:</label>
-                            <input class="form-control" id="unidadCompraRegistrar" name="unidadMedida">
-                        </div>
-                        <div class="col-6 col-sm-2">
-                            <label for="costoItem" class="form-label">Costo:</label>
-                            <input class="form-control" id="costoCompraRegistrar" name="costoItem">
-                        </div>
-                        <div class="col-6 col-sm-1" style="display:flex">
-                            <a class="btn btn-primary" id="agregaritemCompra" onclick="addItem();" style="align-self:flex-end"><i class="fas fa-plus"></i></a>
-                        </div>
+                </div>
+                <hr />
+                <div class="row" style="padding: 5px 5%">
+                    <div class="col-6 col-sm-4">
+                        <label for="producto" class="form-label">Producto: </label>
+                        <select class="form-select form-control" id="productoCompraRegistrar" onchange="cambioProductoRegistrar();" name="producto" aria-label="Default select example">
+                            @foreach (var producto in Model.productos)
+                            {
+                                <option selected value="@producto.id">@producto.nombre</option>
+                            }
+                        </select>
                     </div>
-                    <hr />
-                    <table id="itemCompra" class="table">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col">Nombre del producto</th>
-                                <th scope="col">Cantidad</th>
-                                <th scope="col">Costo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
+                    <div class="col-6 col-sm-2">
+                        <label for="cantidad" class="form-label">Cantidad:</label>
+                        <input class="form-control" id="cantidadCompraRegistrar" onblur="cambioCantidadRegistrar();" name="cantidadItem">
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <label for="unidadMedida" class="form-label">Unidad Medida:</label>
+                        <select class="form-select form-control" id="unidadCompraRegistrar" name="unidadMedida" aria-label="Default select example">
+                            <option selected value="Kg">Kilogramos</option>
+                            <option value="Gr">Gramos</option>
+                            <option value="uds">Unidades</option>
+                            <option value="Lb">Libras</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-sm-2">
+                        <label for="costoItem" class="form-label">Costo:</label>
+                        <input class="form-control" id="costoCompraRegistrar" name="costoItem">
+                    </div>
+                    <div class="col-6 col-sm-1" style="display:flex">
+                        <a class="btn btn-primary" id="agregaritemCompra" onclick="addItem();" style="align-self:flex-end"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+                <hr />
+                <table id="itemCompra" class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Nombre del producto</th>
+                            <th scope="col">Unidad</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Costo</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <br />
+                <div style="text-align: right">
+                    <h2>Total: S/. <span id="itemRegistrarTotal">0.00</span></h2>
+                </div>
             </div>
             <div class="modal-footer">
                 <div class="row" style="padding: 5px 5%;width:100%">
                     <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                        <button type="button" onclick="cerrarModal();" class="btn btn-block btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="cerrarModal();" class="btn btn-block btn-secondary" data-dismiss="modal">Cerrar</button>
                     </div>
                     <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                         <button type="button" class="btn btn-block btn-primary" id="btnRegistrarCompraModal">
@@ -108,7 +123,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modificarCompraLabel">Modificar Compra</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" onclick="cerrarModal();" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" onclick="cerrarModal(); $('#modalModificarCompra').modal('hide')" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -120,7 +135,7 @@
                         <select class="form-select form-control" id="proveedorCompraModificar" name="proveedor" aria-label="Default select example">
                             @foreach (var proveedor in Model.proveedores)
                             {
-                                <option selected value="@proveedor.id">@proveedor.nombreEmpresa</option>
+                                <option value="@proveedor.id">@proveedor.nombreEmpresa</option>
                             }
                         </select>
                     </div>
@@ -129,15 +144,25 @@
                 <div class="row" style="padding: 5px 5%">
                     <div class="col-6 col-sm-4">
                         <label for="producto" class="form-label">Producto: </label>
-                        <input type="text" class="form-control" id="productoCompraModificar" name="producto">
+                        <select class="form-select form-control" id="productoCompraModificar" onchange="cambioProductoModificar();" name="producto" aria-label="Default select example">
+                            @foreach (var producto in Model.productos)
+                            {
+                                <option selected value="@producto.id">@producto.nombre</option>
+                            }
+                        </select>
                     </div>
                     <div class="col-6 col-sm-2">
                         <label for="cantidad" class="form-label">Cantidad:</label>
-                        <input class="form-control" id="cantidadCompraModificar" name="cantidadItem">
+                        <input class="form-control" id="cantidadCompraModificar" onblur="cambioCantidadModificar();" name="cantidadItem">
                     </div>
                     <div class="col-6 col-sm-3">
                         <label for="unidadMedida" class="form-label">Unidad Medida:</label>
-                        <input class="form-control" id="unidadCompraModificar" name="unidadMedida">
+                        <select class="form-select form-control" id="unidadCompraModificar" name="unidadMedida" aria-label="Default select example">
+                            <option selected value="Kg">Kilogramos</option>
+                            <option value="Gr">Gramos</option>
+                            <option value="uds">Unidades</option>
+                            <option value="Lb">Libras</option>
+                        </select>
                     </div>
                     <div class="col-6 col-sm-2">
                         <label for="costoItem" class="form-label">Costo:</label>
@@ -152,18 +177,24 @@
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">Nombre del producto</th>
+                            <th scope="col">Unidad</th>
                             <th scope="col">Cantidad</th>
                             <th scope="col">Costo</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
+                <br />
+                <div style="text-align: right">
+                    <h2>Total: S/. <span id="itemModificarTotal">0.00</span></h2>
+                </div>
             </div>
             <div class="modal-footer">
                 <div class="row" style="padding: 5px 5%;width:100%">
                     <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                        <button type="button" class="btn btn-block btn-secondary" onclick="cerrarModal();" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-block btn-secondary" onclick="cerrarModal(); $('#modalModificarCompra').modal('hide')" data-dismiss="modal">Cerrar</button>
                     </div>
                     <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                         <button type="button" class="btn btn-block btn-primary"
@@ -182,19 +213,30 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="consultarCompraLabel">Detalle de Compra</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-dismiss="modal" onclick="$('#modalConsultarCompra').modal('hide');" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="row" style="padding: 5px 5%">
                     <input type="hidden" id="idCompraConsultar" name="id" />
                     <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                         <label for="proveedor" class="form-label">Proveedor: </label>
-                        <select class="form-select form-control" id="proveedorCompraConsultar" name="proveedor" disabled aria-label="Default select example">
-                            @foreach (var proveedor in Model.proveedores)
-                            {
-                                <option selected value="@proveedor.id">@proveedor.nombreEmpresa</option>
-                            }
-                        </select>
+                        <input class="form-control" id="proveedorCompraConsultar" name="proveedor" disabled>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="RUC" class="form-label">N° RUC: </label>
+                        <input class="form-control" id="proveedorRUCCompraConsultar" name="RUC" disabled>
+                    </div>
+                </div>
+                <div class="row" style="padding: 5px 5%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="RUC" class="form-label">Nombre del Contacto: </label>
+                        <input class="form-control" id="proveedorNombreCompraConsultar" name="RUC" disabled>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="proveedor" class="form-label">N° Celular: </label>
+                        <input class="form-control" id="proveedorCelularCompraConsultar" name="proveedor" disabled>
                     </div>
                 </div>
                 <hr />
@@ -203,6 +245,7 @@
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">Nombre del producto</th>
+                            <th scope="col">Unidad</th>
                             <th scope="col">Cantidad</th>
                             <th scope="col">Costo</th>
                         </tr>
@@ -212,7 +255,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn  btn-secondary" onclick="$('#modalConsultarCompra').modal('hide');" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
@@ -220,6 +263,9 @@
 
 <input type="hidden" id="URL_ObtenerCompraPorID" value="@Url.Action("ObtenerCompraID", "Compra")" />
 <input type="hidden" id="URL_ComprasListarTodos" value="@Url.Action("ObtenerCompras", "Compra")" />
+<input type="hidden" id="URL_ObtenerProductoPorID" value="@Url.Action("ObtenerProductoPorId", "Producto")" />
+<input type="hidden" id="URL_CompraActualizarEstado" value="@Url.Action("CambiarEstadoCompra", "Compra")" />
 @section scripts{
     <script src="~/js/Compra/GestionarCompra.js"></script>
+    <script src="~/js/Compra/Validation.js"></script>
 }

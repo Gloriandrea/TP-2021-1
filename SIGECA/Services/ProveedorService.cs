@@ -21,5 +21,9 @@ namespace SIGECA.Services
         {
             return await _proveedor.FindAsync(x => true).Result.ToListAsync();
         }
+        public async Task<Proveedor> GetById(string proveedorID)
+        {
+            return await _proveedor.FindAsync(x => x.id == proveedorID).Result.FirstOrDefaultAsync();
+        }
     }
 }

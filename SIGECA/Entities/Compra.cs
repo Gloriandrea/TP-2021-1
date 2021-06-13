@@ -21,6 +21,12 @@ namespace SIGECA.Entities
         public DateTime fecha { get; set; } = DateTime.Now;
         [BsonElement("items")]
         public List<itemProducto> items { get; set; }
+        [BsonIgnore]
+        public string nombreEmpresa { get; set; }
+        [BsonIgnore]
+        public string proveedorRUC { get; set; }
+        [BsonElement("estado")]
+        public string estado { get; set; }
     }
 
     public class itemProducto
