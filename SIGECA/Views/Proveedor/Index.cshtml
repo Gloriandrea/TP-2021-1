@@ -1,0 +1,264 @@
+﻿@using SIGECA.Entities;
+@model IEnumerable<Proveedor>
+@{
+    ViewData["Title"] = "Gestionar Proveedor";
+}
+<h1 class="mt-4">Gestion de Proveedores</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active" style="padding:10px 5px">Vista de Administrador</li>
+</ol>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <div class="row">
+            <div class=" col-10 col-sm-10 col-lg-10 col-xl-10">
+                <i class="fas fa-table mr-1"></i>
+                Proveedores Registrados actualmente
+            </div>
+            <div class="col-2 col-sm-2 col-lg-2 col-xl-2">
+                <button type="button" class="btn btn-outline-success btn-block"
+                        id="btnRegistrarProveedor">
+                    <i class="fas fa-user-check"></i>
+                    <span>Registrar Proveedor</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table id="TableProveedor" class="table datatable-proveedor">
+            <thead class="thead-light">
+                <tr>
+                    <th>Proveedor</th>
+                    <th>Num. RUC</th>
+                    <th>Correo</th>
+                    <th>Nombre Contacto</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<div class="modal" id="modalRegistrarProveedor" tabindex="-1" aria-labelledby="registrarProveedorLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registrarProveedorLabel">Registrar Nuevo Proveedor</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("RegistrarProveedor","Proveedor")" id="frmRegistrarProveedor" method="post">
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="nombreEmpresa" class="form-label">Nombre de la Empresa:</label>
+                            <input class="form-control" id="nombreEmpresaProveedorRegistrar" name="nombreEmpresa" placeholder="Empresa S.A.C">
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="ruc" class="form-label">Nro. RUC:</label>
+                            <input class="form-control" id="rucProveedorRegistrar" maxlength="11" name="ruc" placeholder="20123456789">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="correoEmpresa" class="form-label">E-Mail: </label>
+                            <input type="email" class="form-control" id="correoEmpresaProveedorRegistrar"
+                                   name="correoEmpresa"
+                                   placeholder="ejemplo@dominio.com">
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="celularContacto" class="form-label">Nro. Telefono:</label>
+                            <input class="form-control" id="celularContactoProveedorRegistrar"
+                                   name="celularContacto"
+                                   placeholder="998877665">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                            <label for="direccionEmpresa" class="form-label">Direccion</label>
+                            <textarea class="form-control" id="direccionEmpresaProveedorRegistrar"
+                                      name="direccionEmpresa"
+                                      rows="3" placeholder="Av. cerca 123 - Distrito"></textarea>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="nombreContacto" class="form-label">Nombre Contacto:</label>
+                            <input class="form-control" id="nombreContactoProveedorRegistrar"
+                                   name="nombreContacto" placeholder="Walter">
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="apellidoContacto" class="form-label">Apellido Contacto:</label>
+                            <input class="form-control" id="apellidoContactoProveedorRegistrar"
+                                   name="apellidoContacto" placeholder="White">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="row" style="padding: 5px 5%;width:100%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-primary"
+                                id="btnRegistrarProveedorModal">
+                            Registrar Proveedor
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modalModificarProveedor" tabindex="-1" aria-labelledby="modificarProveedorLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modificarProveedorLabel">Modificar Proveedor</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("ActualizarProveedor","Proveedor")" id="frmModificarProveedor" method="post">
+                    <div class="row" style="padding: 5px 5%">
+                        <input type="hidden" id="idProveedorModificar" name="id" />
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="nombreEmpresa" class="form-label">Nombre de la Empresa:</label>
+                            <input class="form-control" id="nombreEmpresaProveedorModificar" name="nombreEmpresa" placeholder="Empresa S.A.C">
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="ruc" class="form-label">Nro. RUC:</label>
+                            <input class="form-control" id="rucProveedorModificar" maxlength="11" name="ruc" placeholder="20123456789">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="correoEmpresa" class="form-label">E-Mail: </label>
+                            <input type="email" class="form-control" id="correoEmpresaProveedorModificar"
+                                   name="correoEmpresa"
+                                   placeholder="ejemplo@dominio.com">
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="celularContacto" class="form-label">Nro. Telefono:</label>
+                            <input class="form-control" id="celularContactoProveedorModificar"
+                                   name="celularContacto"
+                                   placeholder="998877665">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                            <label for="direccionEmpresa" class="form-label">Direccion</label>
+                            <textarea class="form-control" id="direccionEmpresaProveedorModificar"
+                                      name="direccionEmpresa"
+                                      rows="3" placeholder="Av. cerca 123 - Distrito"></textarea>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="nombreContacto" class="form-label">Nombre Contacto:</label>
+                            <input class="form-control" id="nombreContactoProveedorModificar"
+                                   name="nombreContacto" placeholder="Walter">
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="apellidoContacto" class="form-label">Apellido Contacto:</label>
+                            <input class="form-control" id="apellidoContactoProveedorModificar"
+                                   name="apellidoContacto" placeholder="White">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="row" style="padding: 5px 5%;width:100%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-primary"
+                                id="btnModificarProveedorModal">
+                            Modificar Proveedor
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modalConsultarProveedor" tabindex="-1" aria-labelledby="consultarProveedorLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="consultarProveedorLabel">Detalle de Proveedor</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row" style="padding: 5px 5%">
+                        <input type="hidden" id="idProveedorVisualizar" name="id" />
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="nombreEmpresa" class="form-label">Nombre de la Empresa:</label>
+                            <input class="form-control" id="nombreEmpresaProveedorVisualizar" name="nombreEmpresa" placeholder="Empresa S.A.C" disabled>
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="ruc" class="form-label">Nro. RUC:</label>
+                            <input class="form-control" id="rucProveedorVisualizar" name="ruc" placeholder="20123456789" disabled>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="correoEmpresa" class="form-label">E-Mail: </label>
+                            <input type="email" class="form-control" id="correoEmpresaProveedorVisualizar"
+                                   name="correoEmpresa"
+                                   placeholder="ejemplo@dominio.com" disabled>
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="celularContacto" class="form-label">Nro. Telefono:</label>
+                            <input class="form-control" id="celularContactoProveedorVisualizar"
+                                   name="celularContacto"
+                                   placeholder="998877665" disabled>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                            <label for="direccionEmpresa" class="form-label">Direccion</label>
+                            <textarea class="form-control" id="direccionEmpresaProveedorVisualizar"
+                                      name="direccionEmpresa"
+                                      rows="3" placeholder="Av. cerca 123 - Distrito" disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="nombreContacto" class="form-label">Nombre Contacto:</label>
+                            <input class="form-control" id="nombreContactoProveedorVisualizar"
+                                   name="nombreContacto" placeholder="Walter" disabled>
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="apellidoContacto" class="form-label">Apellido Contacto:</label>
+                            <input class="form-control" id="apellidoContactoProveedorVisualizar"
+                                   name="apellidoContacto" placeholder="White" disabled>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="URL_ObtenerProveedorPorID" value="@Url.Action("ObtenerProveedorID", "Proveedor")" />
+<input type="hidden" id="URL_ProveedorActualizarEstado" value="@Url.Action("CambiarEstadoProveedor", "Proveedor")" />
+<input type="hidden" id="URL_ProveedoresListarTodos" value="@Url.Action("ObtenerProveedores", "Proveedor")" />
+
+@section scripts{
+    <script type="text/javascript" src="~/js/Proveedor/GestionarProveedor.js"></script>
+    <script type="text/javascript" src="~/js/Proveedor/Validation.js"></script>
+}

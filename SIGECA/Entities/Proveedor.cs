@@ -27,5 +27,7 @@ namespace SIGECA.Entities
         public string celularContacto { get; set; }
         [BsonElement("direccionEmpresa")]
         public string direccionEmpresa { get; set; }
+        [BsonElement("estado")]
+        public string estado { get; set; }
     }
 }
