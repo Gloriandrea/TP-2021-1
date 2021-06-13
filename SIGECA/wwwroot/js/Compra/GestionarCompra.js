@@ -47,6 +47,7 @@ $(document).ready(function () {
                         return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
                     }
                 },
+                { "render": function (data, type, full, meta) { return '<span style="color: white" class="badge ' + (full.estado == "activo" ? 'bg-success' : 'bg-danger') + ' ">' + full.estado.charAt(0).toUpperCase() + full.estado.slice(1) + '</span>' } },
                 {
                     "render": function (data, type, full, meta) {
                         return '<button class="btn btnVisualizarCompra" style="color: #4AB6B6" data-compra-id="' + full.id + '"><img class="fas fa-eye" /></button>' +
@@ -208,6 +209,9 @@ function cerrarModal() {
 }
 
 $("#btnRegistrarCompraModal").on("click", function () {
+    if (validarVacioCompraRegistrar() == false) {
+        return false;
+    }
     var Compra = new Object();
 
     Compra.proveedorID = $('#proveedorCompraRegistrar').val();
@@ -331,6 +335,9 @@ $('#tableCompra').on('click', '.btnModificarCompra', function (e) {
 });
 
 $("#btnModificarCompraModal").on("click", function () {
+    if (validarVacioCompraModificar() == false) {
+        return false;
+    };
     var Compra = new Object();
 
     Compra.id = $('#idCompraModificar').val();
@@ -561,6 +568,40 @@ function validarAddItemModificar() {
     }
     if ($('#costoCompraModificar').val() == "") {
         msj += '*Hubo un error al calculo del costo'
+    }
+    if (msj != '') {
+        Swal.fire({
+            title: 'Hubo un Problema',
+            html: msj,
+            icon: 'warning',
+            showConfirmButton: false,
+            showCloseButton: true
+        });
+        return false;
+    }
+}
+
+function validarVacioCompraRegistrar() {
+    var msj = '';
+    if (document.getElementById('itemCompra').rows.length == 1) {
+        msj += '*Debe haber al menos una compra para generar el registro'
+    }
+    if (msj != '') {
+        Swal.fire({
+            title: 'Hubo un Problema',
+            html: msj,
+            icon: 'warning',
+            showConfirmButton: false,
+            showCloseButton: true
+        });
+        return false;
+    }
+}
+
+function validarVacioCompraModificar() {
+    var msj = '';
+    if (document.getElementById('itemCompraModificar').rows.length == 1) {
+        msj += '*Debe haber al menos una compra para generar la actualización'
     }
     if (msj != '') {
         Swal.fire({
