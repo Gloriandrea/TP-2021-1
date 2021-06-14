@@ -1,0 +1,111 @@
+﻿
+<div class="modal fade" id="consultarProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registrarProductoLabel">Registrar Producto en Catálogo</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="accordion" id="accordionExample">
+                    <div class="card">
+                        <img src="https://www.ecestaticos.com/imagestatic/clipping/128/d1d/128d1d9fdb17f24faa91d0b5a2609b7e.jpg" style="width: 400px;
+                                    height: 300px;
+                                    margin-left: auto;
+                                    margin-right: auto;
+                                    display: block;" />
+                        <hr />
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Datos del Producto
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="mb-3 col-4">
+                                        <label for="nombre" class="form-label">Producto:</label>
+                                        <input class="form-control" id="precioConsultar">
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="precio" class="form-label">Stock Disponible: </label>
+                                        <input class="form-control" id="precioConsultar">
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="precio" class="form-label">Precio: </label>
+                                        <input class="form-control" id="precioConsultar">
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="mb-3 col-4">
+                                        <label for="precio" class="form-label">Tipo Venta: </label>
+                                        <input class="form-control" id="precioConsultar">
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="precio" class="form-label">Tipo: </label>
+                                        <input class="form-control" id="precioConsultar">
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="precio" class="form-label">Categoría: </label>
+                                        <input class="form-control" id="precioConsultar">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="nombre" class="form-label">Descripción: </label>
+                                    <input class="form-control" id="precioConsultar">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Datos de la Oferta
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="mb-3 col-4">
+                                        <label for="nombre" class="form-label">Tienda: </label>
+                                        <select class="form-control" id="nombreConsultar"></select>
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="nombre" class="form-label">Fecha de Inicio:</label>
+                                        <input class="form-control" id="nombreConsultar">
+                                    </div>
+                                    <div class="mb-3 col-4">
+                                        <label for="precio" class="form-label">Fecha de Vencimiento:</label>
+                                        <input class="form-control" id="precioConsultar">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-6">
+                                        <label for="nombre" class="form-label">Descuento(%): </label>
+                                        <input class="form-control" id="nombreConsultar">
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label for="precio" class="form-label">Stock Oferta:</label>
+                                        <input class="form-control" id="precioConsultar">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-success">Registrar</button>
+            </div>
+        </div>
+    </div>
+</div>
