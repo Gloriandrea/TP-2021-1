@@ -10,37 +10,25 @@
     <li class="breadcrumb-item active" style="padding:10px 5px">Vista de Administrador</li>
 </ol>
 
-<div class="card mb-4">
-    <div class="card-header">
-        <div class="row">
-            <div class=" col-10 col-sm-10 col-lg-10 col-xl-10">
-                <i class="fas fa-table mr-1"></i>
-                <h1>Ventas a Cobrar</h1>
-            </div>
-        </div>
-    </div>
-    <nav class="navbar navbar-light bg-light">
-        <div class="container-fluid">
+<div class="bg-light">
+    <h1>Ventas a Cobrar</h1>
+    <nav class="navbar navbar-light bg-light">        
             <form class="d-flex">
-
                 <input id="codigoVenta" class="form-control me-2  col-6 mx-auto" type="search" placeholder="Código de Venta" aria-label="Codigo de Venta">
                 <button id="btnBuscarVenta" data-venta-id="#codigoVenta" class="btn btn-outline-success" type="button">Buscar código de Venta</button>
-            </form>
-        </div>
+            </form>      
     </nav>
-
-
 </div>
 
-<div class="container-fluid" id="tabla_Form">
+
+
+<div id="imp1" class="container-fluid" id="tabla_Form">
 
     <table id="tablaVentaPorCódigo" class="table datatable-ventas">
         <thead class="thead-light">
             <tr>
                 <th scope="col">@Html.DisplayNameFor(model => model.codigoVenta)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.items)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.estado)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.tipo)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.items)</th>               
                 <th scope="col">@Html.DisplayNameFor(model => model.fechaVenta)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.total)</th>
             </tr>
@@ -53,9 +41,7 @@
                 {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => venta.codigoVenta)</td>
-                        <td>@Html.DisplayFor(modelItem => venta.items)</td>
-                        <td>@Html.DisplayFor(modelItem => venta.estado)</td>
-                        <td>@Html.DisplayFor(modelItem => venta.tipo)</td>
+                        <td>@Html.DisplayFor(modelItem => venta.items)</td>                       
                         <td>@Html.DisplayFor(modelItem => venta.fechaVenta)</td>
                         <td>S/.@Html.DisplayFor(modelItem => venta.total)</td>
                     </tr>
@@ -64,48 +50,50 @@
 
         </tbody>
     </table>
+
+    <form  class="row">
+        <div class=" form-group col-1 align-items-center">
+            <h5> <label for="Total" class="form-label" style="height:5px">  TOTAL:  </label></h5>
+        </div>
+
+
+        <div class=" form-group col-2 align-items-center">
+            <input id="txtTotal" class="form-control" readonly="readonly" style="border-top-style:none ; border-left-style:none; border-right-style:none;
+                border-right-style: none; border-bottom-style:none">
+        </div>
+
+        <div class="form-group col-1">
+            <h5> <label for="Efectivo" class="form-label">Efectivo:</label></h5>
+        </div>
+
+        <div class="form-group col-2">
+            <input id="txtEfectivo" class="form-control" style="border-top-style:none ; border-left-style:none; border-right-style:none;
+                border-right-style: none; border-bottom-style:none">
+        </div>
+
+
+        <div class="form-group col-1">
+            <h5><label for="Vuelto" class="form-label">Vuelto: </label></h5>
+        </div>
+
+        <div class="form-group col-2">
+            <input id="txtVuelto" class="form-control" readonly="readonly" style="border-top-style:none ; border-left-style:none; border-right-style:none;
+                border-right-style: none; border-bottom-style:none">
+        </div>
+    </form>
+
 </div>
 
 
 
 
-<form id="imp1" class="row">
-    <div class=" form-group col-1 align-items-center">
-        <h5> <label for="Total" class="form-label" style="height:5px">  TOTAL:  </label></h5>
-    </div>
 
-
-    <div class=" form-group col-2 align-items-center">
-        <input id="txtTotal" class="form-control" readonly="readonly" style="border-top-style:none ; border-left-style:none; border-right-style:none;
-                border-right-style: none; border-bottom-style:none">
-    </div>
-
-    <div class="form-group col-1">
-        <h5> <label for="Efectivo" class="form-label">Efectivo:</label></h5>
-    </div>
-
-    <div class="form-group col-2">
-        <input id="txtEfectivo" class="form-control" style="border-top-style:none ; border-left-style:none; border-right-style:none;
-                border-right-style: none; border-bottom-style:none">
-    </div>
-
-
-    <div class="form-group col-1">
-        <h5><label for="Vuelto" class="form-label">Vuelto: </label></h5>
-    </div>
-
-    <div class="form-group col-2">
-        <input id="txtVuelto" class="form-control" readonly="readonly" style="border-top-style:none ; border-left-style:none; border-right-style:none;
-                border-right-style: none; border-bottom-style:none">
-    </div>
-</form>
 
 <style media="print">
     #sidebar {
         display: none;
     }
 </style>
-
 
 
 <div class="form-group col-2,5">

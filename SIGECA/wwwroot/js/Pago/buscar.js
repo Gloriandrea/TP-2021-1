@@ -8,8 +8,7 @@ $(function () {
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
                 if (data.result == "success") {
-                    console.log(data);
-                    
+                    console.log(data);                    
                 }
                 else {
                     console.log("ERROR AL OBTENER LOS DATOS");
