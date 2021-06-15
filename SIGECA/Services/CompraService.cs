@@ -41,5 +41,11 @@ namespace SIGECA.Services
             _compra.UpdateOne(filters, update);
             return compra;
         }
+        public async Task UpdateEstadoCompra(string compraid, string estado)
+        {
+            var update = Builders<Compra>.Update.Set("estado", estado == "activo" ? "inactivo" : "activo");
+            var filters = Builders<Compra>.Filter.Eq("id", compraid);
+            _compra.UpdateOne(filters, update);
+        }
     }
 }
