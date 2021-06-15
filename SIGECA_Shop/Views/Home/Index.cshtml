@@ -1,8 +1,282 @@
 ﻿@{
     ViewData["Title"] = "Inicio";
+    ViewBag.Inicio = true;
+    ViewBag.HomeActivate = "active";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center text-lg-left" data-aos="zoom-in" data-aos-delay="100">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1>Bienvenido a <span>Avícola Nancy</span></h1>
+                <h2>Entregandote el pollo más jugoso por más de 20 años!</h2>
+
+                <div class="btns">
+                    <a href="#catalog" class="btn-menu animated fadeInUp scrollto">Ver Carálogo</a>
+                    <a href="#contact" class="btn-book animated fadeInUp scrollto">Contáctanos</a>
+                </div>
+            </div>
+            <div class="col-lg-4 d-flex align-items-center justify-content-center" data-aos="zoom-in" data-aos-delay="200">
+                <a href="https://www.youtube.com/watch?v=GlrxcuEDyF8" class="venobox play-btn" data-vbtype="video" data-autoplay="true"></a>
+            </div>
+
+        </div>
+    </div>
+</section><!-- End Hero -->
+<!-- ======= Menu Section ======= -->
+<section id="catalog" class="menu section-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Catálogo</h2>
+            <p>Nuestros principales productos</p>
+        </div>
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <ul id="menu-flters">
+                    <li data-filter="*" class="filter-active">All</li>
+                    <li data-filter=".filter-starters">Starters</li>
+                    <li data-filter=".filter-salads">Salads</li>
+                    <li data-filter=".filter-specialty">Specialty</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
+
+            <div class="col-lg-6 menu-item filter-starters">
+                <img src="assets/img/menu/lobster-bisque.jpg" class="menu-img" alt="">
+                <div class="menu-content">
+                    <a href="#">Lobster Bisque</a><span>$5.95</span>
+                </div>
+                <div class="menu-ingredients">
+                    Lorem, deren, trataro, filede, nerada
+                </div>
+            </div>
+
+            <div class="col-lg-6 menu-item filter-specialty">
+                <img src="assets/img/menu/bread-barrel.jpg" class="menu-img" alt="">
+                <div class="menu-content">
+                    <a href="#">Bread Barrel</a><span>$6.95</span>
+                </div>
+                <div class="menu-ingredients">
+                    Lorem, deren, trataro, filede, nerada
+                </div>
+            </div>
+
+            <div class="col-lg-6 menu-item filter-starters">
+                <img src="assets/img/menu/cake.jpg" class="menu-img" alt="">
+                <div class="menu-content">
+                    <a href="#">Crab Cake</a><span>$7.95</span>
+                </div>
+                <div class="menu-ingredients">
+                    A delicate crab cake served on a toasted roll with lettuce and tartar sauce
+                </div>
+            </div>
+
+            <div class="col-lg-6 menu-item filter-salads">
+                <img src="assets/img/menu/caesar.jpg" class="menu-img" alt="">
+                <div class="menu-content">
+                    <a href="#">Caesar Selections</a><span>$8.95</span>
+                </div>
+                <div class="menu-ingredients">
+                    Lorem, deren, trataro, filede, nerada
+                </div>
+            </div>
+
+            <div class="col-lg-6 menu-item filter-specialty">
+                <img src="assets/img/menu/tuscan-grilled.jpg" class="menu-img" alt="">
+                <div class="menu-content">
+                    <a href="#">Tuscan Grilled</a><span>$9.95</span>
+                </div>
+                <div class="menu-ingredients">
+                    Grilled chicken with provolone, artichoke hearts, and roasted red pesto
+                </div>
+            </div>
+
+            <div class="col-lg-6 menu-item filter-starters">
+                <img src="assets/img/menu/mozzarella.jpg" class="menu-img" alt="">
+                <div class="menu-content">
+                    <a href="#">Mozzarella Stick</a><span>$4.95</span>
+                </div>
+                <div class="menu-ingredients">
+                    Lorem, deren, trataro, filede, nerada
+                </div>
+            </div>
+
+            <div class="col-lg-6 menu-item filter-salads">
+                <img src="assets/img/menu/greek-salad.jpg" class="menu-img" alt="">
+                <div class="menu-content">
+                    <a href="#">Greek Salad</a><span>$9.95</span>
+                </div>
+                <div class="menu-ingredients">
+                    Fresh spinach, crisp romaine, tomatoes, and Greek olives
+                </div>
+            </div>
+
+            <div class="col-lg-6 menu-item filter-salads">
+                <img src="assets/img/menu/spinach-salad.jpg" class="menu-img" alt="">
+                <div class="menu-content">
+                    <a href="#">Spinach Salad</a><span>$9.95</span>
+                </div>
+                <div class="menu-ingredients">
+                    Fresh spinach with mushrooms, hard boiled egg, and warm bacon vinaigrette
+                </div>
+            </div>
+
+            <div class="col-lg-6 menu-item filter-specialty">
+                <img src="assets/img/menu/lobster-roll.jpg" class="menu-img" alt="">
+                <div class="menu-content">
+                    <a href="#">Lobster Roll</a><span>$12.95</span>
+                </div>
+                <div class="menu-ingredients">
+                    Plump lobster meat, mayo and crisp lettuce on a toasted bulky roll
+                </div>
+            </div>
+
+        </div>
+
+        <div class="btns mt-3 text-right">
+            <a href="#" class="btn-menu animated fadeInUp scrollto">Ver más productos</a>
+        </div>
+    </div>
+</section><!-- End Menu Section -->
+<!-- ======= Contact Section ======= -->
+<section id="contact" class="contact">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Contacto</h2>
+            <p>Contáctanos</p>
+        </div>
+    </div>
+
+    <div data-aos="fade-up">
+        <iframe style="border:0; width: 100%; height: 350px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div class="container" data-aos="fade-up">
+
+        <div class="row mt-5">
+
+            <div class="col-lg-4">
+                <div class="info">
+                    <div class="address">
+                        <i class="icofont-google-map"></i>
+                        <h4>Ubicación:</h4>
+                        <p>Av. José Granda 3400 puestos 94 y 96, San Martín de Porres 15107, Lima, Perú</p>
+                    </div>
+
+                    <div class="open-hours">
+                        <i class="icofont-clock-time icofont-rotate-90"></i>
+                        <h4>Atención:</h4>
+                        <p>
+                            Lunes-Sábado:<br>
+                            6:00 AM - 18:00 PM
+                        </p>
+                    </div>
+
+                    <div class="email">
+                        <i class="icofont-envelope"></i>
+                        <h4>Correo Electrónico:</h4>
+                        <p>nancy.delacruz.zegarra@gmail.com</p>
+                    </div>
+
+                    <div class="phone">
+                        <i class="icofont-phone"></i>
+                        <h4>Celular:</h4>
+                        <p>+51 934 852 697</p>
+                    </div>
+
+                    <div class="phone">
+                        <i class='bx bxl-facebook-circle'></i>
+                        <h4>Facebook:</h4>
+                        <a href="https://www.facebook.com/Avicola-NANCY-103449714716483/" target="_blank"><p>@@Avicola-NANCY-103449714716483</p></a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-8 mt-5 mt-lg-0">
+
+                <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                    <div class="form-row">
+                        <div class="col-md-6 form-group">
+                            <input type="text" name="name" class="form-control" id="name" placeholder="Su Nombre" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Su Correo Electrónico" data-rule="email" data-msg="Please enter a valid email" />
+                            <div class="validate"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="subject" id="subject" placeholder="Asunto" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                        <div class="validate"></div>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="message" rows="10" data-rule="required" data-msg="Please write something for us" placeholder="Mensaje"></textarea>
+                        <div class="validate"></div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="loading">Loading</div>
+                        <div class="error-message"></div>
+                        <div class="sent-message">Your message has been sent. Thank you!</div>
+                    </div>
+                    <div class="text-center"><button type="submit">Enviar Mensaje</button></div>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</section><!-- End Contact Section -->
+<!-- ======= About Section ======= -->
+<section id="about" class="about">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Acerca de</h2>
+            <p>Conócenos</p>
+        </div>
+    </div>
+    <div class="container" data-aos="fade-up">
+
+        <div class="row">
+            <div class="col-lg-6 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="100">
+                <div class="about-img">
+                    <img src="assets/img/about.jpg" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+                <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
+                <p>
+                    “Avícola Nancy”, somos una MyPE (mediana y Pequeña Empresa) que nos dedicamos a la venta y
+                    distribución de productos avícolas (pollos, pavita, pato, huevos, etc. así mismo la
+                    venta de pavo y chancho en época de navidad).
+                </p>
+                <ul>
+                    <li>
+                        <i class="icofont-check-circled"></i>
+                        <b>Misión: </b>
+                        <p class="font-italic">“Contribuir al bienestar de la humanidad, suministrando alimentos de consumo masivo en el mercado.”</p>
+                    </li>
+                    <li>
+                        <i class="icofont-check-circled"></i>
+                        <b>Visión: </b>
+                        <p class="font-italic">“Ser competitivos a nivel nacional, suministrando productos de valor agregado para la alimentación humana.”</p>
+                    </li>
+                </ul>
+                <p>
+                    Contamos con más de 20 años de experiencia en este rubro brindando así un servicio de ventas
+                    a todas las familias que compran en su puesto de trabajo.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section><!-- End About Section -->
