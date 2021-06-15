@@ -107,26 +107,6 @@
 </style>
 
 
-<h1>Probando div</h1>
-<div id="divLista"> </div>
-
-<button id="btnShow" onclick="Get()" class="align-content-center" > Ver</button>
-<script>
-    function Get() {
-        fetch('URL_VentaListar').then(function (response) {
-            return response.json();
-        }).then(function (Data) {
-            document.getElementById("divLista").innerHTML = "";
-            for (i = 0; i < Data.length; i++) {
-                let divElement = document.createElement("div");
-                divElement.innerHTML = Data[i];
-                document.getElementById("divLista").appendChild(divElement);
-            }
-            
-        }
-        )
-    }
-    </script>
 
 <div class="form-group col-2,5">
     <button id="btnRegistrarPago" class="btn btn-outline-success form-control" type="button" onclick="imprim1('imp1')">Registrar Cobro</button>
