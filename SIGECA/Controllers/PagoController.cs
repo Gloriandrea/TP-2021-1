@@ -20,7 +20,18 @@ namespace SIGECA.Controllers
 
        public async Task<IActionResult> Pago()
         {
-            return View();
+            await _pagoService.GetAll();
+            List<Venta> ventas = await _pagoService.GetAll();
+            return View(ventas);
+
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult<List<Usuario>>> obtenerAllVentas()
+        {
+            List<Venta> venta = await _pagoService.GetAll();
+            return Json(new { recordsFiltered = venta.Count, recordsTotal = venta.Count, data = venta });
         }
 
         [HttpPost]

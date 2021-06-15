@@ -36,10 +36,12 @@ namespace SIGECA.Entities
         public DateTime? fechaVenta { get; set; }
     }
 
-    public class Items { 
+    public class Items {
+        
         public string productoID { get; set; }
+        [BsonElement("cantidad")]
         public int cantidad { get; set; }
-        public double subtotal { get; set; }
+        public double subTotal { get; set; }
     }
 
     public class VentaPresencial : Venta { 

@@ -1,4 +1,10 @@
 ﻿<h1 class="mt-3">COBRO DE VENTAS</h1>
+@using SIGECA.Entities;
+@model IEnumerable<Venta>
+@{
+    ViewData["Title"] = "Gestionar Pago";
+}
+
 
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item active" style="padding:10px 5px">Vista de Administrador</li>
@@ -16,8 +22,9 @@
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
             <form class="d-flex">
+                
                 <input id="codigoVenta" class="form-control me-2  col-6 mx-auto" type="search" placeholder="Código de Venta" aria-label="Codigo de Venta">
-                <button class="btn btn-outline-success" id="btnBuscarVenta" type="button">Buscar código de Venta</button>
+                <button id="btnBuscarVenta"  data-venta-id="#codigoVenta" class="btn btn-outline-success" type="button">Buscar código de Venta</button>
             </form>
         </div>
     </nav>
@@ -25,66 +32,92 @@
 
 </div>
 
+<div class="container-fluid" id="tabla_Form">
 
+    <table id="tablaVentaPorCódigo" class="table datatable-ventas">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(model => model.codigoVenta)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.items)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.estado)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.tipo)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.fechaVenta)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.total)</th>
+            </tr>
+        </thead>
 
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var venta in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => venta.codigoVenta)</td>
+                        <td>@Html.DisplayFor(modelItem => venta.items)</td>
+                        <td>@Html.DisplayFor(modelItem => venta.estado)</td>
+                        <td>@Html.DisplayFor(modelItem => venta.tipo)</td>
+                        <td>@Html.DisplayFor(modelItem => venta.fechaVenta)</td>
+                        <td>S/.@Html.DisplayFor(modelItem => venta.total)</td>
+                    </tr>
+                }
+            }
 
-<div class="container-fluid" id="imp1">
-
-    <div class="card-body">
-        <table id="TableCobro" class="table datatable-Cobro">
-            <thead class="thead-light">
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio Unid.</th>
-                    <th>Precio Total</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-
-    <form class="row">
-        <div class=" form-group col-1 align-items-center">
-            <h5> <label for="Total" class="form-label" style="height:5px">  TOTAL:  </label></h5>
-        </div>
-
-
-        <div class=" form-group col-2 align-items-center">
-            <input class="form-control" readonly="readonly" style="border-top-style:none ; border-left-style:none; border-right-style:none;
-                border-right-style: none; border-bottom-style:none">
-        </div>
-
-        <div class="form-group col-1">
-            <h5> <label for="Efectivo" class="form-label">Efectivo:</label></h5>
-        </div>
-
-        <div class="form-group col-2">
-            <input class="form-control" style="border-top-style:none ; border-left-style:none; border-right-style:none;
-                border-right-style: none; border-bottom-style:none">
-        </div>
-
-
-        <div class="form-group col-1">
-            <h5><label for="Vuelto" class="form-label">Vuelto: </label></h5>
-        </div>
-
-        <div class="form-group col-2">
-            <input class="form-control" readonly="readonly" style="border-top-style:none ; border-left-style:none; border-right-style:none;
-                border-right-style: none; border-bottom-style:none">
-        </div>
-    </form>
-
+        </tbody>
+    </table>
 </div>
 
 
+
+
+<form id="imp1" class="row">
+    <div class=" form-group col-1 align-items-center">
+        <h5> <label for="Total" class="form-label" style="height:5px">  TOTAL:  </label></h5>
+    </div>
+
+
+    <div class=" form-group col-2 align-items-center">
+        <input id="txtTotal" class="form-control" readonly="readonly" style="border-top-style:none ; border-left-style:none; border-right-style:none;
+                border-right-style: none; border-bottom-style:none">
+    </div>
+
+    <div class="form-group col-1">
+        <h5> <label for="Efectivo" class="form-label">Efectivo:</label></h5>
+    </div>
+
+    <div class="form-group col-2">
+        <input id="txtEfectivo" class="form-control" style="border-top-style:none ; border-left-style:none; border-right-style:none;
+                border-right-style: none; border-bottom-style:none">
+    </div>
+
+
+    <div class="form-group col-1">
+        <h5><label for="Vuelto" class="form-label">Vuelto: </label></h5>
+    </div>
+
+    <div class="form-group col-2">
+        <input id="txtVuelto" class="form-control" readonly="readonly" style="border-top-style:none ; border-left-style:none; border-right-style:none;
+                border-right-style: none; border-bottom-style:none">
+    </div>
+</form>
+
+<style media="print">
+    #sidebar {
+        display: none;
+    }
+</style>
+
 <div class="form-group col-2,5">
-    <button class="btn btn-outline-success form-control" type="submit" onclick="imprim1(imp1)">Registrar Cobro</button>
+    <button id="btnRegistrarPago" class="btn btn-outline-success form-control" type="button" onclick="imprim1('imp1')">Registrar Cobro</button>
 </div>
 
 <input type="hidden" id="URL_ObtenerVentaPorCodigoVenta" value="@Url.Action("ObtenerVentaPorCodigoVenta", "Pago")" />
+<input type="hidden" id="URL_VentaListar" value="@Url.Action("obtenerAllVentas", "Pago")" />
 
-<script>
-    function imprim1(imp1) {
+<script src="~/js/Pago/PagoShow.js"></script>
+
+
+@*<script>
+    $("#btnRegistrarPago").on("click", function imprim1(imp1) {
         var printContents = document.getElementById('imp1').innerHTML;
         w = window.open();
         w.document.write(printContents);
@@ -93,6 +126,194 @@
         w.print();
         w.close();
         return true;
-    }
-</script>
-<script src="~/js/Pago/Pago.js"></script>
+    });
+</script>*@
+
+
+
+
+@*<script>
+        $(document).ready(function () {
+            $('#tablaVentaPorCódigo').DataTable({
+                "language": {
+                    "processing": "Procesando...",
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "zeroRecords": "No se encontraron resultados",
+                    "emptyTable": "Ningún dato disponible en esta tabla",
+                    "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "search": "Buscar:",
+                    "infoThousands": ",",
+                    "loadingRecords": "Cargando...",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sortDescending": ": Activar para ordenar la columna de manera descendente"
+                    },
+                    "buttons": {
+                        "copy": "Copiar",
+                        "colvis": "Visibilidad",
+                        "collection": "Colección",
+                        "colvisRestore": "Restaurar visibilidad",
+                        "copyKeys": "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <br \/> Para cancelar, haga clic en este mensaje o presione escape.",
+                        "copySuccess": {
+                            "1": "Copiada 1 fila al portapapeles",
+                            "_": "Copiadas %d fila al portapapeles"
+                        },
+                        "copyTitle": "Copiar al portapapeles",
+                        "csv": "CSV",
+                        "excel": "Excel",
+                        "pageLength": {
+                            "-1": "Mostrar todas las filas",
+                            "1": "Mostrar 1 fila",
+                            "_": "Mostrar %d filas"
+                        },
+                        "pdf": "PDF",
+                        "print": "Imprimir"
+                    },
+                    "autoFill": {
+                        "cancel": "Cancelar",
+                        "fill": "Rellene todas las celdas con <i>%d<\/i>",
+                        "fillHorizontal": "Rellenar celdas horizontalmente",
+                        "fillVertical": "Rellenar celdas verticalmentemente"
+                    },
+                    "decimal": ",",
+                    "searchBuilder": {
+                        "add": "Añadir condición",
+                        "button": {
+                            "0": "Constructor de búsqueda",
+                            "_": "Constructor de búsqueda (%d)"
+                        },
+                        "clearAll": "Borrar todo",
+                        "condition": "Condición",
+                        "conditions": {
+                            "date": {
+                                "after": "Despues",
+                                "before": "Antes",
+                                "between": "Entre",
+                                "empty": "Vacío",
+                                "equals": "Igual a",
+                                "notBetween": "No entre",
+                                "notEmpty": "No Vacio",
+                                "not": "Diferente de"
+                            },
+                            "number": {
+                                "between": "Entre",
+                                "empty": "Vacio",
+                                "equals": "Igual a",
+                                "gt": "Mayor a",
+                                "gte": "Mayor o igual a",
+                                "lt": "Menor que",
+                                "lte": "Menor o igual que",
+                                "notBetween": "No entre",
+                                "notEmpty": "No vacío",
+                                "not": "Diferente de"
+                            },
+                            "string": {
+                                "contains": "Contiene",
+                                "empty": "Vacío",
+                                "endsWith": "Termina en",
+                                "equals": "Igual a",
+                                "notEmpty": "No Vacio",
+                                "startsWith": "Empieza con",
+                                "not": "Diferente de"
+                            },
+                            "array": {
+                                "not": "Diferente de",
+                                "equals": "Igual",
+                                "empty": "Vacío",
+                                "contains": "Contiene",
+                                "notEmpty": "No Vacío",
+                                "without": "Sin"
+                            }
+                        },
+                        "data": "Data",
+                        "deleteTitle": "Eliminar regla de filtrado",
+                        "leftTitle": "Criterios anulados",
+                        "logicAnd": "Y",
+                        "logicOr": "O",
+                        "rightTitle": "Criterios de sangría",
+                        "title": {
+                            "0": "Constructor de búsqueda",
+                            "_": "Constructor de búsqueda (%d)"
+                        },
+                        "value": "Valor"
+                    },
+                    "searchPanes": {
+                        "clearMessage": "Borrar todo",
+                        "collapse": {
+                            "0": "Paneles de búsqueda",
+                            "_": "Paneles de búsqueda (%d)"
+                        },
+                        "count": "{total}",
+                        "countFiltered": "{shown} ({total})",
+                        "emptyPanes": "Sin paneles de búsqueda",
+                        "loadMessage": "Cargando paneles de búsqueda",
+                        "title": "Filtros Activos - %d"
+                    },
+                    "select": {
+                        "1": "%d fila seleccionada",
+                        "_": "%d filas seleccionadas",
+                        "cells": {
+                            "1": "1 celda seleccionada",
+                            "_": "$d celdas seleccionadas"
+                        },
+                        "columns": {
+                            "1": "1 columna seleccionada",
+                            "_": "%d columnas seleccionadas"
+                        }
+                    },
+                    "thousands": ".",
+                    "datetime": {
+                        "previous": "Anterior",
+                        "next": "Proximo",
+                        "hours": "Horas",
+                        "minutes": "Minutos",
+                        "seconds": "Segundos",
+                        "unknown": "-",
+                        "amPm": [
+                            "am",
+                            "pm"
+                        ]
+                    },
+                    "editor": {
+                        "close": "Cerrar",
+                        "create": {
+                            "button": "Nuevo",
+                            "title": "Crear Nuevo Registro",
+                            "submit": "Crear"
+                        },
+                        "edit": {
+                            "button": "Editar",
+                            "title": "Editar Registro",
+                            "submit": "Actualizar"
+                        },
+                        "remove": {
+                            "button": "Eliminar",
+                            "title": "Eliminar Registro",
+                            "submit": "Eliminar",
+                            "confirm": {
+                                "_": "¿Está seguro que desea eliminar %d filas?",
+                                "1": "¿Está seguro que desea eliminar 1 fila?"
+                            }
+                        },
+                        "error": {
+                            "system": "Ha ocurrido un error en el sistema (<a target=\"\\\" rel=\"\\ nofollow\" href=\"\\\">Más información&lt;\\\/a&gt;).<\/a>"
+                        },
+                        "multi": {
+                            "title": "Múltiples Valores",
+                            "info": "Los elementos seleccionados contienen diferentes valores para este registro. Para editar y establecer todos los elementos de este registro con el mismo valor, hacer click o tap aquí, de lo contrario conservarán sus valores individuales.",
+                            "restore": "Deshacer Cambios",
+                            "noMulti": "Este registro puede ser editado individualmente, pero no como parte de un grupo."
+                        }
+                    },
+                    "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas"
+                }
+            });
+        });
+    </script>*@

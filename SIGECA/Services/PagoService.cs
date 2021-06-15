@@ -18,20 +18,21 @@ namespace SIGECA.Services
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _ventas = database.GetCollection<Venta>("Ventas");
+            _ventas = database.GetCollection<Venta>("Venta");
         }
 
+
+        public async Task<List<Venta>> GetAll()
+        {
+            return  _ventas.Find(x => true).ToList();
+        }
 
 
         public async Task<Venta> GetByCodigoVenta(string codigoVenta)
         {
-
             return await _ventas.Find(x => x.codigoVenta == codigoVenta).FirstAsync();    
-        }
+        }        
+      
 
-        public async Task<List<Venta>> GetAll()
-        {
-            return await _ventas.Find(x => true).ToListAsync();
-        }
     }
 }
