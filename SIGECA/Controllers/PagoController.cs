@@ -4,7 +4,6 @@ using SIGECA.Entities;
 using SIGECA.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SIGECA.Controllers
@@ -18,7 +17,7 @@ namespace SIGECA.Controllers
             _pagoService = pagoService;
         }
 
-       public async Task<IActionResult> Pago()
+        public async Task<IActionResult> Pago()
         {
             await _pagoService.GetAll();
             List<Venta> ventas = await _pagoService.GetAll();
@@ -39,7 +38,7 @@ namespace SIGECA.Controllers
         {
             Object result = null;
             Venta venta = await _pagoService.GetByCodigoVenta(codigoVenta);
-            result = new { result = "success",  value = venta };
+            result = new { result = "success", value = venta };
             return Content(JsonConvert.SerializeObject(result));
         }
     }

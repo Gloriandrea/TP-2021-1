@@ -2,8 +2,6 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SIGECA.Entities
 {
@@ -36,15 +34,17 @@ namespace SIGECA.Entities
         public DateTime? fechaVenta { get; set; }
     }
 
-    public class Items {
-        
+    public class Items
+    {
+
         public string productoID { get; set; }
         [BsonElement("cantidad")]
         public int cantidad { get; set; }
         public double subTotal { get; set; }
     }
 
-    public class VentaPresencial : Venta { 
+    public class VentaPresencial : Venta
+    {
         public string usuarioID { get; set; }
     }
 

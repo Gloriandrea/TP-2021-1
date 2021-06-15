@@ -2,12 +2,9 @@
 using Newtonsoft.Json;
 using SIGECA.DTOs;
 using SIGECA.Entities;
-using SIGECA.Helpers;
 using SIGECA.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SIGECA.Controllers
@@ -55,7 +52,7 @@ namespace SIGECA.Controllers
         public async Task<ActionResult> ObtenerProductoPorId(string productoID)
         {
             Object result = null;
-            Producto producto = await  _productoService.GetById(productoID);
+            Producto producto = await _productoService.GetById(productoID);
             result = new { result = "success", title = "Satisfactorio", value = producto, url = "Producto/Busqueda" };
             return Content(JsonConvert.SerializeObject(result));
         }

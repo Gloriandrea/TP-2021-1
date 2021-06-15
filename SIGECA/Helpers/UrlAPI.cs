@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SIGECA.Helpers
+﻿namespace SIGECA.Helpers
 {
     public class UrlAPI
     {
-        public UrlAPI(string RootPath = "https://localhost:44311/"){
+        public UrlAPI(string RootPath = "https://localhost:44311/")
+        {
             this.Urapp = RootPath;
             this.Producto = this.Urapp + "/api/Producto";
             this.Oferta = this.Urapp + "/api/Oferta";

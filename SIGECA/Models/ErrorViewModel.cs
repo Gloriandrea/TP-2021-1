@@ -1,5 +1,3 @@
-using System;
-
 namespace SIGECA.Models
 {
     public class ErrorViewModel
