@@ -1,4 +1,5 @@
-﻿
+﻿const { getElements } = require("dropzone");
+
 $(function () {
     $("#btnBuscarVenta").on("click", function () {
         $.ajax({
@@ -10,7 +11,8 @@ $(function () {
                 if (data.result == "success") {
                     console.log(data);
                     document.getElementById("tablaVentaPorCódigo").innerHTML = "";
-                    document.getElementById("tablaVentaPorCódigo").innerHTML = data;
+                    //document.getElementById("tablaVentaPorCódigo").innerHTML = getElements(data);
+                    //document.getElementById("tablaVentaPorCódigo").innerHTML = "hola";
                 }
                 else {
                     console.log("ERROR AL OBTENER LOS DATOS");
