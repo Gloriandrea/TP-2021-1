@@ -16,17 +16,17 @@
 }
 
 setInputFilter(document.getElementById("rucProveedorRegistrar"), function (value) {
-    return /^-?\d*$/.test(value);
+    return /^\d*$/.test(value);
 });
 
 setInputFilter(document.getElementById("rucProveedorModificar"), function (value) {
-    return /^-?\d*$/.test(value);
+    return /^\d*$/.test(value);
 });
 
 setInputFilter(document.getElementById("celularContactoProveedorRegistrar"), function (value) {
-    return /^-?\d*$/.test(value);
+    return /^\d*$/.test(value);
 });
 
 setInputFilter(document.getElementById("celularContactoProveedorModificar"), function (value) {
-    return /^-?\d*$/.test(value);
+    return /^\d*$/.test(value);
 });

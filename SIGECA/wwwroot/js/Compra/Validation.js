@@ -16,7 +16,7 @@
 }
 
 setInputFilter(document.getElementById("cantidadCompraRegistrar"), function (value) {
-    return /^-?\d*$/.test(value);
+    return /^\d*$/.test(value);
 });
 
 setInputFilter(document.getElementById("costoCompraRegistrar"), function (value) {
@@ -24,7 +24,7 @@ setInputFilter(document.getElementById("costoCompraRegistrar"), function (value)
 });
 
 setInputFilter(document.getElementById("cantidadCompraModificar"), function (value) {
-    return /^-?\d*$/.test(value);
+    return /^\d*$/.test(value);
 });
 
 setInputFilter(document.getElementById("costoCompraModificar"), function (value) {
