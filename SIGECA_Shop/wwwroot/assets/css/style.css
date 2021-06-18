@@ -10,10 +10,8 @@
 --------------------------------------------------------------*/
 body {
   font-family: "Open Sans", sans-serif;
-  /*background: #0c0b09;*/
-  background: #fff;
-  /*color: #fff;*/
-  color: #0c0b09;
+  background: #0c0b09;
+  color: #fff;
 }
 
 a {
@@ -168,19 +166,16 @@ h1, h2, h3, h4, h5, h6 {
 # Header
 --------------------------------------------------------------*/
 #header {
-  /*background: rgba(12, 11, 9, 0.6);*/
-  background: rgba(255, 247, 214, 0.65);
-  /*border-bottom: 1px solid rgba(12, 11, 9, 0.6);*/
+  background: rgba(12, 11, 9, 0.6);
+  border-bottom: 1px solid rgba(12, 11, 9, 0.6);
   transition: all 0.5s;
   z-index: 997;
   padding: 15px 0;
-  top: 40px;
 }
 
 #header.header-scrolled {
   top: 0;
-  /*background: rgba(0, 0, 0, 0.85);*/
-  background: rgba(255, 255, 255, 0.65);
+  background: rgba(0, 0, 0, 0.85);
   border-bottom: 1px solid #37332a;
 }
 
@@ -236,8 +231,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav-menu a {
   display: block;
   position: relative;
-  /*color: white;*/
-  color:#0d0d0d;
+  color: white;
   transition: 0.3s;
   font-size: 14px;
   font-family: "Open Sans", sans-serif;
@@ -1659,10 +1653,11 @@ section {
 # Footer
 --------------------------------------------------------------*/
 #footer {
-  background: black;
-  padding: 0 0 30px 0;
-  color: #fff;
-  font-size: 14px;
+    background: black;
+    padding: 0 0 30px 0;
+    color: #fff;
+    font-size: 14px;
+
 }
 
 #footer .footer-top {

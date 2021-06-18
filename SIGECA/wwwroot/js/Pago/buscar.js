@@ -1,7 +1,6 @@
-﻿$(function () {
-
+﻿
+$(function () {
     $("#btnBuscarVenta").on("click", function () {
-
         $.ajax({
             url: $("#URL_ObtenerVentaPorCodigoVenta").val(),
             type: 'post',
@@ -9,6 +8,7 @@
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
                 if (data.result == "success") {
+                    console.log(data);                    
                 }
                 else {
                     console.log("ERROR AL OBTENER LOS DATOS");
@@ -19,6 +19,4 @@
             }
         });
     });
-
-
 });

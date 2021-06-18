@@ -2,12 +2,9 @@
 using Newtonsoft.Json;
 using SIGECA.DTOs;
 using SIGECA.Entities;
-using SIGECA.Helpers;
 using SIGECA.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SIGECA.Controllers

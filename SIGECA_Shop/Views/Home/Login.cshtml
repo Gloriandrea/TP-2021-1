@@ -1,0 +1,86 @@
+﻿@model SIGECA_Shop.Models.Cliente
+
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+    ViewBag.Inicio = false;
+    ViewBag.LoginActivate = "active";
+}
+
+@section Styles{
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="~/assets-login/css/style.css" rel="stylesheet" />
+
+    <style>
+        body {
+            background-image: url("https://i.pinimg.com/originals/cf/ac/62/cfac62b6295ba4168e3ce2ac30cd1e6c.jpg");
+        }
+    </style>
+}
+
+@*<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center text-lg-left" data-aos="zoom-in" data-aos-delay="100">
+        <div class="row">
+            
+        </div>
+    </div>
+</section>*@
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">Iniciar Sesión</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="login-wrap p-0">
+                    <h3 class="mb-4 text-center">¿Tienes una cuenta?</h3>
+                    <form enctype="multipart/form-data" method="post" asp-action="Logear" class="signin-form">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="id" />
+                        <input type="hidden" asp-for="estado" />
+                        <input type="hidden" asp-for="tipoUsuario" />
+
+                        <div class="form-group">
+                            <input type="text" asp-for="nombreUsuario" class="form-control" placeholder="Usuario" required>
+                            <span asp-validation-for="nombreUsuario" class="text-danger"></span>
+
+                        </div>
+                        <div class="form-group">
+                            <input id="password-field" type="password" asp-for="contraseña" class="form-control" placeholder="Contraseña" required>
+                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="form-control btn btn-primary submit px-3">Continuar</button>
+                        </div>
+                        <div class="form-group d-md-flex">
+                            <div class="w-50">
+                                <label class="checkbox-wrap checkbox-primary">
+                                    Recordarme
+                                    <input type="checkbox" checked>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="w-50 text-md-right">
+                                <a href="#" style="color: #fff">Olvidé mi contraseña</a>
+                            </div>
+                        </div>
+                    </form>
+                    <p class="w-100 text-center">&mdash; O Iniciar sesión con &mdash;</p>
+                    <div class="social d-flex text-center">
+                        <a href="#" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span><i class='bx bxl-google mr-1'></i> Google</a>
+                        <a href="#" class="px-2 py-2 ml-md-1 rounded"><span class="ion-logo-twitter mr-2"></span><i class='bx bxl-facebook mr-1'></i> Facebook</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/assets-login/js/jquery.min.js"></script>
+    <script src="~/assets-login/js/bootstrap.min.js"></script>
+    <script src="~/assets-login/js/popper.js"></script>
+    <script src="~/assets-login/js/main.js"></script>
+}

@@ -5,7 +5,6 @@ using SIGECA.Helpers;
 using SIGECA.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -56,10 +55,12 @@ namespace SIGECA.Controllers
         }
         
 
-        public class ModelOferta
-        {
-            public IEnumerable<Oferta> ofertas { get; set; }
-            public IEnumerable<Producto> productos { get; set; }
+            foreach(var producto in productos) 
+            {
+                if (producto.stock > 0) catalogo.Add(producto);
+            }
+
+            return View(catalogo);
         }
     }
 }

@@ -2,7 +2,6 @@
 using MongoDB.Driver;
 using SIGECA.DTOs;
 using SIGECA.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,7 +64,8 @@ namespace SIGECA.Services
             await _producto.DeleteOneAsync(old => old.id == _id);
         }
 
-        public async Task<List<Categoria>> GetAllCategoriaProducto() {
+        public async Task<List<Categoria>> GetAllCategoriaProducto()
+        {
             return await _categoria.Find(x => true).ToListAsync();
         }
 
