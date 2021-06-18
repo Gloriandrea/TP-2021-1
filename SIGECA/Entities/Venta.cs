@@ -16,7 +16,7 @@ namespace SIGECA.Entities
         public string id { get; set; }
 
         [BsonElement("codigoVenta")]
-        public string codigoVenta { get; set; }
+        public int codigoVenta { get; set; }
 
         [BsonElement("tipo")]
         public string tipo { get; set; }

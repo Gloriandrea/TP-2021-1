@@ -16,6 +16,7 @@ namespace SIGECA_Shop.Helpers
             this.Usuario = this.Urapp + "/api/Usuario";
             this.Cliente = this.Urapp + "/api/Cliente";
             this.Compra = this.Urapp + "/api/Compra";
+           
         }
 
         public string Urapp { get; }
@@ -25,6 +26,8 @@ namespace SIGECA_Shop.Helpers
         public string Usuario { get; }
         public string Cliente { get; }
         public string Compra { get; }
+        
+
 
         public string Login() { return Cliente + "/Login"; }
     }
