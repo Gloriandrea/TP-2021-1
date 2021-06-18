@@ -1,61 +1,39 @@
-﻿@using SIGECA.Entities;
-@model IEnumerable<Producto>
-
+﻿@model SIGECA.Controllers.CatalogoController.ModelOferta
 @{
-    ViewData["Title"] = "Gestionar Producto";
+    ViewData["Title"] = "Gestionar Catalogo";
 }
 
-<h2 class="mt-3">Catálogo</h2>
+<h2 class="mt-3">Catalogo</h2>
 <div class="row">
     <div class="col">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Catálogo</li>
+                <li class="breadcrumb-item active" aria-current="page">Catalogo</li>
             </ol>
         </nav>
     </div>
     <div class="col">
-        <button id="btnAddProduct" class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#registrarProducto">Agregar Producto a Catálogo</button>
+        <button id="btnAddProduct" class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#registrarProductoOferta">Agregar Producto a Catálogo</button>
     </div>
 </div>
-<p style="color:gray;">@Model.Count() productos en catálogo</p>
-
-<table id="TableCatalogo" class="table">
+<p style="color:gray;">Hay @Model.ofertas.Count() productos en catálogo</p>
+<table id="tableCatalogo" class="table datatableCatalogo">
     <thead class="thead-light">
         <tr>
-            <th scope="col">@Html.DisplayNameFor(model => model.nombre)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.tipoVenta)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.stock)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.precio) (x Kg)</th>
+            <th scope="col">Nombre del Producto</th>
+            <th scope="col">Tipo de Venta</th>
+            <th scope="col">Stock en Venta</th>
+            <th scope="col">Precio (x Kg)</th>
+            <th scope="col">Stock Oferta</th>
+            <th scope="col">Tipo descuento</th>
+            <th scope="col">Estado</th>
             <th scope="col">Acciones</th>
         </tr>
     </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            @foreach (var product in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => product.nombre)</td>
-                    <td>@Html.DisplayFor(modelItem => product.tipoVenta)</td>
-                    <td>@Html.DisplayFor(modelItem => product.stock)</td>
-                    <td>S/. @Html.DisplayFor(modelItem => product.precio)</td>
-                    <td>
-                        <button class="btn"><img class="fas fa-eye" /></button>
-                        <button class="btn"><img class="fas fa-edit" /></button>
-                        <button class="btn"><img class="fas fa-ban" /></button>
-                    </td>
-                </tr>
-            }
-
-        }
-
-    </tbody>
 </table>
 
-
-<div class="modal" id="registrarProducto" tabindex="-1" aria-labelledby="registrarProductoLabel" aria-hidden="true">
+<div class="modal" id="registrarProductoOferta" tabindex="-1" aria-labelledby="registrarProductoLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -65,73 +43,106 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="row g-2">
-                    <div class="row" style="padding: 5px 5%">
-                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="nombre" class="form-label">Producto:</label>
-                            <input class="form-control" id="nombreConsultar" placeholder="Filete de Cerdo">
-                        </div>
-                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="precio" class="form-label">Precio Normal:</label>
-                            <input class="form-control" id="precioConsultar" placeholder="998877665">
-                        </div>
-                    </div>
-                    <div class="row" style="padding: 5px 5%">
-                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="categoria" class="form-label">Categoria: </label>
-                            <input type="email" class="form-control" id="categoriaConsultar"
-                                   placeholder="aves">
-                        </div>
-                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="tipoProductto" class="form-label">Tipo de Producto:</label>
-                            <input class="form-control" id="tipoProductoConsultar" placeholder="filete">
-                        </div>
-                    </div>
-                    @*ddl descuento*@
-                    <div class="row" style="padding: 5px 5%">
-                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="precioOfer" class="form-label">Precio de oferta:</label>
-                            <input class="form-control" id="precioOfertaConsultar" placeholder="S/. 34.00">
-                        </div>
-                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="dscto" class="form-label">Descuento</label>
-                            <select class="form-select form-control" ID="ddl_Descuento" name="pickOferta" aria-label="Default select example">
-                                <option selected value="ninguno">Ninguno</option>
-                                <option value="porcentaje">Porcentaje</option>
-                                <option value="multiplicidad">Multiplicidad</option>
-                            </select>
+                <form class="">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row" style="padding: 5px 5%">
+                                <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                    <label for="nombre" class="form-label">Producto:</label>
+                                    <select class="form-select form-control" id="productoRegistrarOferta" onchange="registrarOferta1();" name="ofer" aria-label="Default select example">
+                                        @foreach (var prod in Model.productos)
+                                        {
+                                            <option selected value="@prod.id">@prod.nombre</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                    <label for="precioOfer" class="form-label">Stock de oferta:</label>
+                                    <input class="form-control" id="precioOfertaConsultar" placeholder="Ej 20">
+                                </div>
+
+                            </div>
+                            <div class="row" style="padding: 5px 5%">
+                                <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                    <label for="categoria" class="form-label">Categoria: </label>
+                                    <input class="form-control" id="categoriaProducto" disabled>
+                                </div>
+                                <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                    <label for="precio" class="form-label">Precio:</label>
+                                    <input class="form-control" id="precioProducto" disabled>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
                 </form>
+                <hr />
+                <div class="card">
+                    <div class="card-body">
+                        @*ddl descuento*@
+                        <div class="row" style="padding: 5px 5%">
+                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                <label for="dscto" class="form-label">Descuento</label>
+                                <select class="form-select form-control" id="ddl_Descuento" name="pickOferta" aria-label="Default select example">
+                                    <option selected value="ninguno">Ninguno</option>
+                                    <option value="porcentaje">Porcentaje</option>
+                                    <option value="multiplicidad">Multiplicidad</option>
+                                </select>
+                            </div>
+                        </div>
 
-                @*dcto porcentaje*@
-                <div class="row" id="div_Porcentaje" style="padding: 5px 5%">
-                    <div>
-                        <label for="porcentaje" class="form-label">Descuento: </label>
-                        <input class="form-control" id="id_InputPorcentaje" placeholder="Ej. 10%">
+                        @*dcto porcentaje*@
+                        <div class="row" id="div_Porcentaje" style="padding: 5px 5%">
+                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                <label for="porcentaje" class="form-label">Descuento: </label>
+                                <input class="form-control" id="id_InputPorcentaje" placeholder="Ej. 10%">
+                            </div>
+                        </div>
+
+                        @*dcto Multiplicidad*@
+                        <div class="row" id="div_Multiplicidad" style="padding: 5px 5%">
+                            <div class="col-5 col-sm-5 col-lg-5 col-xl-5">
+                                <label for="multiplicidad" class="form-label">Cantidad ofrecida: </label>
+                                <input class="form-control" id="id_InputMultiplicidad" placeholder="Ej. 3">
+                            </div>
+                            <div class="col-md-auto col align-self-end">
+                                <i class="fas fa-times"></i>
+                            </div>
+                            <div class="col-5 col-sm-5 col-lg-5 col-xl-5">
+                                <label for="cantidadPago" class="form-label">Cantidad a pagar:</label>
+                                <input class="form-control" id="id_InputCantidadPago" placeholder="Ej. 2">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                @*dcto Multiplicidad*@
-                <div class="row" id="div_Multiplicidad" style="padding: 5px 5%">
-                    <div class="">
-                        <label for="multiplicidad" class="form-label">Cantidad ofrecida: </label>
-                        <input class="form-control" id="id_InputMultiplicidad" placeholder="Ej. 3">
-                    </div>
-                    <div class="col-md-auto col align-self-end">
-                        <i class="fas fa-times"></i>
-                    </div>
-                    <div class="">
-                        <label for="cantidadPago" class="form-label">Cantidad a pagar:</label>
-                        <input class="form-control" id="id_InputCantidadPago" placeholder="Ej. 2">
-                    </div>
-                </div>
-                @*pickimage*@
-                <div class="row" style="padding: 10px ">
-                    <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
-                        <div class="dropzone" id="myDropzone">
-                            <div class="fallback">
-                                <input name="foto" type="file" id="imagenProducto" />
+                <hr />
+                @*fecha duracion oferta*@
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row" style="padding: 5px 5%">
+                            @*fecha inicioregistrar*@
+                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                <label class="mt-3">Fecha Inicio:</label>
+                                <div class="input-group date" data-provide="datepicker">
+                                    <input type="text" class="form-control" data-date-format="dd/mm/yyyy" placeholder="dd/mm/aaaa">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text h-100"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*fecha vencimiento registrar*@
+                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                <label class="mt-3">Fecha Vencimiento:</label>
+                                <div class="input-group date" data-provide="datepicker">
+                                    <input type="text" class="form-control" data-date-format="dd/mm/yyyy" placeholder="dd/mm/yyyy">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text h-100"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -145,51 +156,66 @@
     </div>
 </div>
 
-<div class="modal" id="consultarProducto" tabindex="-1" aria-labelledby="consultarProductoLabel" aria-hidden="true">
+<div class="modal" id="modalConsultarOferta" tabindex="-1" aria-labelledby="consultarProductoLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="consultarUsuarioLabel">Detalle del producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="modal-body">
-                <form class="row g-3">
-                    <div class="row">
-                        <div class="mb-3 col-6">
-                            <label for="nombre" class="form-label">PRODUCTO:</label>
-                            <input class="form-control" id="nombreConsultar" value="Pechuga de Pollo" placeholder="Filete de Cerdo">
-                        </div>
-                        <div class="mb-3 col-6">
-                            <label for="precio" class="form-label">Precio Normal:</label>
-                            <input class="form-control" id="precioConsultar" value="S/. 54.00 " placeholder="998877665">
-                        </div>
+                <div class="row" style="padding: 5px 5%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="nombre" class="form-label">Producto:</label>
+                        <input class="form-control" id="nombreProductoConsultar" disabled />
                     </div>
-                    <div class="row">
-                        <div class="mb-3 col-6">
-                            <label for="categoria" class="form-label">Categoria: </label>
-                            <input type="email" class="form-control" id="categoriaConsultar"
-                                   value="Aves" placeholder="aves">
-                        </div>
-                        <div class="mb-3 col-6">
-                            <label for="tipoProductto" class="form-label">Tipo de Producto:</label>
-                            <input class="form-control" id="tipoProductoConsultar" value="Filete" placeholder="filete">
-                        </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="precio" class="form-label">Precio Normal:</label>
+                        <input class="form-control" id="precioNormalConsultar" disabled />
                     </div>
-                    <div class="row">
-                        <div class="mb-3 col-12">
-                            <label for="direccion" class="form-label">Precio de Oferta</label>
-                            <input class="form-control" id="precioOfertaConsultar" Value="S/. 34.00 " rows="3" placeholder="S/. 34.00 " />
-                        </div>
+                </div>
+                <div class="row" style="padding: 5px 5%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="categoria" class="form-label">Categoria: </label>
+                        <input type="email" class="form-control" id="categoriaConsultar" disabled />
                     </div>
-                    <div class="row" style="text-align:center">
-                        <label for="urlProducto" class="form-label">Imagen de Catalogo:</label>
-                        <img src="https://www.ecestaticos.com/imagestatic/clipping/128/d1d/128d1d9fdb17f24faa91d0b5a2609b7e.jpg" style="width: 400px;
-                                    height: 300px;
-                                    margin-left: auto;
-                                    margin-right: auto;
-                                    display: block;" />
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="direccion" class="form-label">Tipo descuento:</label>
+                        <input class="form-control" id="tipoDescuentoConsultar" disabled />
                     </div>
-                </form>
+                </div>
+                <div class="row" style="padding: 5px 5%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="direccion" class="form-label">Precio de Oferta</label>
+                        <input class="form-control" id="precioOfertaConsultar" disabled />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="direccion" class="form-label">Estado:</label>
+                        <input class="form-control" id="EstadoDescuentoConsultar" disabled />
+                    </div>
+                </div>
+                <div class="row" style="padding: 5px 5%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="categoria" class="form-label">Cantidad de descuento: </label>
+                        <input type="email" class="form-control" id="cantidadDescuentoConsultar" disabled />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="direccion" class="form-label">Stock de Oferta:</label>
+                        <input class="form-control" id="stockOfertaConsultar" disabled />
+                    </div>
+                </div>
+                <div class="row" style="padding: 5px 5%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="categoria" class="form-label">Fecha de Inicio: </label>
+                        <input type="email" class="form-control" id="fechaInicioOfertaConsultar" disabled />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="direccion" class="form-label">Fecha de vencimiento:</label>
+                        <input class="form-control" id="fechaVencimientoOfertaConsultar" disabled />
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -197,194 +223,135 @@
         </div>
     </div>
 </div>
+
+<div class="modal" id="modalModificarOferta" tabindex="-1" aria-labelledby="modificarOfertaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registrarProductoLabel">Modificar Oferta</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row" style="padding: 5px 5%">
+                                <input type="hidden" id="idOfertaModificar" name="id" />
+                                <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                    <label for="nombre" class="form-label">Producto:</label>
+                                    <select class="form-select form-control" id="productoModOferta" onchange="registrarOferta2();" name="ofer" aria-label="Default select example">
+                                        @foreach (var prod in Model.productos)
+                                        {
+                                            <option selected value="@prod.id">@prod.nombre</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                    <label for="precioOfer" class="form-label">Stock de oferta:</label>
+                                    <input class="form-control" id="stockOfertaModificar" />
+                                </div>
+
+                            </div>
+                            <div class="row" style="padding: 5px 5%">
+                                <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                    <label for="categoria" class="form-label">Categoria: </label>
+                                    <input class="form-control" id="categoriaProductoOferta" disabled />
+                                </div>
+                                <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                    <label for="precio" class="form-label">Precio:</label>
+                                    <input class="form-control" id="precioProductoOferta" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr />
+                <div class="card">
+                    <div class="card-body">
+                        @*ddl descuento*@
+                        <div class="row" style="padding: 5px 5%">
+                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                <label for="dscto" class="form-label">Descuento</label>
+                                <select class="form-select form-control" id="ddl_Descuento2" name="pickOferta" aria-label="Default select example">
+                                    <option value="ninguno">Ninguno</option>
+                                    <option value="porcentaje">Porcentaje</option>
+                                    <option value="multiplicidad">Multiplicidad</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        @*dcto porcentaje*@
+                        <div class="row" id="div_Porcentaje2" style="padding: 5px 5%">
+                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                <label for="porcentaje" class="form-label">Descuento: </label>
+                                <input class="form-control" id="id_InputPorcentaje" placeholder="Ej. 10%">
+                            </div>
+                        </div>
+
+                        @*dcto Multiplicidad*@
+                        <div class="row" id="div_Multiplicidad2" style="padding: 5px 5%">
+                            <div class="col-5 col-sm-5 col-lg-5 col-xl-5">
+                                <label for="multiplicidad" class="form-label">Cantidad ofrecida: </label>
+                                <input class="form-control" id="id_InputMultiplicidad" placeholder="Ej. 3">
+                            </div>
+                            <div class="col-md-auto col align-self-end">
+                                <i class="fas fa-times"></i>
+                            </div>
+                            <div class="col-5 col-sm-5 col-lg-5 col-xl-5">
+                                <label for="cantidadPago" class="form-label">Cantidad a pagar:</label>
+                                <input class="form-control" id="id_InputCantidadPago" placeholder="Ej. 2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="card">
+                    <div class="card-body">
+                        @*fecha duracion oferta*@
+                        <div class="row" style="padding: 5px 5%">
+                            @*fecha inicio modificar*@
+                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                <label class="mt-3">Fecha Inicio:</label>
+                                <div class="input-group date" data-provide="datepicker">
+                                    <input type="text" class="form-control" id="datepick" data-date-format="dd/mm/yyyy" placeholder="dd/mm/aaaa" name="start">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text h-100"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*fecha vencimiento modificar*@
+                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                <label class="mt-3">Fecha Vencimiento:</label>
+                                <div class="input-group date" data-provide="datepicker">
+                                    <input type="text" class="form-control" id="datepick" data-date-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" name="end">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text h-100"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Registrar Producto</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="URL_OfertasListarTodos" value="@Url.Action("ObtenerOfertas", "Catalogo")" />
+<input type="hidden" id="URL_ObtenerProductoPorID" value="@Url.Action("ObtenerProductoPorId", "Producto")" />
+<input type="hidden" id="URL_ObtenerOfertaPorID" value="@Url.Action("ObtenerOfertaPorId", "Catalogo")" />
+
+
+
 @section scripts{
     <script src="~/js/Catalogo/Application.js"></script>
-    <script src="~/js/Catalogo/catalogo.js"></script>
-    <script type="text/javascript" src="@Url.Content("~/js/Loaders/dropzone.min.js")"></script>
-    <script>
-            $(document).ready(function () {
-                $('#TableCatalogo').DataTable({
-                    "language": {
-                        "processing": "Procesando...",
-                        "lengthMenu": "Mostrar _MENU_ registros",
-                        "zeroRecords": "No se encontraron resultados",
-                        "emptyTable": "Ningún dato disponible en esta tabla",
-                        "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                        "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-                        "search": "Buscar:",
-                        "infoThousands": ",",
-                        "loadingRecords": "Cargando...",
-                        "paginate": {
-                            "first": "Primero",
-                            "last": "Último",
-                            "next": "Siguiente",
-                            "previous": "Anterior"
-                        },
-                        "aria": {
-                            "sortAscending": ": Activar para ordenar la columna de manera ascendente",
-                            "sortDescending": ": Activar para ordenar la columna de manera descendente"
-                        },
-                        "buttons": {
-                            "copy": "Copiar",
-                            "colvis": "Visibilidad",
-                            "collection": "Colección",
-                            "colvisRestore": "Restaurar visibilidad",
-                            "copyKeys": "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <br \/> Para cancelar, haga clic en este mensaje o presione escape.",
-                            "copySuccess": {
-                                "1": "Copiada 1 fila al portapapeles",
-                                "_": "Copiadas %d fila al portapapeles"
-                            },
-                            "copyTitle": "Copiar al portapapeles",
-                            "csv": "CSV",
-                            "excel": "Excel",
-                            "pageLength": {
-                                "-1": "Mostrar todas las filas",
-                                "1": "Mostrar 1 fila",
-                                "_": "Mostrar %d filas"
-                            },
-                            "pdf": "PDF",
-                            "print": "Imprimir"
-                        },
-                        "autoFill": {
-                            "cancel": "Cancelar",
-                            "fill": "Rellene todas las celdas con <i>%d<\/i>",
-                            "fillHorizontal": "Rellenar celdas horizontalmente",
-                            "fillVertical": "Rellenar celdas verticalmentemente"
-                        },
-                        "decimal": ",",
-                        "searchBuilder": {
-                            "add": "Añadir condición",
-                            "button": {
-                                "0": "Constructor de búsqueda",
-                                "_": "Constructor de búsqueda (%d)"
-                            },
-                            "clearAll": "Borrar todo",
-                            "condition": "Condición",
-                            "conditions": {
-                                "date": {
-                                    "after": "Despues",
-                                    "before": "Antes",
-                                    "between": "Entre",
-                                    "empty": "Vacío",
-                                    "equals": "Igual a",
-                                    "notBetween": "No entre",
-                                    "notEmpty": "No Vacio",
-                                    "not": "Diferente de"
-                                },
-                                "number": {
-                                    "between": "Entre",
-                                    "empty": "Vacio",
-                                    "equals": "Igual a",
-                                    "gt": "Mayor a",
-                                    "gte": "Mayor o igual a",
-                                    "lt": "Menor que",
-                                    "lte": "Menor o igual que",
-                                    "notBetween": "No entre",
-                                    "notEmpty": "No vacío",
-                                    "not": "Diferente de"
-                                },
-                                "string": {
-                                    "contains": "Contiene",
-                                    "empty": "Vacío",
-                                    "endsWith": "Termina en",
-                                    "equals": "Igual a",
-                                    "notEmpty": "No Vacio",
-                                    "startsWith": "Empieza con",
-                                    "not": "Diferente de"
-                                },
-                                "array": {
-                                    "not": "Diferente de",
-                                    "equals": "Igual",
-                                    "empty": "Vacío",
-                                    "contains": "Contiene",
-                                    "notEmpty": "No Vacío",
-                                    "without": "Sin"
-                                }
-                            },
-                            "data": "Data",
-                            "deleteTitle": "Eliminar regla de filtrado",
-                            "leftTitle": "Criterios anulados",
-                            "logicAnd": "Y",
-                            "logicOr": "O",
-                            "rightTitle": "Criterios de sangría",
-                            "title": {
-                                "0": "Constructor de búsqueda",
-                                "_": "Constructor de búsqueda (%d)"
-                            },
-                            "value": "Valor"
-                        },
-                        "searchPanes": {
-                            "clearMessage": "Borrar todo",
-                            "collapse": {
-                                "0": "Paneles de búsqueda",
-                                "_": "Paneles de búsqueda (%d)"
-                            },
-                            "count": "{total}",
-                            "countFiltered": "{shown} ({total})",
-                            "emptyPanes": "Sin paneles de búsqueda",
-                            "loadMessage": "Cargando paneles de búsqueda",
-                            "title": "Filtros Activos - %d"
-                        },
-                        "select": {
-                            "1": "%d fila seleccionada",
-                            "_": "%d filas seleccionadas",
-                            "cells": {
-                                "1": "1 celda seleccionada",
-                                "_": "$d celdas seleccionadas"
-                            },
-                            "columns": {
-                                "1": "1 columna seleccionada",
-                                "_": "%d columnas seleccionadas"
-                            }
-                        },
-                        "thousands": ".",
-                        "datetime": {
-                            "previous": "Anterior",
-                            "next": "Proximo",
-                            "hours": "Horas",
-                            "minutes": "Minutos",
-                            "seconds": "Segundos",
-                            "unknown": "-",
-                            "amPm": [
-                                "am",
-                                "pm"
-                            ]
-                        },
-                        "editor": {
-                            "close": "Cerrar",
-                            "create": {
-                                "button": "Nuevo",
-                                "title": "Crear Nuevo Registro",
-                                "submit": "Crear"
-                            },
-                            "edit": {
-                                "button": "Editar",
-                                "title": "Editar Registro",
-                                "submit": "Actualizar"
-                            },
-                            "remove": {
-                                "button": "Eliminar",
-                                "title": "Eliminar Registro",
-                                "submit": "Eliminar",
-                                "confirm": {
-                                    "_": "¿Está seguro que desea eliminar %d filas?",
-                                    "1": "¿Está seguro que desea eliminar 1 fila?"
-                                }
-                            },
-                            "error": {
-                                "system": "Ha ocurrido un error en el sistema (<a target=\"\\\" rel=\"\\ nofollow\" href=\"\\\">Más información&lt;\\\/a&gt;).<\/a>"
-                            },
-                            "multi": {
-                                "title": "Múltiples Valores",
-                                "info": "Los elementos seleccionados contienen diferentes valores para este registro. Para editar y establecer todos los elementos de este registro con el mismo valor, hacer click o tap aquí, de lo contrario conservarán sus valores individuales.",
-                                "restore": "Deshacer Cambios",
-                                "noMulti": "Este registro puede ser editado individualmente, pero no como parte de un grupo."
-                            }
-                        },
-                        "info": "Mostrando de _START_ a _END_ de _TOTAL_ entradas"
-                    }
-                });
-            });
-        </script>
+    <script src="~/js/Catalogo/Gestionar_Oferta.js"></script>
 }
-

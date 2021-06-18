@@ -15,6 +15,7 @@ namespace SIGECA.Controllers
     public class ProductoController : Controller
     {
         private readonly ProductoService _productoService;
+
         public ProductoController(ProductoService productoService)
         {
             _productoService = productoService;
@@ -56,7 +57,8 @@ namespace SIGECA.Controllers
         {
             Object result = null;
             Producto producto = await  _productoService.GetById(productoID);
-            result = new { result = "success", title = "Satisfactorio", value = producto, url = "Producto/Busqueda" };
+            Categoria category = await _productoService.GetCategoryNameByID(producto.categoriaID);
+            result = new { result = "success", title = "Satisfactorio", value = new { producto, category }, url = "Producto/Busqueda" };
             return Content(JsonConvert.SerializeObject(result));
         }
         [HttpPost]
@@ -65,6 +67,17 @@ namespace SIGECA.Controllers
             Object result = null;
             Producto productoActualizado = await _productoService.UpdateProducto(producto);
             result = new { result = "success", title = "Satisfactorio", value = productoActualizado, url = "Usuario/ActualizarUsuario" };
+            return Content(JsonConvert.SerializeObject(result));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ObtenerNombreCategoriaPorId(string productoId)
+        {
+            Object result = null;
+            Categoria category = await _productoService.GetCategoryNameByID(productoId);
+            Producto producto = await  _productoService.GetById(category.nombre);
+
+            result = new { result = "success", title = "Satisfactorio", value = category, url = "Producto/Busqueda" };
             return Content(JsonConvert.SerializeObject(result));
         }
     }
