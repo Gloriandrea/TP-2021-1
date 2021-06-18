@@ -52,7 +52,7 @@ namespace SIGECA.Entities
     public class VentaPresencial : Venta
     {
         public string usuarioID { get; set; }
-        public string dniCliente { get; set; }
+       
     }
 
     public class VentaOnline : Venta
