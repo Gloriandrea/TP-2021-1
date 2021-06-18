@@ -16,7 +16,7 @@ namespace SIGECA.Entities
         public string id { get; set; }
 
         [BsonElement("codigoVenta")]
-        public int codigoVenta { get; set; }
+        public string codigoVenta { get; set; }
 
         [BsonElement("tipo")]
         public string tipo { get; set; }
@@ -32,6 +32,12 @@ namespace SIGECA.Entities
 
         [BsonElement("fechaVenta")]
         public DateTime? fechaVenta { get; set; }
+
+        [BsonElement("dniCliente")]
+        public string dniCliente { get; set; }
+
+        [BsonElement("tipoCliente")]
+        public string tipoCliente { get; set; }
     }
 
     public class Items

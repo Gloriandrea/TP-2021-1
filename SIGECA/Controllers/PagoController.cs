@@ -49,7 +49,7 @@ namespace SIGECA.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Venta>> ObtenerVentaPorCodigoVenta(int codigoVenta)
+        public async Task<ActionResult<Venta>> ObtenerVentaPorCodigoVenta(string codigoVenta)
         {
             Object result = null;
             Venta venta = await _pagoService.GetByCodigoVenta(codigoVenta);
