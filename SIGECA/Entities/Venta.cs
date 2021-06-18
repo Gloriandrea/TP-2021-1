@@ -32,6 +32,12 @@ namespace SIGECA.Entities
 
         [BsonElement("fechaVenta")]
         public DateTime? fechaVenta { get; set; }
+
+        [BsonElement("dniCliente")]
+        public string dniCliente { get; set; }
+
+        [BsonElement("tipoCliente")]
+        public string tipoCliente { get; set; }
     }
 
     public class Items

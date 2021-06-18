@@ -69,6 +69,11 @@ namespace SIGECA.Services
             return await _categoria.Find(x => true).ToListAsync();
         }
 
+        public async Task<Categoria> GetCategoryNameByID(string CategodyId)
+        {
+            return await _categoria.FindAsync(x => x.id == CategodyId).Result.FirstOrDefaultAsync();
+        }
+
         public async Task<List<ProductoDTO>> GetAllProductoDTO()
         {
             List<ProductoDTO> productos = new List<ProductoDTO>();

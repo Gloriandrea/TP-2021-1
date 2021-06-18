@@ -35,6 +35,7 @@ namespace SIGECA
             services.AddScoped<ProductoService>();
             services.AddScoped<ProveedorService>();
             services.AddScoped<CompraService>();
+            services.AddScoped<CatalogoService>();
             services.AddScoped<PagoService>();
             //Inyectando dependencia de Clase Conectora en la Interfaz padre
             services.AddSingleton<SigecaDataBaseSettings>(sp =>

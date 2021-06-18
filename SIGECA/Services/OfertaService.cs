@@ -29,7 +29,7 @@ namespace SIGECA.Services
 
         public async Task<Oferta> GetById(string ofertaID)
         {
-            return await _ofertaCollection.FindAsync(x => x.id == ofertaID).Result.FirstOrDefaultAsync();
+            return await _ofertaCollection.FindAsync(x => x.productoID == ofertaID).Result.FirstOrDefaultAsync();
         }
 
         public async Task Create(Oferta oferta)
