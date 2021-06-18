@@ -1,4 +1,65 @@
 ﻿
+//$(document).ready(function () {
+//    $('.datatable-pago').DataTable(
+//        {
+//            dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+//            "processing": true,
+//            "serverSide": true,
+//            "searching": true,
+//            "sort": true,
+//            "lengthChange": false,
+//            "autoWidth": false,
+//            "ajax": {
+//                "url": $('#URL_VentaListar').val(),
+//                "type": "POST",
+//                "error": function () {
+//                    document.location.reload();
+//                }
+//            },
+//            "oLanguage": {
+//                "oPaginate": {
+//                    "sFirst": "Primero",
+//                    "sNext": "Siguiente",
+//                    "sPrevious": "Anterior",
+//                    "sLast": "Ultimo"
+//                },
+//                "sInfo": "_START_ a _END_ de _TOTAL_ registros",
+//                "sLengthMenu": "Mostrar _MENU_ registros",
+//                "sSearch": "Buscar:",
+//                "sProcessing": "",
+//                "sInfoFiltered": "",
+//                "sInfoFiltered": '',
+//                "sZeroRecords": "No se encontro registros",
+//                "sInfoEmpty": "No hay registros para mostrar"
+//            },
+//            "serverParams": function (setting) {
+//            },
+//            "columns": [
+//                { "data": "nombreEmpresa" },
+//                { "data": "ruc" },
+//                { "data": "correoEmpresa" },
+//                { "render": function (data, type, full, meta) { return full.codigoVenta + ' ' + full.total; } },
+//                { "render": function (data, type, full, meta) { return '<span style="color: white" class="badge ' + (full.estado == "activo" ? 'bg-success' : 'bg-danger') + ' ">' + full.estado.charAt(0).toUpperCase() + full.estado.slice(1) + '</span>' } },
+//                {
+//                    "render": function (data, type, full, meta) {
+//                        return '<button class="btn btnVisualizarProveedor" style="color: #4AB6B6" data-proveedor-id="' + full.id + '"><img class="fas fa-eye" /></button>' +
+//                            '<button class="btn btnModificarProveedor" style="color: #4AB6B6" data-proveedor-id="' + full.id + '"><img class="fas fa-edit" /></button>' +
+//                            '<button class="btn btnCambiarEstadoProveedor" style="color: red" data-proveedor-id="' + full.id + '"><img class="fas fa-ban" /></button>';;
+//                    }
+//                }
+//            ]
+//        });
+
+
+//});
+
+
+
+
+
+
+
+
 $(function () {
     $("#btnPrint").on("click", function imprim(imp1) {
         var printContents = document.getElementById('imp1').innerHTML;

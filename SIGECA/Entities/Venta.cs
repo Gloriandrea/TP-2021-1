@@ -16,7 +16,7 @@ namespace SIGECA.Entities
         public string id { get; set; }
 
         [BsonElement("codigoVenta")]
-        public int codigoVenta { get; set; }
+        public string codigoVenta { get; set; }
 
         [BsonElement("tipo")]
         public string tipo { get; set; }
@@ -46,6 +46,7 @@ namespace SIGECA.Entities
     public class VentaPresencial : Venta
     {
         public string usuarioID { get; set; }
+        public string dniCliente { get; set; }
     }
 
     public class VentaOnline : Venta

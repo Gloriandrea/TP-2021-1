@@ -11,7 +11,7 @@
 </ol>
 
 <div class="bg-light">
-    <h1>Ventas a Cobrar</h1>   
+    <h1>Ventas a Cobrar</h1>
 </div>
 
 
@@ -42,7 +42,7 @@
                             <button class="btn"><img class="fas fa-eye" /></button>
                             <button class="btn"><img class="fas fa-edit" /></button>
                             <button class="btn"><img class="fas fa-ban" /></button>
-                            <button class="btn badge-success"  data-bs-toggle="modal" data-bs-target="#modalPagoVenta"> Registrar Cobro</button>
+                            <button class="btn badge-success" id="btnRegistrarPago" onclick="" data-bs-toggle="modal" data-bs-target="#modalPagoVenta"> Registrar Cobro</button>
                         </td>
                     </tr>
 
@@ -65,19 +65,13 @@
 
 
 
-
-
-
-
-
-
 <div class="modal" id="modalPagoVenta" tabindex="-1" aria-labelledby="registrarProductoLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" >
-        <div class="modal-content" id="imp1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="consultarProveedorLabel">Detalle de Venta</h5>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="imp1">
                 <form>
                     <div class="row" style="padding: 5px 5%">
 
@@ -86,25 +80,25 @@
 
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="nombreEmpresa" class="form-label">Código de Venta:</label>
-                            <input class="form-control" 
-                                   id="txtCodVenta"  
-                                   name="CodVenta" 
-                                   disabled 
-                                   style="border-top-style:none ; 
-                                   border-left-style:none; 
+                            <input class="form-control"
+                                   id="txtCodVenta"
+                                   name="CodVenta"
+                                   disabled
+                                   style="border-top-style:none ;
+                                   border-left-style:none;
                                    border-right-style:none;
-                                   border-right-style: none; 
+                                   border-right-style: none;
                                    border-bottom-style:none">
                         </div>
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="ruc" class="form-label">Fecha:</label>
 
-                            <input class="form-control" 
-                                   id="txtFecha" 
-                                   name="fecha" 
-                                   disabled 
+                            <input class="form-control"
+                                   id="txtFecha"
+                                   name="fecha"
+                                   disabled
                                    style="border-top-style:none ;
-                                   border-left-style:none; 
+                                   border-left-style:none;
                                    border-right-style:none;
                                    border-right-style: none;
                                    border-bottom-style:none">
@@ -114,15 +108,15 @@
                         <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
                             <label for="direccionEmpresa" class="form-label">Productos:</label>
 
-                            <textarea class="form-control" 
+                            <textarea class="form-control"
                                       id="txaProductos"
                                       name="items"
-                                      rows="6" 
+                                      rows="6"
                                       disabled
-                                      style="border-top-style:none ; 
-                                      border-left-style:none; 
+                                      style="border-top-style:none ;
+                                      border-left-style:none;
                                       border-right-style:none;
-                                      border-right-style: none; 
+                                      border-right-style: none;
                                       border-bottom-style:none">
 
                             </textarea>
@@ -131,27 +125,27 @@
                     <div class="row" style="padding: 5px 5%">
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="nombreContacto" class="form-label">Total:</label>
-                            <input class="form-control" 
+                            <input class="form-control"
                                    id="txtTotal"
-                                   name="total"  
-                                   disabled style="border-top-style:none ; 
-                                   border-left-style:none; 
+                                   name="total"
+                                   disabled style="border-top-style:none ;
+                                   border-left-style:none;
                                    border-right-style:none;
-                                   border-right-style: none; 
+                                   border-right-style: none;
                                    border-bottom-style:none">
                         </div>
 
 
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="estado" class="form-label">Estado:</label>
-                            <input class="form-control" 
+                            <input class="form-control"
                                    id="txtEstado"
-                                   name="nameEstado" 
-                                   disabled 
-                                   style="border-top-style:none ; 
-                                   border-left-style:none; 
+                                   name="nameEstado"
+                                   disabled
+                                   style="border-top-style:none ;
+                                   border-left-style:none;
                                    border-right-style:none;
-                                   border-right-style: none; 
+                                   border-right-style: none;
                                    border-bottom-style:none">
                         </div>
 
@@ -159,24 +153,24 @@
 
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <h5> <label for="Efectivo" class="form-label">Efectivo:</label></h5>
-                            <input  class="form-control"
-                                   id="txtEfectivo" 
-                                   style="border-top-style:none ; 
-                                   border-left-style:none; 
+                            <input class="form-control"
+                                   id="txtEfectivo"
+                                   style="border-top-style:none ;
+                                   border-left-style:none;
                                    border-right-style:none;
-                                   border-right-style: none; 
+                                   border-right-style: none;
                                    border-bottom-style:none">
                         </div>
 
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <h5><label for="Vuelto" class="form-label">Vuelto: </label></h5>
-                            <input  class="form-control" 
+                            <input class="form-control"
                                    id="txtVuelto"
-                                   readonly="readonly" 
-                                   style="border-top-style:none ; 
-                                   border-left-style:none; 
+                                   readonly="readonly"
+                                   style="border-top-style:none ;
+                                   border-left-style:none;
                                    border-right-style:none;
-                                   border-right-style: none; 
+                                   border-right-style: none;
                                    border-bottom-style:none">
                         </div>
 
@@ -192,3 +186,9 @@
     </div>
 
 </div>
+
+
+
+
+
+
