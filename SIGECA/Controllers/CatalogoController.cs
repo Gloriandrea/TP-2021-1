@@ -53,14 +53,12 @@ namespace SIGECA.Controllers
             result = new { result = "success", title = "Satisfactorio", value = new { producto, categoria, oferta }, url = "Catalogo/Consultar" };
             return Content(JsonConvert.SerializeObject(result));
         }
-        
-
-            foreach(var producto in productos) 
-            {
-                if (producto.stock > 0) catalogo.Add(producto);
-            }
-
-            return View(catalogo);
+        public class ModelOferta
+        {
+            public IEnumerable<Producto> productos { get; set; }
+            public IEnumerable<Oferta> ofertas { get; set; }
         }
+
     }
+
 }
