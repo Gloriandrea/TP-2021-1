@@ -20,7 +20,7 @@ namespace SIGECA.Services
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            //_producto = database.GetCollection<Producto>("Producto");
+            _producto = database.GetCollection<Producto>("Producto");
             _categoria = database.GetCollection<Categoria>("Categoria");
         }
 
@@ -138,6 +138,16 @@ namespace SIGECA.Services
             var filters = Builders<Producto>.Filter.Eq("id", producto.id);
             _producto.UpdateOne(filters, update);
             return producto;
+        }
+
+        public async Task<String> UpdateProductoImagenYQRCodigo(string productoID, string urlImagen, string codigoQR)
+        {
+
+            var update = Builders<Producto>.Update.Set("urlImagen", urlImagen)
+                                                  .Set("codigoQR", codigoQR);
+            var filters = Builders<Producto>.Filter.Eq("id", productoID);
+            _producto.UpdateOne(filters, update);
+            return productoID;
         }
     }
 }

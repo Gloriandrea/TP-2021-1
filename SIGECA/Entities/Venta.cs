@@ -39,7 +39,7 @@ namespace SIGECA.Entities
     public class Items { 
         public string productoID { get; set; }
         public int cantidad { get; set; }
-        public double subtotal { get; set; }
+        public double subTotal { get; set; }
     }
 
     public class VentaPresencial : Venta { 
