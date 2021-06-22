@@ -34,6 +34,7 @@ namespace SIGECA
             services.AddScoped<UsuarioService>();
             services.AddScoped<ProductoService>();
             services.AddScoped<ProveedorService>();
+            services.AddScoped<VentaService>();
             services.AddScoped<CompraService>();
             services.AddScoped<CatalogoService>();
             services.AddScoped<PagoService>();

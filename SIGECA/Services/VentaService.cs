@@ -13,12 +13,12 @@ namespace SIGECA.Services
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _venta = database.GetCollection<Venta>("Compra");
+            _venta = database.GetCollection<Venta>("Venta");
         }
 
         public async Task<List<Venta>> GetAll()
         {
-            return await _venta.FindAsync(x => true).Result.ToListAsync();
+            return _venta.Find(x => true).ToList();
         }
     }
 }

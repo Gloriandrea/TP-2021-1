@@ -84,7 +84,8 @@ function cambioProductoRegistrar() {
         dataType: "json",
         success: function (data) {
             if (data.result) {
-                var costo = parseFloat(data.value.precio).toFixed(2);
+                var producto = data.value.producto;
+                var costo = parseFloat(producto.precio).toFixed(2);
                 costoProductoRegistrar = costo;
                 $('#cantidadCompraRegistrar').val('1');
                 var cantidad = $('#cantidadCompraRegistrar').val();
@@ -106,7 +107,8 @@ function cambioProductoModificar() {
         dataType: "json",
         success: function (data) {
             if (data.result) {
-                var costo = parseFloat(data.value.precio).toFixed(2);
+                var producto = data.value.producto;
+                var costo = parseFloat(producto.precio).toFixed(2);
                 costoProductoRegistrar = costo;
                 $('#cantidadCompraModificar').val('1');
                 var cantidad = $('#cantidadCompraModificar').val();
