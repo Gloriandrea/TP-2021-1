@@ -1,9 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SIGECA.Entities
 {
@@ -27,5 +23,7 @@ namespace SIGECA.Entities
         public string celularContacto { get; set; }
         [BsonElement("direccionEmpresa")]
         public string direccionEmpresa { get; set; }
+        [BsonElement("estado")]
+        public string estado { get; set; }
     }
 }

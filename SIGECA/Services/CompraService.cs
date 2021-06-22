@@ -1,8 +1,6 @@
 ﻿using MongoDB.Driver;
 using SIGECA.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SIGECA.Services
@@ -36,10 +34,16 @@ namespace SIGECA.Services
         {
             var update = Builders<Compra>.Update.Set("proveedorID", compra.proveedorID)
                                             .Set("costoTotal", compra.costoTotal)
-                                            .Set("items",compra.items);
+                                            .Set("items", compra.items);
             var filters = Builders<Compra>.Filter.Eq("id", compra.id);
             _compra.UpdateOne(filters, update);
             return compra;
+        }
+        public async Task UpdateEstadoCompra(string compraid, string estado)
+        {
+            var update = Builders<Compra>.Update.Set("estado", estado == "activo" ? "inactivo" : "activo");
+            var filters = Builders<Compra>.Filter.Eq("id", compraid);
+            _compra.UpdateOne(filters, update);
         }
     }
 }

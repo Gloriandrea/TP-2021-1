@@ -53,6 +53,10 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Usuarios
                         </a>
+                        <a class="nav-link" href="@Url.Action("Index", "Proveedor")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Proveedores
+                        </a>
                         <a class="nav-link" asp-controller="Producto" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Productos
@@ -65,13 +69,21 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Compras
                         </a>
-                        <a class="nav-link" href="@Url.Action("Pago", "Pago")">
+                        <a class="nav-link" asp-controller="Venta" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Gestionar Cobro
+                            Gestionar Ventas
+                        </a>
+                        <a class="nav-link" asp-controller="Pago" asp-action="Pago">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Gestionar Pago
                         </a>
                         <a class="nav-link" asp-controller="Cliente" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Registrar Cliente
+                        </a>
+                        <a class="nav-link" asp-controller="Usuario" asp-action="cambiarContraseña">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Cambiar Contraseña
                         </a>
                         <div class="sb-sidenav-menu-heading">Interface</div>
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">

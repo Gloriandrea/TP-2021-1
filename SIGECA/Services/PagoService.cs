@@ -1,7 +1,5 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using SIGECA.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,16 +20,22 @@ namespace SIGECA.Services
         }
 
 
+        public async Task<List<Venta>> GetAll()
+        {
+            return _ventas.Find(x => true).ToList();
+        }
+
 
         public async Task<Venta> GetByCodigoVenta(string codigoVenta)
         {
-
-            return await _ventas.Find(x => x.codigoVenta == codigoVenta).FirstAsync();    
+            return await _ventas.Find(x => x.codigoVenta == codigoVenta).FirstAsync();
         }
-
-        public async Task<List<Venta>> GetAll()
+        public async Task updateEstadoVenta(string codigoVenta, string estado)
         {
-            return await _ventas.Find(x => true).ToListAsync();
+            var update = Builders<Venta>.Update.Set("estado", estado == "pendiente" ? "pago" : "pendiente");
+            var filters = Builders<Venta>.Filter.Eq("codigoVenta",codigoVenta);
+            _ventas.UpdateOne(filters, update);
         }
+
     }
 }

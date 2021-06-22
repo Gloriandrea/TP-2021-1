@@ -1,5 +1,6 @@
 ﻿var itemsProductos = [];
 var costoTotal = 0.00;
+var costoProductoRegistrar = 0.00;
 $(document).ready(function () {
     
     $('.datatable-compra').DataTable(
@@ -37,15 +38,16 @@ $(document).ready(function () {
             "serverParams": function (setting) {
             },
             "columns": [
-                { "render": function (data, type, full, meta) { return 'Nacho Meat' } },
-                { "render": function (data, type, full, meta) { return '20112233445' } },
-                { "render": function (data, type, full, meta) { return 'S/. ' + full.costoTotal } },
+                { "render": function (data, type, full, meta) { return full.nombreEmpresa } },
+                { "render": function (data, type, full, meta) { return full.proveedorRUC } },
+                { "render": function (data, type, full, meta) { return 'S/. ' + parseFloat(full.costoTotal).toFixed(2) } },
                 {
                     "render": function (data, type, full, meta) {
                         var date = new Date(Date.parse(full.fecha));
                         return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
                     }
                 },
+                { "render": function (data, type, full, meta) { return '<span style="color: white" class="badge ' + (full.estado == "activo" ? 'bg-success' : 'bg-danger') + ' ">' + full.estado.charAt(0).toUpperCase() + full.estado.slice(1) + '</span>' } },
                 {
                     "render": function (data, type, full, meta) {
                         return '<button class="btn btnVisualizarCompra" style="color: #4AB6B6" data-compra-id="' + full.id + '"><img class="fas fa-eye" /></button>' +
@@ -55,57 +57,140 @@ $(document).ready(function () {
                 }
             ]
         });
+
+    
 });
 
-function addItem() {
-    var nombre = $('#productoCompraRegistrar').val();
+$("#itemCompra").on("click", ".btnBorrar", function (event) {
+    $(this).closest("tr").remove();
+    var costoBorrar = parseFloat($(this).closest("tr")[0].cells[3].textContent);
+    costoTotal -= costoBorrar;
+    $('#itemRegistrarTotal').text(parseFloat(costoTotal).toFixed(2));
+});
+
+$("#itemCompraModificar").on("click", ".btnBorrar", function (event) {
+    $(this).closest("tr").remove();
+    var costoBorrar = parseFloat($(this).closest("tr")[0].cells[3].textContent);
+    costoTotal -= costoBorrar;
+    $('#itemModificarTotal').text(parseFloat(costoTotal).toFixed(2));
+});
+
+function cambioProductoRegistrar() {
+    var productoid = $('#productoCompraRegistrar').val();
+    $.ajax({
+        url: $('#URL_ObtenerProductoPorID').val(),
+        type: 'post',
+        data: "productoID=" + productoid,
+        dataType: "json",
+        success: function (data) {
+            if (data.result) {
+                var producto = data.value.producto;
+                var costo = parseFloat(producto.precio).toFixed(2);
+                costoProductoRegistrar = costo;
+                $('#cantidadCompraRegistrar').val('1');
+                var cantidad = $('#cantidadCompraRegistrar').val();
+                var subtotal = parseFloat(costo * cantidad).toFixed(2);
+                $('#costoCompraRegistrar').val(subtotal);
+            } else {
+                console.log('ERROR al consultar el precio');
+            }
+        }
+    });
+}
+
+function cambioProductoModificar() {
+    var productoid = $('#productoCompraModificar').val();
+    $.ajax({
+        url: $('#URL_ObtenerProductoPorID').val(),
+        type: 'post',
+        data: "productoID=" + productoid,
+        dataType: "json",
+        success: function (data) {
+            if (data.result) {
+                var producto = data.value.producto;
+                var costo = parseFloat(producto.precio).toFixed(2);
+                costoProductoRegistrar = costo;
+                $('#cantidadCompraModificar').val('1');
+                var cantidad = $('#cantidadCompraModificar').val();
+                var subtotal = parseFloat(costo * cantidad).toFixed(2);
+                $('#costoCompraModificar').val(subtotal);
+            } else {
+                console.log('ERROR al consultar el precio');
+            }
+        }
+    });
+}
+
+function cambioCantidadRegistrar() {
     var cantidad = $('#cantidadCompraRegistrar').val();
-    var unidad = $('#unidadCompraRegistrar').val();
+    var subtotal = parseFloat(cantidad * costoProductoRegistrar).toFixed(2);
+    $('#costoCompraRegistrar').val(subtotal);
+}
+
+function cambioCantidadModificar() {
+    var cantidad = $('#cantidadCompraModificar').val();
+    var subtotal = parseFloat(cantidad * costoProductoRegistrar).toFixed(2);
+    $('#costoCompraModificar').val(subtotal);
+}
+
+function addItem() {
+    if (validarAddItem() == false) {
+        return false;
+    }
+    var nombre = $("#productoCompraRegistrar option:selected").text();
+    var cantidad = $('#cantidadCompraRegistrar').val();
+    var unidad = $("#unidadCompraRegistrar option:selected").text();
     var costo = $('#costoCompraRegistrar').val();
     var row = "<tr>" +
                 "<td>" + nombre + "</td>" +
+                "<td>" + unidad + "</td>" +
                 "<td>" + cantidad + "</td>" +
-                "<td>" + costo + "</td>"+
+                "<td>" + parseFloat(costo).toFixed(2) + "</td>"+
+                '<td><input type="button" class="btnBorrar btn btn-danger" value="Eliminar"></td>'+
         "</tr>";
     $('#itemCompra > tbody').append(row);
 
     costoTotal += parseFloat(costo);
-    var item = new Object();
-    item.nombre = nombre;
-    item.cantidad = parseInt(cantidad);
-    item.unidadMedida = unidad;
-    item.costo = parseFloat(costo);
+    $('#itemRegistrarTotal').text(parseFloat(costoTotal).toFixed(2));
 
-    itemsProductos.push(item);
+    $('#productoCompraRegistrar').val('');
+    $('#cantidadCompraRegistrar').val('');
+    $('#unidadCompraRegistrar').val('');
+    $('#costoCompraRegistrar').val('0.00');
+    costoProductoRegistrar = 0.00;
 };
 
 function addItemModificar() {
-    var nombre = $('#productoCompraModificar').val();
+    if (validarAddItemModificar() == false) {
+        return false;
+    }
+    var nombre = $('#productoCompraModificar option:selected').text();
     var cantidad = $('#cantidadCompraModificar').val();
-    var unidad = $('#unidadCompraModificar').val();
+    var unidad = $('#unidadCompraModificar option:selected').text();
     var costo = $('#costoCompraModificar').val();
     var row = "<tr>" +
         "<td>" + nombre + "</td>" +
+        "<td>" + unidad + "</td>" +
         "<td>" + cantidad + "</td>" +
-        "<td>" + costo + "</td>" +
+        "<td>" + parseFloat(costo).toFixed(2) + "</td>" +
+        '<td><input type="button" class="btnBorrar btn btn-danger" value="Eliminar"></td>' +
         "</tr>";
     $('#itemCompraModificar > tbody').append(row);
 
     costoTotal += parseFloat(costo);
-    var item = new Object();
-    item.nombre = nombre;
-    item.cantidad = parseInt(cantidad);
-    item.unidadMedida = unidad;
-    item.costo = parseFloat(costo);
-
-    itemsProductos.push(item);
+    $('#itemModificarTotal').text(parseFloat(costoTotal).toFixed(2));
+    $('#productoCompraModificar').val('');
+    $('#cantidadCompraModificar').val('');
+    $('#unidadCompraModificar').val('');
+    $('#costoCompraModificar').val('0.00');
+    costoProductoRegistrar = 0.00;
 };
 
 function clearDataCompra() {
     $('#productoCompraRegistrar').val('');
     $('#cantidadCompraRegistrar').val('');
     $('#unidadCompraRegistrar').val('');
-    $('#costoCompraRegistrar').val('');
+    $('#costoCompraRegistrar').val('0.00');
     $('#itemCompra tbody').empty();
     itemsProductos = [];
 }
@@ -114,7 +199,7 @@ function clearDataCompraModificar() {
     $('#productoCompraModificar').val('');
     $('#cantidadCompraModificar').val('');
     $('#unidadCompraModificar').val('');
-    $('#costoCompraModificar').val('');
+    $('#costoCompraModificar').val('0.00');
     $('#itemCompraModificar tbody').empty();
     itemsProductos = [];
 }
@@ -126,12 +211,26 @@ function cerrarModal() {
 }
 
 $("#btnRegistrarCompraModal").on("click", function () {
+    if (validarVacioCompraRegistrar() == false) {
+        return false;
+    }
     var Compra = new Object();
 
     Compra.proveedorID = $('#proveedorCompraRegistrar').val();
     Compra.costoTotal = costoTotal;
-    Compra.items = itemsProductos;
 
+    var row = document.getElementById('itemCompra').rows.length;
+    for (i = 1; i < row; i++) {
+        var item = new Object();
+        item.nombre = document.getElementById("itemCompra").rows[i].cells.item(0).innerHTML;
+        item.unidadMedida = document.getElementById("itemCompra").rows[i].cells.item(1).innerHTML;
+        item.cantidad = Number(document.getElementById("itemCompra").rows[i].cells.item(2).innerHTML);
+        item.costo = parseFloat(document.getElementById("itemCompra").rows[i].cells.item(3).innerHTML);
+        itemsProductos.push(item);
+    }
+
+    Compra.items = itemsProductos;
+    Compra.estado = "activo";
     $.ajax({
         type: 'post',
         url: 'Compra/RegistrarCompra',
@@ -209,28 +308,22 @@ $('#tableCompra').on('click', '.btnModificarCompra', function (e) {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             if (data.result == "success") {
-                var compra = data.value;
+                var compra = data.value.compra;
                 var itemscompra = compra.items;
                 $("#idCompraModificar").val(compra.id)
                 $("#proveedorCompraModificar").val(compra.proveedorID);
                 itemscompra.forEach(c => {
                     var row = "<tr>" +
                         "<td>" + c.nombre + "</td>" +
+                        "<td>" + c.unidadMedida + "</td>" +
                         "<td>" + c.cantidad + "</td>" +
-                        "<td>" + c.costo + "</td>" +
+                        "<td>" + parseFloat(c.costo).toFixed(2) + "</td>" +
+                        '<td><input type="button" class="btnBorrar btn btn-danger" value="Eliminar"></td>' +
                         "</tr>";
                     $('#itemCompraModificar > tbody').append(row);
-
-                    var item = new Object();
-
-                    item.nombre = c.nombre;
-                    item.cantidad = parseInt(c.cantidad);
-                    item.unidadMedida = c.unidadMedida;
-                    item.costo = parseFloat(c.costo);
                     costoTotal += c.costo;
-
-                    itemsProductos.push(item);
                 });
+                $('#itemModificarTotal').text(parseFloat(costoTotal).toFixed(2));
                 $("#modalModificarCompra").modal('show');
             }
             else {
@@ -244,11 +337,25 @@ $('#tableCompra').on('click', '.btnModificarCompra', function (e) {
 });
 
 $("#btnModificarCompraModal").on("click", function () {
+    if (validarVacioCompraModificar() == false) {
+        return false;
+    };
     var Compra = new Object();
 
     Compra.id = $('#idCompraModificar').val();
     Compra.proveedorID = $('#proveedorCompraModificar').val();
     Compra.costoTotal = costoTotal;
+
+    var row = document.getElementById('itemCompraModificar').rows.length;
+    for (i = 1; i < row; i++) {
+        var item = new Object();
+        item.nombre = document.getElementById("itemCompraModificar").rows[i].cells.item(0).innerHTML;
+        item.unidadMedida = document.getElementById("itemCompraModificar").rows[i].cells.item(1).innerHTML;
+        item.cantidad = Number(document.getElementById("itemCompraModificar").rows[i].cells.item(2).innerHTML);
+        item.costo = parseFloat(document.getElementById("itemCompraModificar").rows[i].cells.item(3).innerHTML);
+        itemsProductos.push(item);
+    }
+
     Compra.items = itemsProductos;
 
     $.ajax({
@@ -328,15 +435,20 @@ $('#tableCompra').on('click', '.btnVisualizarCompra', function (e) {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             if (data.result == "success") {
-                var compra = data.value;
+                var compra = data.value.compra;
+                var proveedor = data.value.proveedor;
                 var itemscompra = compra.items;
+                $("#proveedorCompraConsultar").val(proveedor.nombreEmpresa);
+                $("#proveedorRUCCompraConsultar").val(proveedor.ruc);
+                $("#proveedorNombreCompraConsultar").val(proveedor.nombreContacto + ' ' + proveedor.apellidoContacto);
+                $("#proveedorCelularCompraConsultar").val(proveedor.celularContacto);
                 $("#idCompraConsultar").val(compra.id);
-                $("#proveedorCompraConsultar").val(compra.proveedorID);
                 itemscompra.forEach(c => {
                     var row = "<tr>" +
                         "<td>" + c.nombre + "</td>" +
+                        "<td>" + c.unidadMedida + "</td>" +
                         "<td>" + c.cantidad + "</td>" +
-                        "<td>" + c.costo + "</td>" +
+                        "<td>" + parseFloat(c.costo).toFixed(2) + "</td>" +
                         "</tr>";
                     $('#itemCompraConsulta > tbody').append(row);
                 });
@@ -351,3 +463,156 @@ $('#tableCompra').on('click', '.btnVisualizarCompra', function (e) {
         }
     });
 });
+
+$('#tableCompra').on('click', '.btnCambiarEstadoCompra', function (e) {
+    var compraID = $(this).attr('data-compra-id');
+    $.ajax({
+        url: $("#URL_ObtenerCompraPorID").val(),
+        type: 'post',
+        data: "idcompra=" + compraID,
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            if (data.result == "success") {
+                var compra = data.value.compra;
+                var estado = compra.estado;
+                var texto = estado === "activo" ? "Desactivar" : "Activar";
+                Swal.fire({
+                    title: 'Modificacion de Estado',
+                    text: "Desea " + texto + " la compra seleccionada",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: estado === "activo" ? "Desactivar" : "Activar",
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var textoFinal = estado === "activo" ? "Desactivado" : "Activado";
+                        $.ajax({
+                            url: $("#URL_CompraActualizarEstado").val(),
+                            type: 'post',
+                            data: "compraid=" + compraID + "&estadoActual=" + estado,
+                            dataType: "json",
+                            success: function (data, textStatus, jqXHR) {
+                                if (data.result == "success") {
+                                    //Recargar Tabla
+                                    $('.datatable-compra').dataTable().fnDraw();
+                                    //Mostrar Mensaje Final
+                                    Swal.fire(
+                                        'Modificado!',
+                                        'Compra ' + textoFinal + ' Satisfactoriamente',
+                                        'success'
+                                    );
+                                }
+                                else {
+                                    Swal.fire(
+                                        'Error!',
+                                        'Ocurrio un error inesperado',
+                                        'error'
+                                    );
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log("ERROR AL OBTENER LOS DATOS");
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                console.log("ERROR AL OBTENER LOS DATOS");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR AL OBTENER LOS DATOS");
+        }
+    });
+});
+
+
+
+function validarAddItem() {
+    var msj = '';
+    if ($('#productoCompraRegistrar').val() == null) {
+        msj += '*Seleccione un producto para agregar a la compra. <br>'
+    }
+    if ($('#cantidadCompraRegistrar').val() == "") {
+        msj += '*Ingresar una cantidad. <br>'
+    }
+    if ($('#unidadCompraRegistrar').val() == null) {
+        msj += '*Seleccione una unidad para agregar a la compra. <br>'
+    }
+    if ($('#costoCompraRegistrar').val() == "") {
+        msj += '*Hubo un error al calculo del costo'
+    }
+    if (msj != '') {
+        Swal.fire({
+            title: 'Hubo un Problema',
+            html: msj,
+            icon: 'warning',
+            showConfirmButton: false,
+            showCloseButton: true
+        });
+        return false;
+    }
+}
+
+function validarAddItemModificar() {
+    var msj = '';
+    if ($('#productoCompraModificar').val() == null) {
+        msj += '*Seleccione un producto para agregar a la compra. <br>'
+    }
+    if ($('#cantidadCompraModificar').val() == "") {
+        msj += '*Ingresar una cantidad. <br>'
+    }
+    if ($('#unidadCompraModificar').val() == null) {
+        msj += '*Seleccione una unidad para agregar a la compra. <br>'
+    }
+    if ($('#costoCompraModificar').val() == "") {
+        msj += '*Hubo un error al calculo del costo'
+    }
+    if (msj != '') {
+        Swal.fire({
+            title: 'Hubo un Problema',
+            html: msj,
+            icon: 'warning',
+            showConfirmButton: false,
+            showCloseButton: true
+        });
+        return false;
+    }
+}
+
+function validarVacioCompraRegistrar() {
+    var msj = '';
+    if (document.getElementById('itemCompra').rows.length == 1) {
+        msj += '*Debe haber al menos una compra para generar el registro'
+    }
+    if (msj != '') {
+        Swal.fire({
+            title: 'Hubo un Problema',
+            html: msj,
+            icon: 'warning',
+            showConfirmButton: false,
+            showCloseButton: true
+        });
+        return false;
+    }
+}
+
+function validarVacioCompraModificar() {
+    var msj = '';
+    if (document.getElementById('itemCompraModificar').rows.length == 1) {
+        msj += '*Debe haber al menos una compra para generar la actualización'
+    }
+    if (msj != '') {
+        Swal.fire({
+            title: 'Hubo un Problema',
+            html: msj,
+            icon: 'warning',
+            showConfirmButton: false,
+            showCloseButton: true
+        });
+        return false;
+    }
+}

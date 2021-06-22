@@ -1,7 +1,5 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using SIGECA.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,10 +23,10 @@ namespace SIGECA.Services
             return _usuarios.Find(x => true).ToList();
         }
 
-       /* public async Task<List<Trabajador>> GetAllTrabajador()
-        {
-            return _usuarios.Find(x => x.tipoUsuario != "Cliente").ToList();
-        }*/
+        /* public async Task<List<Trabajador>> GetAllTrabajador()
+         {
+             return _usuarios.Find(x => x.tipoUsuario != "Cliente").ToList();
+         }*/
 
         public async Task<Usuario> GetById(string usuarioID)
         {
@@ -55,9 +53,16 @@ namespace SIGECA.Services
         }
         public async Task UpdateEstadoUsuario(string usuarioid, string estado)
         {
-            var update = Builders<Usuario>.Update.Set("estado", estado=="activo"?"inactivo":"activo");
+            var update = Builders<Usuario>.Update.Set("estado", estado == "activo" ? "inactivo" : "activo");
             var filters = Builders<Usuario>.Filter.Eq("id", usuarioid);
-           _usuarios.UpdateOne(filters, update);
+            _usuarios.UpdateOne(filters, update);
+        }
+
+        public async Task UpdateContraseñaUsuario(string usuarioid, string contraseña)
+        {
+            var update = Builders<Usuario>.Update.Set("contraseña", contraseña);
+            var filters = Builders<Usuario>.Filter.Eq("id", usuarioid);
+            _usuarios.UpdateOne(filters, update);
         }
 
     }

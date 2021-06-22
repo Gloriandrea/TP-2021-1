@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +8,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SIGECA.Helpers;
 using SIGECA.Services;
+using System;
+using System.Text;
 
 namespace SIGECA
 {
@@ -37,7 +34,9 @@ namespace SIGECA
             services.AddScoped<UsuarioService>();
             services.AddScoped<ProductoService>();
             services.AddScoped<ProveedorService>();
+            services.AddScoped<VentaService>();
             services.AddScoped<CompraService>();
+            services.AddScoped<CatalogoService>();
             services.AddScoped<PagoService>();
             services.AddScoped<MediaService>();
             //Inyectando dependencia de Clase Conectora en la Interfaz padre
