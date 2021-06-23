@@ -8,9 +8,7 @@
     <meta name="author" content="" />
     <title>Proyecto SIGECA</title>
     <link href="~/css/styles.css" rel="stylesheet" />
-
     <link href="~/css/dropzone.min.css" rel="stylesheet" />
-
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -71,13 +69,21 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Compras
                         </a>
-                        <a class="nav-link" href="@Url.Action("Pago", "Pago")">
+                        <a class="nav-link" asp-controller="Venta" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Gestionar Cobro
+                            Gestionar Ventas
+                        </a>
+                        <a class="nav-link" asp-controller="Pago" asp-action="Pago">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Gestionar Pago
                         </a>
                         <a class="nav-link" asp-controller="Cliente" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Registrar Cliente
+                        </a>
+                        <a class="nav-link" asp-controller="Usuario" asp-action="cambiarContraseña">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Cambiar Contraseña
                         </a>
                         <div class="sb-sidenav-menu-heading">Interface</div>
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
@@ -177,6 +183,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/dropzone.min.js"></script>
+    <script src="~/js/qrcode.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

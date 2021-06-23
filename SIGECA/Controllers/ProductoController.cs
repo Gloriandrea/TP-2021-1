@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SIGECA.DTOs;
 using SIGECA.Entities;
-using SIGECA.Helpers;
 using SIGECA.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SIGECA.Controllers
@@ -15,6 +13,7 @@ namespace SIGECA.Controllers
     public class ProductoController : Controller
     {
         private readonly ProductoService _productoService;
+
         public ProductoController(ProductoService productoService)
         {
             _productoService = productoService;
@@ -41,7 +40,7 @@ namespace SIGECA.Controllers
             {
                 producto.stock = 0;
                 producto = await _productoService.CreateProducto(producto);
-                result = new { result = "success", title = "Satisfactorio", message = "Producto Registrado Correctamente", url = "Producto/Registro" };
+                result = new { result = "success", title = "Satisfactorio",productoID=producto.id, message = "Producto Registrado Correctamente", url = "Producto/Registro" };
                 return Content(JsonConvert.SerializeObject(result));
             }
             catch (Exception ex)
@@ -56,7 +55,8 @@ namespace SIGECA.Controllers
         {
             Object result = null;
             Producto producto = await  _productoService.GetById(productoID);
-            result = new { result = "success", title = "Satisfactorio", value = producto, url = "Producto/Busqueda" };
+            Categoria category = await _productoService.GetCategoryNameByID(producto.categoriaID);
+            result = new { result = "success", title = "Satisfactorio", value = new { producto, category }, url = "Producto/Busqueda" };
             return Content(JsonConvert.SerializeObject(result));
         }
         [HttpPost]
@@ -67,5 +67,20 @@ namespace SIGECA.Controllers
             result = new { result = "success", title = "Satisfactorio", value = productoActualizado, url = "Usuario/ActualizarUsuario" };
             return Content(JsonConvert.SerializeObject(result));
         }
+
+<<<<<<< HEAD
+       
+=======
+        [HttpPost]
+        public async Task<ActionResult> ObtenerNombreCategoriaPorId(string productoId)
+        {
+            Object result = null;
+            Categoria category = await _productoService.GetCategoryNameByID(productoId);
+            Producto producto = await  _productoService.GetById(category.nombre);
+
+            result = new { result = "success", title = "Satisfactorio", value = category, url = "Producto/Busqueda" };
+            return Content(JsonConvert.SerializeObject(result));
+        }
+>>>>>>> ed1623a5a9983fe9d222b6ddbc5d56a068c7c2e5
     }
 }

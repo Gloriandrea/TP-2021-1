@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using MongoDB.Bson;
-using MongoDB.Bson.IO;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System.Linq;
-using System.Threading.Tasks;
+using System;
 
 namespace SIGECA.Entities
 {
@@ -36,7 +32,7 @@ namespace SIGECA.Entities
 
     public class Cliente : Usuario
     {
-        
+
     }
 
     public class Trabajador : Usuario
@@ -45,8 +41,8 @@ namespace SIGECA.Entities
     }
 
     #region ClasesInternas
-     public class DatosUsuario
-     {
+    public class DatosUsuario
+    {
         public string email { get; set; }
         public DateTime? fechaNacimiento { get; set; }
         public string nombre { get; set; }
@@ -55,7 +51,7 @@ namespace SIGECA.Entities
         public string direccion { get; set; }
         public string tipoDocumento { get; set; }
         public string numeroDocumento { get; set; }
-     }
+    }
 
     public class DatosLaborales
     {
@@ -63,12 +59,13 @@ namespace SIGECA.Entities
         public string sueldoID { get; set; }
     }
 
-    public class Remuneracion {
+    public class Remuneracion
+    {
         public string sueldoID { get; set; }
         public DateTime? fechaPago { get; set; }
         public int horasTrabajadas { get; set; }
         public int descuento { get; set; }
-        public int montoSueldo {get;set;}
+        public int montoSueldo { get; set; }
         public int totalSueldo { get; set; }
     }
 

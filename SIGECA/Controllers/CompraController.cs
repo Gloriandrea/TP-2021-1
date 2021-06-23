@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SIGECA.Entities;
-using SIGECA.Helpers;
 using SIGECA.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SIGECA.Controllers
@@ -39,7 +36,7 @@ namespace SIGECA.Controllers
             try
             {
                 compra.fecha = DateTime.Now;
-                foreach(itemProducto item in compra.items)
+                foreach (itemProducto item in compra.items)
                 {
                     var itm = productos.Find(i => i.nombre == item.nombre);
                     item.productoID = itm.id;
@@ -93,7 +90,7 @@ namespace SIGECA.Controllers
         {
             List<Compra> compras = await _compraService.GetAll();
             List<Proveedor> proveedors = await _proveedorService.GetAll();
-            foreach(Compra com in compras)
+            foreach (Compra com in compras)
             {
                 var prove = proveedors.Find(p => p.id == com.proveedorID);
                 com.nombreEmpresa = prove.nombreEmpresa;

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MongoDB.Bson;
-using MongoDB.Bson.IO;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 
 namespace SIGECA.Entities
@@ -39,6 +35,18 @@ namespace SIGECA.Entities
 
         [BsonElement("productoID")]
         public string productoID { get; set; }
+
+        [BsonIgnore]
+        public string nombrePorducto { get; set; }
+
+        [BsonIgnore]
+        public string tipoVenta { get; set; }
+
+        [BsonIgnore]
+        public double precioProducto { get; set; }
+
+        [BsonIgnore]
+        public int stockProducto { get; set; }
     }
 
     public class OfertaPorcentaje : Oferta

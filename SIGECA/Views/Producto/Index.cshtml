@@ -52,6 +52,8 @@
             </div>
             <div class="modal-body">
                 <form action="@Url.Action("RegistrarProducto","Producto")" id="frmRegistrarProducto" method="post">
+                    <input type="hidden" id="urlImagenRegistrarProducto" name="urlImagen" />
+                    <input type="hidden" id="codigoQRRegistrarProducto" name="codigoQR" />
                     <div class="row" style="padding: 5px 5%">
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="nombre" class="form-label">Nombre:</label>
@@ -114,20 +116,16 @@
                     </div>
                     <div class="row" style="padding: 5px 5%">
                         <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
-
-                            <div  id="myDropzone1">
+                            <div class="dropzone" id="myDropzone1">
                                 <div class="fallback">
-                                    <input name="urlImagen" type="file" id="urlImagenRegistrarProducto" />
+                                    <input name="urlImagenDropzone" type="file" id="urlImagenRegistrarProductoDropzone" />
                                 </div>
                             </div>
-
                         </div>
                     </div>
+                    <div id="qrResult" style="height: 150px;width: 150px;display:none">
+                    </div>
                 </form>
-
-                <form action="/file-upload"
-                      class="dropzone"
-                      id="my-awesome-dropzone"></form>
 
             </div>
             <div class="modal-footer">
@@ -185,7 +183,7 @@
                                     aria-label="Default select example">
                                 @for (int i = 0; i < categoriaProductos.Count; i++)
                                 {
-                                        <option value="@categoriaProductos[i].id">@categoriaProductos[i].nombre</option>
+                                    <option value="@categoriaProductos[i].id">@categoriaProductos[i].nombre</option>
                                 }
 
                             </select>
@@ -221,6 +219,8 @@
 
 <input type="hidden" id="URL_ProductosListarTodos" value="@Url.Action("ObtenerProductos", "Producto")" />
 <input type="hidden" id="URL_ProductoPorID" value="@Url.Action("ObtenerProductoPorId", "Producto")" />
+<input type="hidden" id="URL_SubirImagen" value="@Url.Action("RegistrarImagenProducto", "Media")" />
+<input type="hidden" id="URL_SubirImagenYQRCode" value="@Url.Action("RegistrarImagenQRCodeProducto", "Media")" />
 
 
 @section scripts{
