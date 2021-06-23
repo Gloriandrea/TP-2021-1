@@ -145,7 +145,7 @@ namespace SIGECA.Services
             return producto;
         }
 
-        public async Task<String> UpdateProductoImagenYQRCodigo(string productoID, string urlImagen, string codigoQR)
+        public async Task<string> UpdateProductoImagenYQRCodigo(string productoID, string urlImagen, string codigoQR)
         {
 
             var update = Builders<Producto>.Update.Set("urlImagen", urlImagen)
