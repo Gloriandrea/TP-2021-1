@@ -1,6 +1,14 @@
 ﻿Dropzone.autoDiscover = false;
 $(function () {
     var myDropzone;
+    var codigoQR =  new QRCode(document.getElementById('qrResult'), {
+        text: "defaultProduct",
+        width: 150,
+        height: 150,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
    $('.datatable-producto').DataTable(
         {
             dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
@@ -81,7 +89,7 @@ $(function () {
 
     function GenerateQRCodeProducto(ProductoID) {
         new QRCode(document.getElementById('qrResult'), {
-            text: ProductoID,
+            text:  ProductoID,
             width: 150,
             height: 150,
             colorDark: "#000000",
@@ -138,7 +146,9 @@ $(function () {
                     var newProductoID = data.productoID;
                     //creando el form data y codigoQR
                     var formData = new FormData();
-                    GenerateQRCodeProducto(newProductoID);
+                    //GenerateQRCodeProducto(newProductoID);
+
+
                     //agregando los archivos
                     var qrCodeDataURL = $("#qrResult > img").attr('src');
                     var blobQRCode = dataURItoBlob(qrCodeDataURL);

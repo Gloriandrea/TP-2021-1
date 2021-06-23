@@ -48,7 +48,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="registrarProductoLabel">Registro del producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="modal-body">
                 <form action="@Url.Action("RegistrarProducto","Producto")" id="frmRegistrarProducto" method="post">
@@ -150,7 +152,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modificarProductoLabel">Modificacion del producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="modal-body">
                 <form action="@Url.Action("ModificarProducto","Producto")" id="frmModificarProducto" method="post">
@@ -196,6 +200,32 @@
                                 <option selected value="tienda">Despacho En Tienda</option>
                                 <option value="delivery">Delivery</option>
                             </select>
+                        </div>
+                        <div class="row" style="padding: 5px 5%">
+                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                <label for="unidadMedida" class="form-label">Unidad de Medida:</label>
+                                <select class="form-select form-control" id="unidadMedidaModificarProducto"
+                                        name="unidadMedida"
+                                        aria-label="Default select example">
+                                    <option selected value="Kilogramos">Kilogramos (Kg.)</option>
+                                    <option value="Gramos">Gramos (Gr.)</option>
+                                    <option value="Unidad">Unidades (Und.)</option>
+                                </select>
+                            </div>
+                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                <label for="stock" class="form-label">Stock de Productos:</label>
+                                <input type="number" class="form-control" id="stockModificarProducto"
+                                       placeholder="40" name="stock">
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 5px 5%">
+                            <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                                <div class="dropzone" id="myDropzone2">
+                                    <div class="fallback">
+                                        <input name="urlImagenDropzone" type="file" id="urlImagenModificarProductoDropzone" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
