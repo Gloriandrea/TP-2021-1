@@ -9,5 +9,11 @@ namespace SIGECA_Shop.MTOs
     public class OfertaDTO : Oferta
     {
         public Tienda tienda { get; set; }
+
+
+        public int cantidadOfrecida { get; set; }
+        public int cantidadPagada { get; set; }
+
+        public int porcentajeDescuento { get; set; }
     }
 }

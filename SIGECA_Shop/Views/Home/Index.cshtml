@@ -1,4 +1,6 @@
-﻿@{
+﻿@model List<SIGECA_Shop.MTOs.CatalogoDTO>
+
+@{
     ViewData["Title"] = "Inicio";
     ViewBag.Inicio = true;
     ViewBag.HomeActivate = "active";
@@ -33,7 +35,7 @@
             <p>Nuestros principales productos</p>
         </div>
 
-        <div class="row" data-aos="fade-up" data-aos-delay="100">
+        @*<div class="row" data-aos="fade-up" data-aos-delay="100">
             <div class="col-lg-12 d-flex justify-content-center">
                 <ul id="menu-flters">
                     <li data-filter="*" class="filter-active">All</li>
@@ -42,11 +44,27 @@
                     <li data-filter=".filter-specialty">Specialty</li>
                 </ul>
             </div>
-        </div>
+        </div>*@
 
         <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
+            
+            @foreach(var product in Model)
+            {
+                <div class="col-lg-6 menu-item filter-starters">
+                    <img src="assets/img/menu/lobster-bisque.jpg" class="menu-img" alt="">
+                    <div class="menu-content">
+                        <a href="#">@product.nombre</a><span>S/.@product.precio</span>
+                    </div>
+                    <div class="menu-ingredients">
+                        @product.descripcion
+                    </div>
+                    <div class="menu-ingredients">
+                        @product.tipoVenta
+                    </div>
+                </div>
+            }
 
-            <div class="col-lg-6 menu-item filter-starters">
+            @*<div class="col-lg-6 menu-item filter-starters">
                 <img src="assets/img/menu/lobster-bisque.jpg" class="menu-img" alt="">
                 <div class="menu-content">
                     <a href="#">Lobster Bisque</a><span>$5.95</span>
@@ -54,9 +72,9 @@
                 <div class="menu-ingredients">
                     Lorem, deren, trataro, filede, nerada
                 </div>
-            </div>
+            </div>*@
 
-            <div class="col-lg-6 menu-item filter-specialty">
+            @*<div class="col-lg-6 menu-item filter-specialty">
                 <img src="assets/img/menu/bread-barrel.jpg" class="menu-img" alt="">
                 <div class="menu-content">
                     <a href="#">Bread Barrel</a><span>$6.95</span>
@@ -134,7 +152,7 @@
                 <div class="menu-ingredients">
                     Plump lobster meat, mayo and crisp lettuce on a toasted bulky roll
                 </div>
-            </div>
+            </div>*@
 
         </div>
 

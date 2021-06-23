@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using SIGECA_Shop.Helpers;
 using SIGECA_Shop.Models;
+using SIGECA_Shop.MTOs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,10 +23,14 @@ namespace SIGECA_Shop.Controllers
         {
             _logger = logger;
         }
-
         public async Task<IActionResult> Index()
         {
-            return View();
+            //var urlAPI = new UrlAPI($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}");
+            var urlAPI = new UrlAPI();
+            var httpClient = new HttpClient();
+            var json = await httpClient.GetStringAsync(urlAPI.Catalogo);
+            IEnumerable<CatalogoDTO> productos = JsonConvert.DeserializeObject<List<CatalogoDTO>>(json);
+            return View(productos);
         }
 
         public async Task<IActionResult> Login()
@@ -33,7 +38,11 @@ namespace SIGECA_Shop.Controllers
             return View();
         }
 
-        UrlAPI url;
+        public async Task<IActionResult> NewClient()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Logear(Cliente usuario)
         {
             HttpClient client = new();
