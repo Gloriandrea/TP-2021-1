@@ -68,9 +68,6 @@ namespace SIGECA.Controllers
             return Content(JsonConvert.SerializeObject(result));
         }
 
-<<<<<<< HEAD
-       
-=======
         [HttpPost]
         public async Task<ActionResult> ObtenerNombreCategoriaPorId(string productoId)
         {
@@ -81,6 +78,5 @@ namespace SIGECA.Controllers
             result = new { result = "success", title = "Satisfactorio", value = category, url = "Producto/Busqueda" };
             return Content(JsonConvert.SerializeObject(result));
         }
->>>>>>> ed1623a5a9983fe9d222b6ddbc5d56a068c7c2e5
     }
 }
