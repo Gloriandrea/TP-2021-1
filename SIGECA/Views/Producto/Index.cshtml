@@ -48,10 +48,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="registrarProductoLabel">Registro del producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="modal-body">
                 <form action="@Url.Action("RegistrarProducto","Producto")" id="frmRegistrarProducto" method="post">
+                    <input type="hidden" id="urlImagenRegistrarProducto" name="urlImagen" />
+                    <input type="hidden" id="codigoQRRegistrarProducto" name="codigoQR" />
                     <div class="row" style="padding: 5px 5%">
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="nombre" class="form-label">Nombre:</label>
@@ -114,20 +118,16 @@
                     </div>
                     <div class="row" style="padding: 5px 5%">
                         <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
-
-                            <div  id="myDropzone1">
+                            <div class="dropzone" id="myDropzone1">
                                 <div class="fallback">
-                                    <input name="urlImagen" type="file" id="urlImagenRegistrarProducto" />
+                                    <input name="urlImagenDropzone" type="file" id="urlImagenRegistrarProductoDropzone" />
                                 </div>
                             </div>
-
                         </div>
                     </div>
+                    <div id="qrResult" style="height: 150px;width: 150px;display:none">
+                    </div>
                 </form>
-
-                <form action="/file-upload"
-                      class="dropzone"
-                      id="my-awesome-dropzone"></form>
 
             </div>
             <div class="modal-footer">
@@ -152,7 +152,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modificarProductoLabel">Modificacion del producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="modal-body">
                 <form action="@Url.Action("ModificarProducto","Producto")" id="frmModificarProducto" method="post">
@@ -185,7 +187,7 @@
                                     aria-label="Default select example">
                                 @for (int i = 0; i < categoriaProductos.Count; i++)
                                 {
-                                        <option value="@categoriaProductos[i].id">@categoriaProductos[i].nombre</option>
+                                    <option value="@categoriaProductos[i].id">@categoriaProductos[i].nombre</option>
                                 }
 
                             </select>
@@ -198,6 +200,32 @@
                                 <option selected value="tienda">Despacho En Tienda</option>
                                 <option value="delivery">Delivery</option>
                             </select>
+                        </div>
+                        <div class="row" style="padding: 5px 5%">
+                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                <label for="unidadMedida" class="form-label">Unidad de Medida:</label>
+                                <select class="form-select form-control" id="unidadMedidaModificarProducto"
+                                        name="unidadMedida"
+                                        aria-label="Default select example">
+                                    <option selected value="Kilogramos">Kilogramos (Kg.)</option>
+                                    <option value="Gramos">Gramos (Gr.)</option>
+                                    <option value="Unidad">Unidades (Und.)</option>
+                                </select>
+                            </div>
+                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                                <label for="stock" class="form-label">Stock de Productos:</label>
+                                <input type="number" class="form-control" id="stockModificarProducto"
+                                       placeholder="40" name="stock">
+                            </div>
+                        </div>
+                        <div class="row" style="padding: 5px 5%">
+                            <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                                <div class="dropzone" id="myDropzone2">
+                                    <div class="fallback">
+                                        <input name="urlImagenDropzone" type="file" id="urlImagenModificarProductoDropzone" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -221,6 +249,8 @@
 
 <input type="hidden" id="URL_ProductosListarTodos" value="@Url.Action("ObtenerProductos", "Producto")" />
 <input type="hidden" id="URL_ProductoPorID" value="@Url.Action("ObtenerProductoPorId", "Producto")" />
+<input type="hidden" id="URL_SubirImagen" value="@Url.Action("RegistrarImagenProducto", "Media")" />
+<input type="hidden" id="URL_SubirImagenYQRCode" value="@Url.Action("RegistrarImagenQRCodeProducto", "Media")" />
 
 
 @section scripts{

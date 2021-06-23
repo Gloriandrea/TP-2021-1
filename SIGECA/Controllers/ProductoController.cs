@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SIGECA.DTOs;
 using SIGECA.Entities;
@@ -39,7 +40,7 @@ namespace SIGECA.Controllers
             {
                 producto.stock = 0;
                 producto = await _productoService.CreateProducto(producto);
-                result = new { result = "success", title = "Satisfactorio", message = "Producto Registrado Correctamente", url = "Producto/Registro" };
+                result = new { result = "success", title = "Satisfactorio",productoID=producto.id, message = "Producto Registrado Correctamente", url = "Producto/Registro" };
                 return Content(JsonConvert.SerializeObject(result));
             }
             catch (Exception ex)

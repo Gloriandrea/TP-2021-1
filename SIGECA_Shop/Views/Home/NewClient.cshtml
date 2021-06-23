@@ -19,31 +19,31 @@
 }
 
 @*<section id="hero" class="d-flex align-items-center">
-    <div class="container position-relative text-center text-lg-left" data-aos="zoom-in" data-aos-delay="100">
-        <div class="row">
-            
+        <div class="container position-relative text-center text-lg-left" data-aos="zoom-in" data-aos-delay="100">
+            <div class="row">
+
+            </div>
         </div>
-    </div>
-</section>*@
+    </section>*@
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 text-center mb-5">
-                <h2 class="heading-section">Iniciar Sesión</h2>
+                <h2 class="heading-section">Crear una cuenta</h2>
             </div>
         </div>
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
                 <div class="login-wrap p-0">
-                    <h3 class="mb-4 text-center">¿Tienes una cuenta?</h3>
-                    <form enctype="multipart/form-data" method="post" asp-action="Logear" class="signin-form">
+                    <h3 class="mb-4 text-center">¿Aún no te has registrado?</h3>
+                    <form enctype="multipart/form-data" method="post" asp-action="RegisterClient" class="signin-form">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="id" />
                         <input type="hidden" asp-for="estado" />
                         <input type="hidden" asp-for="tipoUsuario" />
 
                         <div class="form-group">
-                            <input type="text" asp-for="nombreUsuario" class="form-control" placeholder="Usuario" required>
+                            <input type="text" asp-for="nombreUsuario" class="form-control" placeholder="Correo electrónico" required>
                             <span asp-validation-for="nombreUsuario" class="text-danger"></span>
 
                         </div>
@@ -52,28 +52,13 @@
                             <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="form-control btn btn-primary submit px-3">Continuar</button>
+                            <button type="submit" class="form-control btn btn-primary submit px-3">Registrarme</button>
                         </div>
-                        <div class="form-group d-md-flex">
-                            <div class="w-50">
-                                <label class="checkbox-wrap checkbox-primary">
-                                    Recordarme
-                                    <input type="checkbox" checked>
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="w-50 text-md-right">
-                                <a href="#" style="color: #fff">Olvidé mi contraseña</a>
-                            </div>
-                        </div>
+                        
                     </form>
-                    <p class="w-100 text-center">&mdash; O Iniciar sesión con &mdash;</p>
-                    <div class="social d-flex text-center">
-                        <a href="#" class="px-2 py-2 mr-md-1 rounded"><span class="ion-logo-facebook mr-2"></span><i class='bx bxl-google mr-1'></i> Google</a>
-                        <a href="#" class="px-2 py-2 ml-md-1 rounded"><span class="ion-logo-twitter mr-2"></span><i class='bx bxl-facebook mr-1'></i> Facebook</a>
-                    </div>
+                    <p class="w-100 text-center">&mdash; ¿O Ya tienes una cuenta? &mdash;</p>
                     <div class="text-center mt-3">
-                        <a asp-controller="Home" asp-action="NewClient" style="color: #fff">¿Aún no tienes una cuenta?</a>
+                        <a class="btn btn-outline-warning" asp-controller="Home" asp-action="Login">Iniciar Sesión</a>
                     </div>
                 </div>
             </div>
