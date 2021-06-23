@@ -6,9 +6,7 @@ using System.Collections.Generic;
 namespace SIGECA.Entities
 {
     [BsonDiscriminator(RootClass = true)]
-    [BsonKnownTypes(
-       typeof(VentaPresencial),
-       typeof(VentaOnline))]
+
     public class Venta
     {
         [BsonId]
@@ -38,25 +36,21 @@ namespace SIGECA.Entities
 
         [BsonElement("tipoCliente")]
         public string tipoCliente { get; set; }
+        [BsonIgnoreIfNull]
+        public string usuarioID { get; set; }
+        [BsonIgnoreIfNull]
+        public string clienteID { get; set; }
     }
 
     public class Items
     {
 
         public string productoID { get; set; }
+        [BsonIgnore]
+        public string nombre { get; set; }
         [BsonElement("cantidad")]
         public int cantidad { get; set; }
         public double subTotal { get; set; }
     }
 
-    public class VentaPresencial : Venta
-    {
-        public string usuarioID { get; set; }
-       
-    }
-
-    public class VentaOnline : Venta
-    {
-        public string clienteID { get; set; }
-    }
 }
