@@ -3,22 +3,22 @@
     ViewData["Title"] = "Gestionar Catalogo";
 }
 
-<h2 class="mt-3">Catalogo</h2>
+<h2 class="mt-3" style="color:white">Gestion de Catalogo</h2>
 <div class="row">
     <div class="col">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Catalogo</li>
+                <li class="breadcrumb-item active" style="color:midnightblue">Catalogo </li>
             </ol>
+            
         </nav>
     </div>
     <div class="col">
         <button id="btnAddProduct" class="btn btn-primary float-right" data-bs-toggle="modal" data-bs-target="#registrarProductoOferta">Agregar Producto a Catálogo</button>
     </div>
 </div>
-<p style="color:gray;">Hay @Model.ofertas.Count() productos en catálogo</p>
-<table id="tableCatalogo" class="table datatableCatalogo">
+<p style="color:white;">Hay @Model.ofertas.Count() productos en catálogo</p>
+<table id="tableCatalogo" class="table datatableCatalogo" style="background-color:white">
     <thead class="thead-light">
         <tr>
             <th scope="col">Nombre del Producto</th>

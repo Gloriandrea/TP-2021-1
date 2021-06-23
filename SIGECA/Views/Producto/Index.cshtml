@@ -7,14 +7,14 @@
 }
 
 
-<h2 class="mt-3">Producto</h2>
+<h2 class="mt-3" style="color:white">Productos en Almacen</h2>
 <div class="row">
     <div class="col-9">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Producto</li>
+                <li class="breadcrumb-item active" style="color:midnightblue">Producto </li>
             </ol>
+
         </nav>
     </div>
     <div class="col-3">
@@ -25,9 +25,8 @@
         </button>
     </div>
 </div>
-<p style="color:gray;">@Model.Count() productos</p>
 
-<table id="TableProducto" class="table datatable-producto">
+<table id="TableProducto" class="table datatable-producto" style="background-color:white">
     <thead class="thead-light">
         <tr>
             <th>Nombre</th>
