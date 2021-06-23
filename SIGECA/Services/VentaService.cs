@@ -20,5 +20,26 @@ namespace SIGECA.Services
         {
             return _venta.Find(x => true).ToList();
         }
+
+        public async Task<Venta> CreateVenta(Venta venta)
+        {
+            _venta.InsertOne(venta);
+            return venta;
+        }
+
+        public async Task<Venta> GetById(string ventaID)
+        {
+            return await _venta.FindAsync(x => x.id == ventaID).Result.FirstOrDefaultAsync();
+        }
+
+        public async Task<Venta> UpdateVenta(Venta venta)
+        {
+            var update = Builders<Venta>.Update.Set("tipo", venta.tipo)
+                                            .Set("total",venta.total)
+                                            .Set("items", venta.items);
+            var filters = Builders<Venta>.Filter.Eq("id", venta.id);
+            _venta.UpdateOne(filters, update);
+            return venta;
+        }
     }
 }
