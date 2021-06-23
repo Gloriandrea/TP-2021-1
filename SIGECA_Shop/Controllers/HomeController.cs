@@ -41,7 +41,7 @@ namespace SIGECA_Shop.Controllers
             {
 
                 var url = new UrlAPI();
-
+                string x = url.Login();
                 HttpResponseMessage response = await client.PostAsJsonAsync(url.Login(), usuario);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -51,7 +51,7 @@ namespace SIGECA_Shop.Controllers
 
                 HttpContext.Response.Cookies.Append("Token", token.Token, new Microsoft.AspNetCore.Http.CookieOptions()
                 {
-                    Expires = DateTime.Now.AddDays(6)
+                    Expires = DateTime.Now.AddDays(1)
                 });
 
                 //var user = await _userManager.FindByEmailAsync(usuario.nombreUsuario);
