@@ -87,7 +87,7 @@
                     </div>
                     <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                         <label for="dniCliente" class="form-label">N° DNI: </label>
-                        <input class="form-control" type="text" id="dniCliente" name="dniCliente" />
+                        <input class="form-control" type="text" id="dniCliente" maxlength="8" name="dniCliente" />
                     </div>
                 </div>
                 <div class="row" style="padding: 5px 5%; margin-top: 30px;">
@@ -124,7 +124,7 @@
                     </div>
                     <div class="col-6 col-sm-2">
                         <label for="costoItem" class="form-label">Costo:</label>
-                        <input class="form-control" id="costoVentaRegistrar" name="costoItem">
+                        <input class="form-control" id="costoVentaRegistrar" name="costoItem" disabled>
                     </div>
                     <div class="col-6 col-sm-1" style="display:flex">
                         <a class="btn btn-primary" id="agregaritemVenta" onclick="addItem();" style="align-self:flex-end"><i class="fas fa-plus"></i></a>
@@ -232,7 +232,7 @@
                     </div>
                     <div class="col-6 col-sm-2">
                         <label for="costoItem" class="form-label">Costo:</label>
-                        <input class="form-control" id="costoVentaModificar" name="costoItem">
+                        <input class="form-control" id="costoVentaModificar" name="costoItem" disabled>
                     </div>
                     <div class="col-6 col-sm-1" style="display:flex">
                         <a class="btn btn-primary" id="agregaritemVenta" onclick="addItemModificar();" style="align-self:flex-end"><i class="fas fa-plus"></i></a>
@@ -387,4 +387,5 @@
 <input type="hidden" id="URL_VentaActualizarEstado" value="@Url.Action("CambiarEstadoVenta", "Venta")" />
 @section scripts{
     <script src="~/js/Venta/GestionarVenta.js"></script>
+    <script src="~/js/Venta/Validation.js"></script>
 }

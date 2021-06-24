@@ -33,7 +33,7 @@ namespace SIGECA.Entities
 
         [BsonElement("dniCliente")]
         public string dniCliente { get; set; }
-        [BsonElement("nombreCliente")]
+        [BsonIgnoreIfNull]
         public string nombreCliente { get; set; }
 
         [BsonElement("tipoCliente")]

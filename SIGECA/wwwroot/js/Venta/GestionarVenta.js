@@ -56,8 +56,11 @@ $(document).ready(function () {
                             case 'anulada':
                                 badge = 'bg-danger';
                                 break;
-                            case 'pagada':
+                            case 'cobrado':
                                 badge = 'bg-success';
+                                break;
+                            case 'entregado':
+                                badge = 'bg-info';
                                 break;
                         }
                         return '<span style="color: white" class="badge ' + badge + ' ">' + full.estado.charAt(0).toUpperCase() + full.estado.slice(1) + '</span>'
@@ -65,9 +68,12 @@ $(document).ready(function () {
                 },
                 {
                     "render": function (data, type, full, meta) {
+                        var display = (full.estado) === "entregado" ? "display:none" : "";
+                        var color = (full.estado == "pendiente" || full.estado == "anulada") ? 'red' : '#2374E3';
+                        var icon = (full.estado == "pendiente" || full.estado == "anulada") ? "fas fa-ban" : "fas fa-shopping-basket";
                         return '<button class="btn btnVisualizarVenta" style="color: #4AB6B6" data-venta-id="' + full.id + '"><img class="fas fa-eye" /></button>' +
                             '<button class="btn btnModificarVenta" style="color: #4AB6B6" data-venta-id="' + full.id + '"><img class="fas fa-edit" /></button>' +
-                            '<button class="btn btnCambiarEstadoVenta" style="color: red" data-venta-id="' + full.id + '"><img class="fas fa-ban" /></button>';
+                            '<button class="btn btnCambiarEstadoVenta" style="color:' + color + '; ' + display + '" data-venta-id="' + full.id + '"><img class="' + icon + '" /></button>';
                     }
                 }
             ]
@@ -511,7 +517,22 @@ $('#tableVenta').on('click', '.btnCambiarEstadoVenta', function (e) {
             if (data.result == "success") {
                 var venta = data.value.venta;
                 var estado = venta.estado;
-                var texto = estado === "pendiente" ? "Anular" : "Activar";
+                var texto = '';
+                var botonCon = '';
+                switch (estado) {
+                    case "pendiente":
+                        texto = "Anular";
+                        botonCon = "Anular";
+                        break;
+                    case "anulada":
+                        texto = "Activar";
+                        botonCon = "Activar";
+                        break;
+                    case "cobrado":
+                        texto = "Entregar"
+                        botonCon = "Entregar";
+                        break;
+                };
                 Swal.fire({
                     title: 'Modificacion de Estado',
                     text: "Desea " + texto + " la venta seleccionada",
@@ -519,11 +540,22 @@ $('#tableVenta').on('click', '.btnCambiarEstadoVenta', function (e) {
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: estado === "pendiente" ? "Anular" : "Activar",
+                    confirmButtonText: botonCon,
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        var textoFinal = estado === "pendiente" ? "Desactivado" : "Activado";
+                        var textoFinal = '';
+                        switch (estado) {
+                            case "pendiente":
+                                textoFinal = "Desactivado";
+                                break;
+                            case "anulada":
+                                textoFinal = "Activado";
+                                break;
+                            case "cobrado":
+                                textoFinal = "Entregado";
+                                break;
+                        };
                         $.ajax({
                             url: $("#URL_VentaActualizarEstado").val(),
                             type: 'post',

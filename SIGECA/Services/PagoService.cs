@@ -28,7 +28,7 @@ namespace SIGECA.Services
 
         public async Task<Venta> GetByCodigoVenta(string codigoVenta)
         {
-            return await _ventas.Find(x => x.codigoVenta == codigoVenta).FirstAsync();
+            return await _ventas.Find(x => x.id == codigoVenta).FirstAsync();
         }
         public async Task updateEstadoVenta(string codigoVenta, string estado)
         {

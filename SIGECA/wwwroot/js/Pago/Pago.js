@@ -216,8 +216,13 @@ $(document).ready(function () {
             },
             "columns": [
                 { "data": "codigoVenta" },
-                { "data": "total" },
-                { "data": "fechaVenta" },
+                { "render": function (data, type, full, meta) { return 'S/. ' + parseFloat(full.total).toFixed(2) } },
+                {
+                    "render": function (data, type, full, meta) {
+                        var date = new Date(Date.parse(full.fechaVenta));
+                        return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
+                    }
+                },
                 { "data": "estado" },                 
                 //{ "render": function (data, type, full, meta) { return full.codigoVenta } },
                 //{ "render": function (data, type, full, meta) { return full.total } },
@@ -225,9 +230,9 @@ $(document).ready(function () {
                 //{ "render": function (data, type, full, meta) { return full.fecha } },
                 {
                     "render": function (data, type, full, meta) {
-                        return '<button class="btn btnConsultarVenta"  style="color:blue"data-venta-id="' + full.codigoVenta + '"><img class="fas fa-eye" /></button>' +
-                            '<button class="btn btnModificarVenta" data-venta-id="' + full.codigoVenta + '"><img class="fas fa-edit" /></button>' +
-                            '<button class="btn btnRegistrarPago" style="color: green" data-venta-id="' + full.codigoVenta + '"><img class="fas fa-edit" />Cobrar</button>';
+                        return '<button class="btn btnConsultarVenta"  style="color:blue"data-venta-id="' + full.id + '"><img class="fas fa-eye" /></button>' +
+                            '<button class="btn btnModificarVenta" data-venta-id="' + full.id + '"><img class="fas fa-edit" /></button>' +
+                            '<button class="btn btnRegistrarPago" style="color: green" data-venta-id="' + full.id + '"><img class="fas fa-edit" />Cobrar</button>';
 
                     }
                 }
@@ -253,12 +258,14 @@ $('#tablaVentaPorCódigo').on('click', '.btnRegistrarPago', function (e) {
                     console.log("entro data result")
                     var venta = data.value;
                     console.log('codigoVenta', venta.codigoVenta)
-                    $("#txtCodVenta").val(venta.codigoVenta);                    
-                    $("#txtFecha").val(venta.fechaVenta);
-
-                    console.log("en i", Object.values(venta.items));
-                    $("#txaProductos").val(Object.values(venta.items));
-
+                    $("#txtCodVenta").val(venta.codigoVenta);
+                    var date = new Date(Date.parse(venta.fechaVenta));
+                    $("#txtFecha").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
+                    var productos = '';
+                    venta.items.forEach(c => {
+                        productos += c.nombre + "\n";
+                    });
+                    $("#txaProductos").val(productos);
                     
                     $("#txtTotal").val(venta.total);
                     $("#modalPagoVenta").modal('show');

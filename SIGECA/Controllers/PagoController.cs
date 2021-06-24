@@ -13,10 +13,12 @@ namespace SIGECA.Controllers
     public class PagoController : Controller
     {
         private readonly PagoService _pagoService;
+        private readonly ProductoService _productoService;
 
-        public PagoController(PagoService pagoService)
+        public PagoController(PagoService pagoService, ProductoService productoService)
         {
             _pagoService = pagoService;
+            _productoService = productoService;
         }  
         /*UrlAPI urlAPI;*/
 
@@ -40,6 +42,12 @@ namespace SIGECA.Controllers
         {
             Object result = null;
             Venta venta = await _pagoService.GetByCodigoVenta(codigoVenta);
+            List<Producto> productos = await _productoService.GetAll();
+            foreach (Items item in venta.items)
+            {
+                var itm = productos.Find(i => i.id == item.productoID);
+                item.nombre = itm.nombre;
+            }
             result = new { result = "success", value = venta };
             return Content(JsonConvert.SerializeObject(result));
         }
