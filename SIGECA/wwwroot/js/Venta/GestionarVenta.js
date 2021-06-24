@@ -81,6 +81,24 @@ $(document).ready(function () {
     );
 });
 
+function cambiarDNIusuario() {
+    var idUsuario = $('#usuarioVentaRegistrar').val();
+    $.ajax({
+        url: $('#URL_ObtenerUsuario').val(),
+        type: 'post',
+        data: "usuarioID=" + idUsuario,
+        dataType: "json",
+        success: function (data) {
+            if (data.result) {
+                var usuario = data.value;
+                $('#dniUsuario').val(usuario.datos.numeroDocumento);
+            } else {
+                console.log('ERROR al consultar el Usuario');
+            }
+        }
+    });
+}
+
 $("#itemVenta").on("click", ".btnBorrar", function (event) {
     $(this).closest("tr").remove();
     var costoBorrar = parseFloat($(this).closest("tr")[0].cells[2].textContent);

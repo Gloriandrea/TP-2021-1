@@ -62,7 +62,7 @@ namespace SIGECA.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult> ObtenerVentaID(String idventa)
+        public async Task<ActionResult> ObtenerVentaID(string idventa)
         {
             Object result = null;
             Venta venta = await _ventaService.GetById(idventa);
@@ -80,7 +80,14 @@ namespace SIGECA.Controllers
             result = new { result = "success", title = "Satisfactorio", value = new { venta, usuario } , url = "Compra/Consultar" };
             return Content(JsonConvert.SerializeObject(result));
         }
-
+        [HttpPost]
+        public async Task<ActionResult> ObtenerUsuario(string usuarioID)
+        {
+            Object result = null;
+            Usuario usuario = await _usuarioService.GetById(usuarioID);
+            result = new { result = "success", title = "Satisfactorio", value = usuario, url = "Compra/Consultar" };
+            return Content(JsonConvert.SerializeObject(result));
+        }
         [HttpPost]
         public async Task<ActionResult> ActualizarVenta([FromBody] Venta venta)
         {

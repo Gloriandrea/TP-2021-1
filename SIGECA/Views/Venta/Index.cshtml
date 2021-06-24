@@ -13,7 +13,7 @@
         </nav>
     </div>
     <div class="col">
-        <button class="btn btn-primary float-right" onclick="clearDataVenta(); $('#modalRegistrarVenta').modal('show')"><i class="fas fa-plus"></i> Agregar Venta</button>
+        <button class="btn btn-primary float-right" onclick="clearDataVenta(); $('#modalRegistrarVenta').modal('show'); cambiarDNIusuario();"><i class="fas fa-plus"></i> Agregar Venta</button>
     </div>
 </div>
 
@@ -65,7 +65,7 @@
                 <div id="usuarioForm" class="row" style="padding: 5px 5%; display:none;">
                     <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                         <label for="usuario" class="form-label">Usuario: </label>
-                        <select class="form-select form-control" id="usuarioVentaRegistrar" name="usuario" aria-label="Default select example">
+                        <select class="form-select form-control" id="usuarioVentaRegistrar" name="usuario" onchange="cambiarDNIusuario();">
                             @foreach (var usuario in Model.usuarios)
                             {
                                 if (usuario.tipoUsuario == "Cliente")
@@ -111,7 +111,7 @@
                 <div class="row" style="padding: 5px 5%">
                     <div class="col-6 col-sm-4">
                         <label for="producto" class="form-label">Producto: </label>
-                        <select class="form-select form-control" id="productoVentaRegistrar" onchange="cambioProductoRegistrar();" name="producto" aria-label="Default select example">
+                        <select class="form-select form-control" id="productoVentaRegistrar" name="producto">
                             @foreach (var producto in Model.productos)
                             {
                                 <option selected value="@producto.id">@producto.nombre</option>
@@ -385,6 +385,7 @@
 <input type="hidden" id="URL_VentasListarTodos" value="@Url.Action("ObtenerVentas", "Venta")" />
 <input type="hidden" id="URL_ObtenerProductoPorID" value="@Url.Action("ObtenerProductoPorId", "Producto")" />
 <input type="hidden" id="URL_VentaActualizarEstado" value="@Url.Action("CambiarEstadoVenta", "Venta")" />
+<input type="hidden" id="URL_ObtenerUsuario" value="@Url.Action("ObtenerUsuario", "Venta")" />
 @section scripts{
     <script src="~/js/Venta/GestionarVenta.js"></script>
     <script src="~/js/Venta/Validation.js"></script>
