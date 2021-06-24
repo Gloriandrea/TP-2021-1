@@ -66,13 +66,18 @@ namespace SIGECA.Controllers
         {
             Object result = null;
             Venta venta = await _ventaService.GetById(idventa);
+            Usuario usuario = null;
+            if(venta.usuarioID != null)
+            {
+                usuario = await _usuarioService.GetById(venta.usuarioID);
+            }
             List<Producto> productos = await _productoService.GetAll();
             foreach (Items item in venta.items)
             {
                 var itm = productos.Find(i => i.id == item.productoID);
                 item.nombre = itm.nombre;
             }
-            result = new { result = "success", title = "Satisfactorio", value = venta , url = "Compra/Consultar" };
+            result = new { result = "success", title = "Satisfactorio", value = new { venta, usuario } , url = "Compra/Consultar" };
             return Content(JsonConvert.SerializeObject(result));
         }
 
@@ -88,6 +93,14 @@ namespace SIGECA.Controllers
             }
             Venta ventaActualizado = await _ventaService.UpdateVenta(venta);
             result = new { result = "success", title = "Satisfactorio", value = ventaActualizado, url = "Compra/ActualizarUsuario" };
+            return Content(JsonConvert.SerializeObject(result));
+        }
+        [HttpPost]
+        public async Task<ActionResult> CambiarEstadoVenta(string ventaid, string estadoActual)
+        {
+            Object result = null;
+            await _ventaService.UpdateEstadoVenta(ventaid, estadoActual);
+            result = new { result = "success", title = "Satisfactorio", url = "Venta/ActualizarVenta" };
             return Content(JsonConvert.SerializeObject(result));
         }
         public class ModelVenta

@@ -46,7 +46,23 @@ $(document).ready(function () {
                         return date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
                     }
                 },
-                { "render": function (data, type, full, meta) { return '<span style="color: white" class="badge ' + (full.estado == "pendiente" ? 'bg-warning' : 'bg-success') + ' ">' + full.estado.charAt(0).toUpperCase() + full.estado.slice(1) + '</span>' } },
+                {
+                    "render": function (data, type, full, meta) {
+                        var badge = '';
+                        switch (full.estado) {
+                            case 'pendiente':
+                                badge = 'bg-warning';
+                                break;
+                            case 'anulada':
+                                badge = 'bg-danger';
+                                break;
+                            case 'pagada':
+                                badge = 'bg-success';
+                                break;
+                        }
+                        return '<span style="color: white" class="badge ' + badge + ' ">' + full.estado.charAt(0).toUpperCase() + full.estado.slice(1) + '</span>'
+                    }
+                },
                 {
                     "render": function (data, type, full, meta) {
                         return '<button class="btn btnVisualizarVenta" style="color: #4AB6B6" data-venta-id="' + full.id + '"><img class="fas fa-eye" /></button>' +
@@ -268,12 +284,12 @@ $("#btnRegistrarVentaModal").on("click", function () {
             break;
         case "cliente":
             Venta.tipoCliente = "Con Documentos";
-            Venta.clienteID = $('#nombreCliente').val();
+            Venta.nombreCliente = $('#nombreCliente').val();
             Venta.dniCliente = $('#dniCliente').val();
             break;
         default:
             Venta.tipoCliente = "Sin Documentos";
-            Venta.clienteID = null;
+            Venta.nombreCliente = null;
             Venta.dniCliente = null;
             break;
     }
@@ -375,13 +391,13 @@ $('#tableVenta').on('click', '.btnModificarVenta', function (e) {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             if (data.result == "success") {
-                var venta = data.value;
+                var venta = data.value.venta;
                 var itemsventas = venta.items;
                 $("#idVentaModificar").val(venta.id)
                 if (venta.usuarioID != null) {
                     $('#usuarioRadioModificar').prop('checked', true);
                 }
-                if (venta.clienteID != null) {
+                if (venta.nombreCliente != null) {
                     $('#clienteRadioModificar').prop('checked', true);
                 }
                 if (venta.tipoCliente == "Sin Documentos") {
@@ -405,6 +421,139 @@ $('#tableVenta').on('click', '.btnModificarVenta', function (e) {
                 });
                 $('#itemModificarTotal').text(parseFloat(costoTotal).toFixed(2));
                 $("#modalModificarVenta").modal('show');
+            }
+            else {
+                console.log("ERROR AL OBTENER LOS DATOS");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR AL OBTENER LOS DATOS");
+        }
+    });
+});
+
+$('#tableVenta').on('click', '.btnVisualizarVenta', function (e) {
+    $('#itemVentaConsultar tbody').empty();
+    e.preventDefault();
+    var ventaID = $(this).attr('data-venta-id');
+    $.ajax({
+        url: $("#URL_ObtenerVentaPorID").val(),
+        type: 'post',
+        data: "idventa=" + ventaID,
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            if (data.result == "success") {
+                var venta = data.value.venta;
+                if (venta.tipo == "presencial") {
+                    $('#presencialRadioConsultar').prop('checked', true);
+                }
+                if (venta.tipo == "online") {
+                    $('#onlineRadioConsultar').prop('checked', true);
+                }
+                switch (venta.tipoCliente) {
+                    case "Usuario":
+                        var usuario = data.value.usuario;
+                        $('#clienteFormConsultar').css('display', 'none');
+                        $('#usuarioFormConsultar').css('display', 'flex');
+                        $('#usuarioRadioConsultar').prop('checked', true);
+                        $('#usuarioVentaConsultar').val(usuario.datos.nombre + ' ' + usuario.datos.apellido);
+                        $('#dniUsuarioConsultar').val(usuario.datos.numeroDocumento);
+                        $('#telefonoUsuarioConsultar').val(usuario.datos.telefono);
+                        $('#emailUsuarioConsultar').val(usuario.datos.email);
+                        $('#direccionUsuarioConsultar').val(usuario.datos.direccion);
+                        break;
+                    case "Con Documentos":
+                        $('#usuarioFormConsultar').css('display', 'none');
+                        $('#clienteFormConsultar').css('display', 'flex');
+                        $('#clienteRadioConsultar').prop('checked', true);
+                        $('#nombreClienteConsultar').val(venta.nombreCliente);
+                        $('#dniClienteConsultar').val(venta.nombreCliente);
+                        break;
+                    default:
+                        $('#clienteFormConsultar').css('display', 'none');
+                        $('#usuarioFormConsultar').css('display', 'none');
+                        $('#sinDocumentoRadioConsultar').prop('checked', true);
+                        break;
+                }
+                var itemscompra = venta.items;
+                var costoTotalConsulta = 0.0;
+                $("#idVentaConsultar").val(venta.id);
+                itemscompra.forEach(v => {
+                    var row = "<tr>" +
+                        "<td>" + v.nombre + "</td>" +
+                        "<td>" + v.cantidad + "</td>" +
+                        "<td>" + parseFloat(v.subTotal).toFixed(2) + "</td>" +
+                        "</tr>";
+                    $('#itemVentaConsultar > tbody').append(row);
+                    costoTotalConsulta += v.subTotal;
+                });
+                $('#itemConsultarTotal').text(parseFloat(costoTotalConsulta).toFixed(2));
+                $("#modalConsultarVenta").modal('show');
+            }
+            else {
+                console.log("ERROR AL OBTENER LOS DATOS");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR AL OBTENER LOS DATOS");
+        }
+    });
+});
+
+$('#tableVenta').on('click', '.btnCambiarEstadoVenta', function (e) {
+    var ventaID = $(this).attr('data-venta-id');
+    $.ajax({
+        url: $("#URL_ObtenerVentaPorID").val(),
+        type: 'post',
+        data: "idventa=" + ventaID,
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            if (data.result == "success") {
+                var venta = data.value.venta;
+                var estado = venta.estado;
+                var texto = estado === "pendiente" ? "Anular" : "Activar";
+                Swal.fire({
+                    title: 'Modificacion de Estado',
+                    text: "Desea " + texto + " la venta seleccionada",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: estado === "pendiente" ? "Anular" : "Activar",
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var textoFinal = estado === "pendiente" ? "Desactivado" : "Activado";
+                        $.ajax({
+                            url: $("#URL_VentaActualizarEstado").val(),
+                            type: 'post',
+                            data: "ventaid=" + ventaID + "&estadoActual=" + estado,
+                            dataType: "json",
+                            success: function (data, textStatus, jqXHR) {
+                                if (data.result == "success") {
+                                    //Recargar Tabla
+                                    $('.datatable-venta').dataTable().fnDraw();
+                                    //Mostrar Mensaje Final
+                                    Swal.fire(
+                                        'Modificado!',
+                                        'Venta ' + textoFinal + ' Satisfactoriamente',
+                                        'success'
+                                    );
+                                }
+                                else {
+                                    Swal.fire(
+                                        'Error!',
+                                        'Ocurrio un error inesperado',
+                                        'error'
+                                    );
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log("ERROR AL OBTENER LOS DATOS");
+                            }
+                        });
+                    }
+                });
             }
             else {
                 console.log("ERROR AL OBTENER LOS DATOS");
