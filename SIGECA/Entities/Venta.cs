@@ -40,8 +40,8 @@ namespace SIGECA.Entities
         public string tipoCliente { get; set; }
         [BsonIgnoreIfNull]
         public string usuarioID { get; set; }
-        [BsonIgnoreIfNull]
-        public string clienteID { get; set; }
+        [BsonIgnoreIfDefault]
+        public string nombreCliente { get; set; }
     }
 
     public class Items
