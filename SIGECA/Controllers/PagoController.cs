@@ -22,22 +22,9 @@ namespace SIGECA.Controllers
 
         public async Task<IActionResult> Pago()
         {
-            await _pagoService.GetAll();
-            List<Venta> ventas = await _pagoService.GetAll();
+            List<Venta> ventas = await _pagoService.GetAll();            
             return View(ventas);
-
-            //urlAPI = new UrlAPI($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}");
-            //var httpClient = new HttpClient();
-            //var json = await httpClient.GetStringAsync(urlAPI.Pago);
-            //List<Venta> ventas = JsonConvert.DeserializeObject<List<Venta>>(json);
-            //List<Venta> venta = new List<Venta>();
-
-            //foreach (var vent in ventas)
-            //{
-            //    if (vent.codigoVenta  > 0) venta.Add(vent);
-            //}
-
-            //return View(venta);
+           
         }
 
 
@@ -58,12 +45,12 @@ namespace SIGECA.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CambiarEstadoVenta(string codigoVenta, string estado)
+        public async Task<ActionResult> CambiarEstadoVenta(string codigoVenta, string estadoActual)
         {
             Object result = null;
-            await _pagoService.updateEstadoVenta(codigoVenta, estado);
+            await _pagoService.updateEstadoVenta(codigoVenta, estadoActual);
             result = new { result = "success", title = "Satisfactorio", url = "Pago/updateEstado" };
-            return Content(JsonConvert.SerializeObject(result));
+            return Content(JsonConvert.SerializeObject(result));           
         }
     }
 }
