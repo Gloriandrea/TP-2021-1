@@ -7,7 +7,7 @@ namespace SIGECA_Shop.Helpers
 {
     public record UrlAPI
     {
-        public UrlAPI(string RootPath = "https://localhost:44363/")
+        public UrlAPI(string RootPath = "https://localhost:42315/")
         {
             this.Urapp = RootPath;
             this.Producto = this.Urapp + "api/Producto";

@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SIGECA_Shop.Helpers;
 using SIGECA_Shop.Models;
 using SIGECA_Shop.MTOs;
+using SIGECA_Shop.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,19 +18,18 @@ namespace SIGECA_Shop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly CatalogoService _catalogoService;
+        private readonly UsuarioService _clienteService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(CatalogoService catalogoService, UsuarioService clienteService)
         {
-            _logger = logger;
+            _catalogoService = catalogoService;
+            _clienteService = clienteService;
         }
+
         public async Task<IActionResult> Index()
         {
-            //var urlAPI = new UrlAPI($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}");
-            var urlAPI = new UrlAPI();
-            var httpClient = new HttpClient();
-            var json = await httpClient.GetStringAsync(urlAPI.Catalogo);
-            IEnumerable<CatalogoDTO> productos = JsonConvert.DeserializeObject<List<CatalogoDTO>>(json);
+            IEnumerable<CatalogoDTO> productos = await _catalogoService.Get();
             return View(productos);
         }
 
@@ -45,26 +45,10 @@ namespace SIGECA_Shop.Controllers
 
         public async Task<IActionResult> Logear(Cliente usuario)
         {
-            HttpClient client = new();
             try
             {
 
-                var url = new UrlAPI();
-                string x = url.Login();
-                HttpResponseMessage response = await client.PostAsJsonAsync(url.Login(), usuario);
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-
-                Console.WriteLine(responseBody);
-                var token = JsonConvert.DeserializeObject<UserToken>(responseBody);
-
-                HttpContext.Response.Cookies.Append("Token", token.Token, new Microsoft.AspNetCore.Http.CookieOptions()
-                {
-                    Expires = DateTime.Now.AddDays(1)
-                });
-
-                //var user = await _userManager.FindByEmailAsync(usuario.nombreUsuario);
-                //await _signInManager.PasswordSignInAsync(user, iusuarionf.Password, false, false);
+                var response = await _clienteService.Login(usuario);
 
                 return RedirectToAction("Index", "Home");
 
@@ -77,7 +61,7 @@ namespace SIGECA_Shop.Controllers
             }
             finally
             {
-                client.Dispose();
+                
             }
         }
 
