@@ -14,6 +14,7 @@
 
 
 <body>
+
     <h1>SIGECA</h1>
     <div class=" w3l-login-form">
         <h2>Iniciar Sesión</h2>
@@ -23,24 +24,32 @@
                 <label>Correo electronico:</label>
                 <div class="group">
                     <i class="fas fa-user"></i>
-                    <input type="text" class="form-control" placeholder="Correo electronico" required="required" />
+                    <input type="text" class="form-control" placeholder="Correo electronico" />
                 </div>
             </div>
             <div class=" w3l-form-group">
                 <label>Contraseña:</label>
                 <div class="group">
                     <i class="fas fa-unlock"></i>
-                    <input type="password" class="form-control" placeholder="Contraseña" required="required" />
+                    <input type="password" class="form-control" placeholder="Contraseña" />
                 </div>
             </div>
-            <div class="forgot">
-                <a href="#">Olvidaste Contraseña?</a>
-            </div>
-            <button type="submit">Ingresar</button>
-        </form>
-        <p class=" w3l-register-p">No tienes una cuenta?<a href="#" class="register"> Registrar</a></p>
-    </div>
 
+            @*<button href="<%=@Url.Action("Layout", "Shared")%>" >Ingresar</button>*@
+        </form>
+        <button><a href="@Url.Action("Index", "Home")">Ingresar</a></button>
+
+        @*<button><a href="<%=@Url.Action("Index", "Home")%>">Ingresar</a></button>*@
+        <p class=" w3l-register-p">¿Olvidaste la contraseña?<a href="@Url.Action("cambiarContraseña", "Usuario")" class="register"> Recordar</a></p>
+
+    </div>
+    <br />
+    <br />
 </body>
 
 </html>
+<script type="text/javascript">
+    document.getElementById("myButton").onclick = function () {
+        location.href = "www.yoursite.com";
+    };
+</script>
