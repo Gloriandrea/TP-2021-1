@@ -38,6 +38,7 @@ namespace SIGECA
             services.AddScoped<CompraService>();
             services.AddScoped<CatalogoService>();
             services.AddScoped<PagoService>();
+            services.AddScoped<MediaService>();
             //Inyectando dependencia de Clase Conectora en la Interfaz padre
             services.AddSingleton<SigecaDataBaseSettings>(sp =>
                sp.GetRequiredService<IOptions<SigecaDataBaseSettings>>().Value);
@@ -98,7 +99,7 @@ namespace SIGECA
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=Index}/{id?}");
             });
         }
     }

@@ -38,6 +38,7 @@ namespace SIGECA_Shop
               sp.GetRequiredService<IOptions<SigecaDataBaseSettings>>().Value);
 
             services.AddScoped<UsuarioService>();
+            services.AddScoped<CatalogoService>();
             //services.AddScoped<ProductoService>();
             //services.AddScoped<ProveedorService>();
             //services.AddScoped<CompraService>();

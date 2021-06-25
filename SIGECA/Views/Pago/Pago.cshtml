@@ -1,58 +1,41 @@
-﻿<h1 class="mt-3">COBRO DE VENTAS</h1>
+﻿
 @using SIGECA.Entities;
 @model IEnumerable<Venta>
 @{
     ViewData["Title"] = "Gestionar Pago";
 }
 
+<h1 class="mt-4" style="color: white">Gestion de Pagos</h1>
+<div class="card mb-4">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-9 col-sm-9 col-lg-9 col-xl-9">
+                <div class=" col-4 col-sm-4 col-lg-4 col-xl-4">
+                    <i class="fas fa-table mr-1"></i>
+                    Lista General de Ventas
+                </div>
+            </div>
+        </div>
+    </div>
 
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active" style="padding:10px 5px">Vista de Administrador</li>
-</ol>
-
-<div class="bg-light">
-    <h1>Ventas a Cobrar</h1>
-</div>
-
-
-
-<div class="container-fluid" id="tabla_Form">
-
-    <table id="tablaVentaPorCódigo" class="table datatable-ventas">
-        <thead class="thead-light">
-            <tr>
-                <th scope="col">@Html.DisplayNameFor(model => model.codigoVenta)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.fechaVenta)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.total)</th>
-                <th scope="col">Acciones</th>
-
-            </tr>
-        </thead>
-
-        <tbody>
-            @if (Model != null)
-            {
-                @foreach (var venta in Model)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => venta.codigoVenta)</td>
-                        <td>@Html.DisplayFor(modelItem => venta.fechaVenta)</td>
-                        <td>S/.@Html.DisplayFor(modelItem => venta.total)</td>
-                        <td>
-                            <button class="btn"><img class="fas fa-eye" /></button>
-                            <button class="btn"><img class="fas fa-edit" /></button>
-                            <button class="btn"><img class="fas fa-ban" /></button>
-                            <button class="btn badge-success" id="btnRegistrarPago" onclick="" data-bs-toggle="modal" data-bs-target="#modalPagoVenta"> Registrar Cobro</button>
-                        </td>
-                    </tr>
-
-                }
-            }
-
-        </tbody>
-    </table>
-
-
+    <form>
+        Buscar Venta:  <input id="searchTerm" type="text" onkeyup="doSearch()" />
+        <button id="btnLimpiar" class="btn-outline-success" style="background-color: green; color:white">Limpiar</button>
+    </form>
+        <table id="tablaVentaPorCódigo" class="table datatable-ventas">
+            <thead class="thead-light">
+                <tr>
+                    <th>Código</th>
+                    <th>Total</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                <tr class='noSearch hide'>
+                    <td colspan="5"></td>
+                </tr>
+            </thead>
+        </table>    
 </div>
 
 
@@ -60,26 +43,28 @@
 
 <input type="hidden" id="URL_ObtenerVentaPorCodigoVenta" value="@Url.Action("ObtenerVentaPorCodigoVenta", "Pago")" />
 <input type="hidden" id="URL_VentaListar" value="@Url.Action("obtenerAllVentas", "Pago")" />
-
-<script src="~/js/Pago/PagoShow.js"></script>
-
+<input type="hidden" id="URL_CambiarEstadoVenta" value="@Url.Action("CambiarEstadoVenta", "Pago")" />
 
 
-<div class="modal" id="modalPagoVenta" tabindex="-1" aria-labelledby="registrarProductoLabel" aria-hidden="true">
+
+<script src="~/js/Pago/Pago.js"></script>
+
+
+
+<div class="modal" id="modalPagoVenta" tabindex="-1" aria-labelledby="registrarPagoLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="consultarProveedorLabel">Detalle de Venta</h5>
-            </div>
+
             <div class="modal-body" id="imp1">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="consultarProveedorLabel">Detalle de Venta</h5>
+                </div>
                 <form>
                     <div class="row" style="padding: 5px 5%">
 
                         <input type="hidden" id="idCodigoVenta" name="id" />
-
-
-                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="nombreEmpresa" class="form-label">Código de Venta:</label>
+                        <div id="codVent" class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="codigo" class="form-label">Código de Venta:</label>
                             <input class="form-control"
                                    id="txtCodVenta"
                                    name="CodVenta"
@@ -90,8 +75,8 @@
                                    border-right-style: none;
                                    border-bottom-style:none">
                         </div>
-                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="ruc" class="form-label">Fecha:</label>
+                        <div id="fecha" class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="fecha" class="form-label">Fecha:</label>
 
                             <input class="form-control"
                                    id="txtFecha"
@@ -105,8 +90,8 @@
                         </div>
                     </div>
                     <div class="row" style="padding: 5px 5%">
-                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
-                            <label for="direccionEmpresa" class="form-label">Productos:</label>
+                        <div id="productos" class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                            <label for="productos" class="form-label">Productos:</label>
 
                             <textarea class="form-control"
                                       id="txaProductos"
@@ -123,8 +108,8 @@
                         </div>
                     </div>
                     <div class="row" style="padding: 5px 5%">
-                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="nombreContacto" class="form-label">Total:</label>
+                        <div id="total" class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="total" class="form-label">Total:</label>
                             <input class="form-control"
                                    id="txtTotal"
                                    name="total"
@@ -136,22 +121,7 @@
                         </div>
 
 
-                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="estado" class="form-label">Estado:</label>
-                            <input class="form-control"
-                                   id="txtEstado"
-                                   name="nameEstado"
-                                   disabled
-                                   style="border-top-style:none ;
-                                   border-left-style:none;
-                                   border-right-style:none;
-                                   border-right-style: none;
-                                   border-bottom-style:none">
-                        </div>
-
-
-
-                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <div id="efectivo" class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <h5> <label for="Efectivo" class="form-label">Efectivo:</label></h5>
                             <input class="form-control"
                                    id="txtEfectivo"
@@ -162,7 +132,7 @@
                                    border-bottom-style:none">
                         </div>
 
-                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <div id="vuelto" class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <h5><label for="Vuelto" class="form-label">Vuelto: </label></h5>
                             <input class="form-control"
                                    id="txtVuelto"
@@ -173,22 +143,50 @@
                                    border-right-style: none;
                                    border-bottom-style:none">
                         </div>
-
-
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="btnPrint" type="button" class="btn btn-primary" onclick="imprim(imp1)">Imprimir</button>
+                <button id="btnPrint" type="button" class="btn btn-primary" onclick="imprim1(imp1)">Imprimir</button>
+                <button id="btnPagar" type="button" style="background-color:Green; color:white" class="btn btn-pagar">Cobrar</button>
+                <button id="btnAnular" type="button" style="background-color: red; color: white" class="btn btn-anular">Anular</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
-
 </div>
 
 
+<style>
+    #datos {
+        border: 1px solid #ccc;
+        padding: 10px;
+        font-size: 1em;
+    }
 
+        #datos tr:nth-child(even) {
+            background: #ccc;
+        }
 
+        #datos td {
+            padding: 5px;
+        }
 
+        #datos tr.noSearch {
+            background: White;
+            font-size: 0.8em;
+        }
 
+            #datos tr.noSearch td {
+                padding-top: 10px;
+                text-align: right;
+            }
+
+    .hide {
+        display: none;
+    }
+
+    .red {
+        color: Red;
+    }
+</style>

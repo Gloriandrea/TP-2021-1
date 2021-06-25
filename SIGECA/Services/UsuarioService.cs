@@ -58,5 +58,12 @@ namespace SIGECA.Services
             _usuarios.UpdateOne(filters, update);
         }
 
+        public async Task UpdateContraseñaUsuario(string usuarioid, string contraseña)
+        {
+            var update = Builders<Usuario>.Update.Set("contraseña", contraseña);
+            var filters = Builders<Usuario>.Filter.Eq("id", usuarioid);
+            _usuarios.UpdateOne(filters, update);
+        }
+
     }
 }

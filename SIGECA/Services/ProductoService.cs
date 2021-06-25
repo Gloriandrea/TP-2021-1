@@ -144,5 +144,15 @@ namespace SIGECA.Services
             _producto.UpdateOne(filters, update);
             return producto;
         }
+
+        public async Task<string> UpdateProductoImagenYQRCodigo(string productoID, string urlImagen, string codigoQR)
+        {
+
+            var update = Builders<Producto>.Update.Set("urlImagen", urlImagen)
+                                                  .Set("codigoQR", codigoQR);
+            var filters = Builders<Producto>.Filter.Eq("id", productoID);
+            _producto.UpdateOne(filters, update);
+            return productoID;
+        }
     }
 }

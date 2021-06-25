@@ -1,35 +1,15 @@
-﻿Dropzone.autoDiscover = true;
-$("#myDropzone1").dropzone({
-    url: "/Producto",
-    dictDefaultMessage: 'Arrastrar una imagen para subir <span>o CLIC AQUÍ</span>',
-    autoProcessQueue: false,
-    maxFiles: 1,
-    addRemoveLinks: true,
-    acceptedFiles: "image/*",
-
-});
+﻿Dropzone.autoDiscover = false;
 $(function () {
-    /*Dropzone.options.urlImagenProducto = {
-        url: "/Account/Create",
-        dictDefaultMessage: 'Arrastrar una imagen para subir <span>o CLIC AQUÍ</span>',
-        autoProcessQueue: false,
-        maxFiles: 1 ,
-        addRemoveLinks: true,
-        acceptedFiles: "image/*",
-        init: function () {
-            myDropzone = this;
-            this.on("addedfile", function (file) {
-                console.log("hola");
-                console.log(file);
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function (event) {
-                };
-            });
-        }
-    };*/
-
-    $('.datatable-producto').DataTable(
+    var myDropzone;
+    var codigoQR =  new QRCode(document.getElementById('qrResult'), {
+        text: "defaultProduct",
+        width: 150,
+        height: 150,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+   $('.datatable-producto').DataTable(
         {
             dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
             "processing": true,
@@ -73,15 +53,8 @@ $(function () {
                     "render": function (data, type, full, meta) {
                         return '<button class="btn btnVisualizarProducto" data-producto-id="' + full.id + '"><img class="fas fa-eye" /></button>' +
                             '<button class="btn btnModificarProducto" data-producto-id="' + full.id + '"><img class="fas fa-edit" /></button>';
-                            //'<button class="btn btnCambiarEstadoUsuario" data-usuario-id="' + full.id + '"><img class="fas fa-ban" /></button>';;
                     }
-                }/*,{"render": function (data, type, full, meta) {
-                        return '<button class="btn btnModificarUsuario" data-usuario-id="' + full.id + '"><img class="fas fa-eye" /></button>';
-                    }
-                },{"render": function (data, type, full, meta) {
-                        return '<button class="btn btnCambiarEstadoUsuario" data-usuario-id="' + full.id + '"><img class="fas fa-eye" /></button>';
-                    }
-                }*/
+                }
             ]
         });
 
@@ -93,8 +66,59 @@ $(function () {
         "format": "yyyy-mm-dd"
     });
 
+
+    function dataURItoBlob(dataURI) {
+        // convert base64/URLEncoded data component to raw binary data held in a string
+        var byteString;
+        if (dataURI.split(',')[0].indexOf('base64') >= 0)
+            byteString = atob(dataURI.split(',')[1]);
+        else
+            byteString = unescape(dataURI.split(',')[1]);
+
+        // separate out the mime component
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+        // write the bytes of the string to a typed array
+        var ia = new Uint8Array(byteString.length);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+
+        return new Blob([ia], { type: mimeString });
+    }
+
+    function GenerateQRCodeProducto(ProductoID) {
+        new QRCode(document.getElementById('qrResult'), {
+            text:  ProductoID,
+            width: 150,
+            height: 150,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+        return;
+    }
+
     //REGISTRO DE PRODUCTOS
-  
+
+    $("#myDropzone1").dropzone({
+        url: "/Producto",
+        dictDefaultMessage: 'Arrastrar una imagen para subir <span>o CLIC AQUÍ</span>',
+        autoProcessQueue: true,
+        maxFiles: 1,
+        addRemoveLinks: true,
+        acceptedFiles: "image/*",
+        init: function () {
+            myDropzone = this;
+            this.on("addedfile", function (file) {
+                console.log(file);
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function (event) {
+                };
+            });
+        }
+    });
 
     function limpiarModalRegistrar() {
         $("#nombreRegistrarProducto").val('');
@@ -110,71 +134,140 @@ $(function () {
     });
 
     $("#btnRegistrarProductoModal").on("click", function () {
+        //Apuntando al formulario
         var frmRegistrarProducto = $('#frmRegistrarProducto');
-
         $.ajax({
             url: frmRegistrarProducto.prop('action'),
             type: 'post',
             data: frmRegistrarProducto.serializeArray(),
             dataType: "json",
-            success: function (data, textStatus, jqXHR) {
+            success: async function (data, textStatus, jqXHR) {
                 if (data.result == "success") {
-                    //Escondiendo el Modal
-                    $("#modalRegistrarProducto").modal('hide');
-                    //Limpiando los Campos de Texto
-                    limpiarModalRegistrar();
-                    //Recargar Tabla
-                    $('.datatable-producto').dataTable().fnDraw();
-                    //Mostrando el Mensaje de Exito
-                    Swal.fire({
-                        title: '<strong>Listo!</strong>',
-                        icon: 'success',
-                        html:
-                            'Producto Registrado Satisfactoriamente',
-                        showCloseButton: true,
-                        showCancelButton: false,
-                        focusConfirm: false,
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText:
-                            '<i class="fa fa-thumbs-up"></i> Continuar',
-                        confirmButtonAriaLabel: 'Continuar',
-                    });
-                }
-                else {
-                    Swal.fire({
-                        title: '<strong>Error!</strong>',
-                        icon: 'error',
-                        html:
-                            'Lo sentimos, Ocurrió un error Inesperado',
-                        showCloseButton: true,
-                        showCancelButton: false,
-                        focusConfirm: false,
-                        confirmButtonColor: '#d33',
-                        confirmButtonText:
-                            '<i class="fa fa-thumbs-down"></i> Volver',
-                        confirmButtonAriaLabel: 'Volver',
-                    });
-                }
+                    var newProductoID = data.productoID;
+                    //creando el form data y codigoQR
+                    var formData = new FormData();
+                    //GenerateQRCodeProducto(newProductoID);
 
+
+                    //agregando los archivos
+                    var qrCodeDataURL = $("#qrResult > img").attr('src');
+                    var blobQRCode = dataURItoBlob(qrCodeDataURL);
+                    //agregando imagen y codigo qr al form data
+                    formData.append("files", myDropzone.files[0]);
+                    formData.append("files", blobQRCode);
+
+                    $.ajax({
+                        url: $("#URL_SubirImagenYQRCode").val() + "?productoID=" + newProductoID,
+                        type: "post",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (data1) {
+                            if (data1.result == "success") {
+                                //Escondiendo el Modal
+                                $("#modalRegistrarProducto").modal('hide');
+                                //Limpiando los Campos de Texto
+                                limpiarModalRegistrar();
+                                //Recargar Tabla
+                                $('.datatable-producto').dataTable().fnDraw();
+                                //Mostrando el Mensaje de Exito
+                                SwalFireMessageSuccess("Listo!", "success", "Producto Registrado Satisfactoriamente");
+
+                            } else {
+                                SwalFireMessageError("Error!", "error", 'Lo sentimos, Ocurrió un error Inesperado al registrar archivos del producto');
+                            }
+                        }
+                    });
+                } else {
+                    SwalFireMessageError("Error!", "error", 'Lo sentimos, Ocurrió un error Inesperado al registrar datos del producto');
+                }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-
-                Swal.fire({
-                    title: '<strong>Error!</strong>',
-                    icon: 'error',
-                    html:
-                        'Error del Servidor - Status 500',
-                    showCloseButton: true,
-                    showCancelButton: false,
-                    focusConfirm: false,
-                    confirmButtonColor: '#d33',
-                    confirmButtonText:
-                        '<i class="fa fa-thumbs-down"></i> Volver',
-                    confirmButtonAriaLabel: 'Volver',
-                });
+                SwalFireMessageError("Error!", "error", 'Error del Servidor - Status 500 => Registro de de datos');
             }
         });
     });
+    /*$("#btnRegistrarProductoModal").on("click", function () {
+        //Apuntando al formulario
+        var frmRegistrarProducto = $('#frmRegistrarProducto');
+        //creando el form dada
+        var formData = new FormData();
+        //agregando los archivos
+        var qrCodeDataURL= $("#qrResult > img").attr('src');
+        var blobQRCode = dataURItoBlob(qrCodeDataURL);
+        //agregando imagen y codigo qr al form data
+        formData.append("files", myDropzone.files[0]);
+        formData.append("files", blobQRCode);
+        $.ajax({
+            url: $("#URL_SubirImagenYQRCode").val(),
+            type: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data1) {
+                if (data1.result === "success") {
+                    $("#urlImagenRegistrarProducto").val(data1.url);
+                    $.ajax({
+                        url: frmRegistrarProducto.prop('action'),
+                        type: 'post',
+                        data: frmRegistrarProducto.serializeArray(),
+                        dataType: "json",
+                        success: function (data, textStatus, jqXHR) {
+                            if (data.result == "success") {
+                                //Escondiendo el Modal
+                                $("#modalRegistrarProducto").modal('hide');
+                                //Limpiando los Campos de Texto
+                                limpiarModalRegistrar();
+                                //Recargar Tabla
+                                $('.datatable-producto').dataTable().fnDraw();
+                                //Mostrando el Mensaje de Exito
+                                SwalFireMessageSuccess("Listo!", "success", "Producto Registrado Satisfactoriamente");
+
+                            }
+                            else {
+                                SwalFireMessageError("Error!", "error", 'Lo sentimos, Ocurrió un error Inesperado');
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            SwalFireMessageError("Error!", "error", 'Error del Servidor - Status 500');
+                        }
+                    });
+                } else {
+                    console.log("Error al Subir Archivos");
+                }
+            }
+        });
+    });*/
+
+    function SwalFireMessageSuccess(title, icon,html) {
+        Swal.fire({
+            title: '<strong>'+title+'</strong>',
+            icon: icon,
+            html: html,
+            showCloseButton: true,
+            showCancelButton: false,
+            focusConfirm: false,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText:
+                '<i class="fa fa-thumbs-up"></i> Continuar',
+            confirmButtonAriaLabel: 'Continuar',
+        });
+    }
+
+    function SwalFireMessageError(title, icon, html) {
+        Swal.fire({
+            title: '<strong>'+title+'</strong>',
+            icon: icon,
+            html:html,
+            showCloseButton: true,
+            showCancelButton: false,
+            focusConfirm: false,
+            confirmButtonColor: '#d33',
+            confirmButtonText:
+                '<i class="fa fa-thumbs-down"></i> Volver',
+            confirmButtonAriaLabel: 'Volver',
+        });
+    }
 
     //MODIFICACION DE PRODUCTOS
     $('.datatable-producto').on('click', '.btnModificarProducto', function (e) {

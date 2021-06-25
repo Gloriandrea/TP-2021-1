@@ -3,13 +3,13 @@
     ViewData["Title"] = "Gestionar Compra";
 }
 
-<h2 class="mt-3">Compras</h2>
+<h2 class="mt-3"style="color: white">Gestion de Compras</h2>
+<br />
 <div class="row">
     <div class="col">
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Compra</li>
+            <ol class="breadcrumb" style="border-radius:10px">
+                <p style="color:black;">Existen @Model.compras.Count() procesos de compra</p>
             </ol>
         </nav>
     </div>
@@ -17,8 +17,8 @@
         <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalRegistrarCompra" onclick="clearDataCompra();"><i class="fas fa-plus"></i> Agregar Compra</button>
     </div>
 </div>
-<p style="color:gray;">Hay @Model.compras.Count() compras registradas</p>
-<table id="tableCompra" class="table datatable-compra">
+
+<table id="tableCompra" class="table datatable-compra" style="background-color:white">
     <thead class="thead-light">
         <tr>
             <th scope="col">Nombre del proveedor</th>
