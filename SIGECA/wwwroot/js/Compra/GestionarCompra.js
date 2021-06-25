@@ -56,9 +56,8 @@ $(document).ready(function () {
                     }
                 }
             ]
-        });
-
-    
+        }
+    );
 });
 
 $("#itemCompra").on("click", ".btnBorrar", function (event) {

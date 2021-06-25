@@ -33,13 +33,15 @@ namespace SIGECA.Entities
 
         [BsonElement("dniCliente")]
         public string dniCliente { get; set; }
+        [BsonIgnoreIfNull]
+        public string nombreCliente { get; set; }
 
         [BsonElement("tipoCliente")]
         public string tipoCliente { get; set; }
         [BsonIgnoreIfNull]
         public string usuarioID { get; set; }
-        [BsonIgnoreIfNull]
-        public string clienteID { get; set; }
+         
+        
     }
 
     public class Items

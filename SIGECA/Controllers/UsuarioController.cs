@@ -22,6 +22,7 @@ namespace SIGECA.Controllers
 
             /*var httpClient = new HttpClient();
             var json = await httpClient.GetStringAsync(urlAPI.Usuario);*/
+            
             List<Usuario> usuarios = /*new List<Usuario>();*/await _usuarioService.GetAll();
             return View(usuarios);
         }

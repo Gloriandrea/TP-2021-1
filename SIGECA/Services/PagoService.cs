@@ -28,13 +28,14 @@ namespace SIGECA.Services
 
         public async Task<Venta> GetByCodigoVenta(string codigoVenta)
         {
-            return await _ventas.Find(x => x.codigoVenta == codigoVenta).FirstAsync();
+            return await _ventas.Find(x => x.id == codigoVenta).FirstAsync();
         }
         public async Task updateEstadoVenta(string codigoVenta, string estado)
         {
-            var update = Builders<Venta>.Update.Set("estado", estado == "pendiente" ? "pago" : "pendiente");
+            var update = Builders<Venta>.Update.Set("estado", estado == "pendiente" ? "cobrado" : "anulada");
             var filters = Builders<Venta>.Filter.Eq("codigoVenta",codigoVenta);
             _ventas.UpdateOne(filters, update);
+
         }
 
     }

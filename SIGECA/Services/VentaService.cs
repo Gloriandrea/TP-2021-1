@@ -41,5 +41,23 @@ namespace SIGECA.Services
             _venta.UpdateOne(filters, update);
             return venta;
         }
+        public async Task UpdateEstadoVenta(string ventaid, string estado)
+        {
+            switch (estado)
+            {
+                case "pendiente":
+                    estado = "anulada";
+                    break;
+                case "anulada":
+                    estado = "pendiente";
+                    break;
+                case "cobrado":
+                    estado = "entregado";
+                    break;
+            };
+            var update = Builders<Venta>.Update.Set("estado", estado);
+            var filters = Builders<Venta>.Filter.Eq("id", ventaid);
+            _venta.UpdateOne(filters, update);
+        }
     }
 }
