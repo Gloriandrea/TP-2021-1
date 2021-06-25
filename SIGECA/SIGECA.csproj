@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Views\Login\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.14" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.15" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Core" Version="1.1.0" />
@@ -22,6 +26,10 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\js\DropzoneJS\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assetsLog\js\script.js" />
   </ItemGroup>
 
 </Project>
