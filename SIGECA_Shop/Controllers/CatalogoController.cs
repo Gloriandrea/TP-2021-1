@@ -12,14 +12,9 @@ namespace SIGECA_Shop.Controllers
 {
     public class CatalogoController : Controller
     {
-        UrlAPI urlAPI;
         public async Task<IActionResult> Index()
         {
-            urlAPI = new UrlAPI($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}");
-            var httpClient = new HttpClient();
-            var json = await httpClient.GetStringAsync(urlAPI.Catalogo);
-            IEnumerable<CatalogoDTO> productos = JsonConvert.DeserializeObject<List<CatalogoDTO>>(json);
-            return View(productos);
+            return View();
         }
     }
 }
