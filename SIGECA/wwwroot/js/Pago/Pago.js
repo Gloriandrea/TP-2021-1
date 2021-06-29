@@ -230,9 +230,7 @@ $(document).ready(function () {
                 //{ "render": function (data, type, full, meta) { return full.fecha } },
                 {
                     "render": function (data, type, full, meta) {
-                        return '<button class="btn btnConsultarVenta"  style="color:blue"data-venta-id="' + full.id + '"><img class="fas fa-eye" /></button>' +
-                            '<button class="btn btnModificarVenta" data-venta-id="' + full.id + '"><img class="fas fa-edit" /></button>' +
-                            '<button class="btn btnRegistrarPago" style="color: green" data-venta-id="' + full.id + '"><img class="fas fa-edit" />Cobrar</button>';
+                        return '<button class="btn btnRegistrarPago" style="color:#4AB6B6" data-venta-id="' + full.id + '"><img class="fas fa-edit" />Cobrar</button>';
 
                     }
                 }
@@ -258,6 +256,8 @@ $('#tablaVentaPorCódigo').on('click', '.btnRegistrarPago', function (e) {
                     console.log("entro data result")
                     var venta = data.value;
                     console.log('codigoVenta', venta.codigoVenta)
+                    console.log('codigoVenta', venta.id)
+                    $("#idCodigoVenta").val(venta.id)
                     $("#txtCodVenta").val(venta.codigoVenta);
                     var date = new Date(Date.parse(venta.fechaVenta));
                     $("#txtFecha").val(date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear());
@@ -265,8 +265,7 @@ $('#tablaVentaPorCódigo').on('click', '.btnRegistrarPago', function (e) {
                     venta.items.forEach(c => {
                         productos += c.nombre + "\n";
                     });
-                    $("#txaProductos").val(productos);
-                    
+                    $("#txaProductos").val(productos);                  
                     $("#txtTotal").val(venta.total);
                     $("#modalPagoVenta").modal('show');
                 }
@@ -284,33 +283,33 @@ $('#tablaVentaPorCódigo').on('click', '.btnRegistrarPago', function (e) {
 // Pago de una venta
 $(function () {
     $('#modalPagoVenta').on('click', '.btn-pagar', function (e) {
-        console.log("Ingresando a js");
-        var codigoVenta = $("#txtCodVenta").val();
-        console.log("codigoVenta", codigoVenta);
+        console.log("Ingresando a Pago");
+        var id = $("#idCodigoVenta").val();
+        console.log("codigoVenta", id);
         $.ajax({
             url: $("#URL_ObtenerVentaPorCodigoVenta").val(),
             type: 'post',
-            data: "codigoVenta=" + codigoVenta,
+            data: "codigoVenta=" + id,
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
                 if (data.result == "success") {
                     var venta = data.value;
                     var estado = venta.estado;
                     console.log("estado: ", estado);
-
                     var total = venta.total;
                     console.log("total: ", total);
                     var efectivo = $("#txtEfectivo").val();
+                    var ID = venta.id;
                     console.log("efectivo: ", efectivo);
                     if (total <= efectivo) {
                         $("#txtVuelto").val(efectivo - total);                 
 
-                    if (estado != "anulada" && estado != "cobrado") {
-                        var textoFinal = "pagada";
+                    if (estado=="pendiente") {
+                                var textoFinal = "pagada";
                                 $.ajax({
                                     url: $("#URL_CambiarEstadoVenta").val(),
                                     type: 'post',
-                                    data: "codigoVenta=" + codigoVenta + "&estadoActual=" + estado,
+                                    data: "codigoVenta=" + ID + "&estadoActual=" + estado,
                                     dataType: "json",
                                     success: function (data, textStatus, jqXHR) {
                                         if (data.result == "success") {
@@ -320,12 +319,8 @@ $(function () {
                                                 'Venta ' + textoFinal + ' Satisfactoriamente',
                                                 'success'
                                             );
-                                            //Recargar Tabla
-                                            $('.datatable-venta').dataTable().fnDraw();
-                                            location.reload()
-                                            //Mostrar Mensaje Final
-                                            
                                            
+                                            location.reload()    
                                         }
                                         else {
                                             Swal.fire(
@@ -343,7 +338,7 @@ $(function () {
                     else {
                         $('#modalPagoVenta').modal('hide');
                         Swal.fire(
-                            "La venta ha sido anteriormente PAGADA"
+                            "La venta ha sido anteriormente "+ estado
                         );
                         console.log("La venta ha sido anteriormente PAGADA");
                     }
@@ -369,26 +364,28 @@ $(function () {
 //anular Pago
 $(function () {
     $('#modalPagoVenta').on('click', '.btn-anular', function (e) {
-        console.log("Ingresando a js");
-        var codigoVenta = $("#txtCodVenta").val();
-        console.log("codigoVenta", codigoVenta);
+        console.log("Ingresando a anular venta: ");
+        var id = $("#idCodigoVenta").val();
+        console.log("codigoVenta: ", id);
+        
         $.ajax({
             url: $("#URL_ObtenerVentaPorCodigoVenta").val(),
             type: 'post',
-            data: "codigoVenta=" + codigoVenta,
+            data: "codigoVenta=" + id,
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
                 if (data.result == "success") {
                     var venta = data.value;
+                    var ID = venta.id;
                     var estado = venta.estado;
                     console.log("estado: ", estado);
 
-                    if (estado != "anulada" && estado != "pendiente") {
+                    if (estado != "anulada" && estado != "pendiente" && estado != "entregado" ) {
                         var textoFinal = "anulada";
                         $.ajax({
                             url: $("#URL_CambiarEstadoVenta").val(),
                             type: 'post',
-                            data: "codigoVenta=" + codigoVenta + "&estadoActual=" + estado,
+                            data: "codigoVenta=" + ID + "&estadoActual=" + estado,
                             dataType: "json",
                             success: function (data, textStatus, jqXHR) {
                                 if (data.result == "success") {
@@ -420,9 +417,17 @@ $(function () {
                     }
                     else {
                         $('#modalPagoVenta').modal('hide');
-                        Swal.fire(
-                            "La venta ha sido anteriormente ANULADA"
-                        );
+                        if (estado == "anulada") {
+                            Swal.fire(
+                                "La venta ha sido anteriormente anulada"
+                            );
+                        }
+                        else {
+                            Swal.fire(
+                                "El estado de la venta es: " + estado
+                            );
+                        }
+                       
                         console.log("La venta ha sido anteriormente ANULADA");
                     }
                 }
@@ -479,8 +484,7 @@ function doSearch() {
         document.location.reload();
         lastTR.classList.add("hide");
     } else if (total) {
-
-        Swal.fire("Se ha encontrado " + total + " coincidencia" + ((total > 1) ? "s" : ""));
+        
     } else {
         lastTR.classList.add("red");
         Swal.fire("No se han encontrado coincidencias");
@@ -488,4 +492,4 @@ function doSearch() {
 }
 
 //limpiar input buscar
-$("#btnLimpiar").on('click', function () { $("#searchTerm").val(""); })
+$("#btnLimpiar").on('click', function () { $("#searchTerm").val(""); document.location.reload(); })

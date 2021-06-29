@@ -75,7 +75,7 @@ namespace SIGECA.Controllers
             foreach (Items item in venta.items)
             {
                 var itm = productos.Find(i => i.id == item.productoID);
-                item.nombre = itm.nombre;
+                    item.nombre = itm.nombre;
             }
             result = new { result = "success", title = "Satisfactorio", value = new { venta, usuario } , url = "Compra/Consultar" };
             return Content(JsonConvert.SerializeObject(result));

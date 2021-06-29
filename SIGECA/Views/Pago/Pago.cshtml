@@ -18,10 +18,25 @@
         </div>
     </div>
 
-    <form>
-        Buscar Venta:  <input id="searchTerm" type="text" onkeyup="doSearch()" />
-        <button id="btnLimpiar" class="btn-outline-success" style="background-color: green; color:white">Limpiar</button>
-    </form>
+
+    <div>
+        <table>
+            <tr>
+                <td width="700px">
+                </td>
+                <td>
+                    <label>Buscar Venta:  </label>
+                </td>
+                <td>
+                    <input id="searchTerm" type="text" onkeyup="doSearch()" />
+                </td>              
+                <td>  
+                    <button id="btnLimpiar" class="btn btn-outline-success">Limpiar</button>
+                </td>
+            </tr>
+        </table>
+
+    </div>    
         <table id="tablaVentaPorCódigo" class="table datatable-ventas">
             <thead class="thead-light">
                 <tr>
@@ -35,7 +50,8 @@
                     <td colspan="5"></td>
                 </tr>
             </thead>
-        </table>    
+        </table> 
+    
 </div>
 
 

@@ -33,7 +33,7 @@ namespace SIGECA.Services
         public async Task updateEstadoVenta(string codigoVenta, string estado)
         {
             var update = Builders<Venta>.Update.Set("estado", estado == "pendiente" ? "cobrado" : "anulada");
-            var filters = Builders<Venta>.Filter.Eq("codigoVenta",codigoVenta);
+            var filters = Builders<Venta>.Filter.Eq("id",codigoVenta);
             _ventas.UpdateOne(filters, update);
 
         }
