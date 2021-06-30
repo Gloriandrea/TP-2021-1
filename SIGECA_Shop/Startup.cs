@@ -39,7 +39,7 @@ namespace SIGECA_Shop
 
             services.AddScoped<UsuarioService>();
             services.AddScoped<CatalogoService>();
-            //services.AddScoped<ProductoService>();
+            services.AddScoped<ProductoService>();
             //services.AddScoped<ProveedorService>();
             //services.AddScoped<CompraService>();
             //services.AddScoped<PagoService>();
