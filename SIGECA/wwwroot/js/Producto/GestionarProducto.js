@@ -45,7 +45,7 @@ $(function () {
             },
             "columns": [
                 { "data": "nombre" },
-                { "data": "categoria.nombre"},
+                { "data": "categoria.nombre" },
                 { "data": "tipoVenta" },
                 { "data": "precio" },
                 { "data": "stock" },
