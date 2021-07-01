@@ -1,5 +1,6 @@
 ﻿var subtotal = 0.0;
 var total = 0.0;
+var itemsProductos = [];
 $(document).ready(function () {
     for (var i = 0; i < localStorage.length; i++) {
         var producto = JSON.parse(localStorage.getItem(`cartId${i}`));
@@ -64,3 +65,97 @@ $("#carritoTable").on("click", ".btnBorrar", function (event) {
     $('#carrSubtotal').html("S/. " + parseFloat(subtotal).toFixed(2));
     $('#carrTotal').html("S/. " + parseFloat(total).toFixed(2));
 });
+
+function procesarPago() {
+    $('#modalRegistrarVenta').modal('show');
+}
+
+function registrarVenta() {
+    var Venta = new Object();
+    if ($('#presencialRadio').is(':checked')) {
+        Venta.tipo = "presencial";
+    }
+    if ($('#onlineRadio').is(':checked')) {
+        Venta.tipo = "online";
+    }
+    for (var i = 0; i < localStorage.length; i++) {
+        var producto = JSON.parse(localStorage.getItem(`cartId${i}`));
+        var item = new Object();
+        item.productoID = producto.id;
+        item.cantidad = Number($('#' + `cartId${i}-cantidad`).val());
+        item.subtotal = item.cantidad * parseFloat(producto.precio);
+        itemsProductos.push(item);
+    }
+    Venta.total = parseFloat(total);
+    Venta.tipoCliente = "Usuario";
+    Venta.usuarioID = "60b966682754c036746ba44b";
+    Venta.estado = "pendiente";
+    Venta.items = itemsProductos;
+    $.ajax({
+        type: 'post',
+        url: 'Carrito/RegistrarVenta',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(Venta),
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            if (data.result == "success") {
+                $("#modalRegistrarVenta").modal('hide');
+                clearDataVenta();
+                Swal.fire({
+                    title: '<strong>Listo!</strong>',
+                    icon: 'success',
+                    html:
+                        'Venta Registrado Satisfactoriamente',
+                    showCloseButton: true,
+                    showCancelButton: false,
+                    focusConfirm: false,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText:
+                        '<i class="fa fa-thumbs-up"></i> Continuar',
+                    confirmButtonAriaLabel: 'Continuar',
+                });
+            }
+            else {
+                Swal.fire({
+                    title: '<strong>Error!</strong>',
+                    icon: 'error',
+                    html:
+                        'Lo sentimos, Ocurrió un error Inesperado',
+                    showCloseButton: true,
+                    showCancelButton: false,
+                    focusConfirm: false,
+                    confirmButtonColor: '#d33',
+                    confirmButtonText:
+                        '<i class="fa fa-thumbs-down"></i> Volver',
+                    confirmButtonAriaLabel: 'Volver',
+                });
+            }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+            Swal.fire({
+                title: '<strong>Error!</strong>',
+                icon: 'error',
+                html:
+                    'Error del Servidor - Status 500',
+                showCloseButton: true,
+                showCancelButton: false,
+                focusConfirm: false,
+                confirmButtonColor: '#d33',
+                confirmButtonText:
+                    '<i class="fa fa-thumbs-down"></i> Volver',
+                confirmButtonAriaLabel: 'Volver',
+            });
+        }
+    });
+}
+
+function clearDataVenta() {
+    $('#presencialRadio').prop('checked', false);
+    $('#onlineRadio').prop('checked', false);
+    itemsProductos = [];
+    $('#carritoTable tbody').empty();
+    localStorage.clear()
+    $('#contadorItems').text(localStorage.length);
+}

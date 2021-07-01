@@ -18,6 +18,10 @@ namespace SIGECA_Shop.Services
 
             _producto = database.GetCollection<Producto>("Producto");
         }
+        public async Task<List<Producto>> GetAll()
+        {
+            return await _producto.FindAsync(x => true).Result.ToListAsync();
+        }
         public async Task<Producto> GetById(string productoID)
         {
             return await _producto.Find(x => x.id == productoID).FirstOrDefaultAsync();
