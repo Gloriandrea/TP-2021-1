@@ -1,23 +1,21 @@
 ﻿@{ Layout = null; }
 
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="keywords" content="Art Sign Up Form Responsive Widget, Audio and Video players, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates,
-		Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design" />
-
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="assetsLog/css/estilos.css">
 </head>
 
 
 <body>
-
     <main>
-
         <div class="contenedor__todo">
             <div class="caja__trasera">
                 <div class="caja__trasera-login">
@@ -28,20 +26,19 @@
                 <div class="caja__trasera-register">
                     <h3>¿Olvido su contraseña?</h3>
                     <p>Recordar Contraseña</p>
-                    <button id="btn__registrarse">Recuperar</button>
+                    <button id="btn__registrarse" type="button">Recuperar</button>
                 </div>
             </div>
-
             <!--Formulario de Login y registro-->
             <div class="contenedor__login-register">
                 <!--Login-->
                 <form action="" class="formulario__login">
                     <h2>Iniciar Sesión</h2>
-                    <input type="text" placeholder="Correo Electronico">
-                    <input type="password" placeholder="Contraseña">
+                    <input type="text" id="usuario" placeholder="Correo Electronico">
+                    <input type="password" id="clave" placeholder="Contraseña">
                     <!--<button>Entrar</button>-->
-                    <button><a href="@Url.Action("Index", "Home")" style=" color: white">Entrar</a></button>
                     <!--<a href="../Views/Login/Index.cshtml"><button>Entrar</button></a>-->
+                    <button id="boton" type="button">Entrar</button>
                 </form>
 
                 <!--Register-->
@@ -56,11 +53,14 @@
                 </form>
             </div>
         </div>
+        <input type="hidden" id="URL_Login" value="@Url.Action("LogearUsuario", "Login")" />
+        <input type="hidden" id="URL_Redirect" value="@Url.Action("Index", "Home")" />
 
     </main>
     <script src="~/assetsLog/js/script.js"></script>
+    <script src="~/js/Login/LoginScript.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
-
 </html>
 
 

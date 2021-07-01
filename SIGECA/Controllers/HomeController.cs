@@ -15,8 +15,9 @@ namespace SIGECA.Controllers
         UrlAPI urlAPI;
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+
             return View();
         }
 

@@ -237,5 +237,10 @@ namespace SIGECA.Services
 
         }
 
+        public async Task<bool> Login(string nombre , string clave)
+        {
+            return _usuarios.Find(x => x.nombreUsuario == nombre && x.contraseña == clave).Count() == 0 ? false : true;
+        }
+
     }
 }
