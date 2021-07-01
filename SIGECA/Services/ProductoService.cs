@@ -12,7 +12,6 @@ namespace SIGECA.Services
     {
         private readonly IMongoCollection<Producto> _producto;
         private readonly IMongoCollection<Categoria> _categoria;
-        /*private readonly IMongoCollection<Producto> _productoCollection;*/
 
         public ProductoService(ISigecaDataBaseSettings settings)
         {
@@ -136,13 +135,23 @@ namespace SIGECA.Services
         {
 
             var update = Builders<Producto>.Update.Set("nombre", producto.nombre)
+                                           .Set("categoriaID", producto.categoriaID)
                                            .Set("descripcion", producto.descripcion)
                                            .Set("tipoVenta", producto.tipoVenta)
-                                           .Set("categoriaID", producto.categoriaID)
-                                           .Set("precio", producto.precio);
+                                           .Set("precio", producto.precio)
+                                           .Set("unidadMedida", producto.unidadMedida)
+                                           .Set("stock", producto.stock);
             var filters = Builders<Producto>.Filter.Eq("id", producto.id);
             _producto.UpdateOne(filters, update);
             return producto;
+        }
+        public async Task<string> UpdateProductoImagen(string imagenProducto, string productoID)
+        {
+
+            var update = Builders<Producto>.Update.Set("urlImagen", imagenProducto);
+            var filters = Builders<Producto>.Filter.Eq("id", productoID);
+            _producto.UpdateOne(filters, update);
+            return imagenProducto;
         }
 
         public async Task<string> UpdateProductoImagenYQRCodigo(string productoID, string urlImagen, string codigoQR)
@@ -154,5 +163,7 @@ namespace SIGECA.Services
             _producto.UpdateOne(filters, update);
             return productoID;
         }
+
+   
     }
 }

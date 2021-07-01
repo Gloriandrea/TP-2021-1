@@ -38,7 +38,6 @@ namespace SIGECA.Controllers
             Object result = null;
             try
             {
-                producto.stock = 0;
                 producto = await _productoService.CreateProducto(producto);
                 result = new { result = "success", title = "Satisfactorio",productoID=producto.id, message = "Producto Registrado Correctamente", url = "Producto/Registro" };
                 return Content(JsonConvert.SerializeObject(result));
@@ -60,7 +59,7 @@ namespace SIGECA.Controllers
             return Content(JsonConvert.SerializeObject(result));
         }
         [HttpPost]
-        public async Task<ActionResult> ModificarProducto(Producto producto)
+        public async Task<ActionResult> ModificarProducto([FromQuery] String productoID, Producto producto)
         {
             Object result = null;
             Producto productoActualizado = await _productoService.UpdateProducto(producto);

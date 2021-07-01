@@ -28,6 +28,9 @@ namespace SIGECA.Entities
 
         [BsonElement("datos")]
         public DatosUsuario datos { get; set; }
+
+        [BsonElement("rol")]
+        public string rol { get; set; }
     }
 
     public class Cliente : Usuario

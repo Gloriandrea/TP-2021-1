@@ -107,7 +107,7 @@
                                     aria-label="Default select example">
                                 <option selected value="Kilogramos">Kilogramos (Kg.)</option>
                                 <option value="Gramos">Gramos (Gr.)</option>
-                                <option value="Unidad">Unidades (Und.)</option>
+                                <option value="Unidades">Unidades (Und.)</option>
                             </select>
                         </div>
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
@@ -159,6 +159,8 @@
             <div class="modal-body">
                 <form action="@Url.Action("ModificarProducto","Producto")" id="frmModificarProducto" method="post">
                     <input type="hidden" id="idProductoModificar" name="id" />
+                    <input type="hidden" id="urlImagenModificarProducto" name="urlImagen" />
+
                     <div class="row" style="padding: 5px 5%">
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="nombre" class="form-label">Nombre:</label>
@@ -166,9 +168,16 @@
                                    placeholder="Filete de Cerdo" name="nombre">
                         </div>
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="precio" class="form-label">Precio Normal:</label>
-                            <input type="number" class="form-control" id="precioModificarProducto"
-                                   placeholder="34.6 (en soles S/.)" name="precio">
+                            <label for="categoria" class="form-label">Categoria del Producto:</label>
+                            <select class="form-select form-control" id="categoriaModificarProducto"
+                                    name="categoriaID"
+                                    aria-label="Default select example">
+                                @for (int i = 0; i < categoriaProductos.Count; i++)
+                                {
+                                    <option value="@categoriaProductos[i].id">@categoriaProductos[i].nombre</option>
+                                }
+
+                            </select>
                         </div>
                     </div>
                     <div class="row" style="padding: 5px 5%">
@@ -181,19 +190,12 @@
                     </div>
                     <div class="row" style="padding: 5px 5%">
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="categoriaProducto" class="form-label">Categoria del Producto:</label>
-                            <select class="form-select form-control" id="categoriaProductoModificarProducto"
-                                    name="categoriaID"
-                                    aria-label="Default select example">
-                                @for (int i = 0; i < categoriaProductos.Count; i++)
-                                {
-                                    <option value="@categoriaProductos[i].id">@categoriaProductos[i].nombre</option>
-                                }
-
-                            </select>
+                            <label for="precio" class="form-label">Precio Normal:</label>
+                            <input type="number" class="form-control" id="precioModificarProducto"
+                                   placeholder="S/. 34.00" name="precio">
                         </div>
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <label for="tipoVenta" class="form-label">Tipo de Producto:</label>
+                            <label for="tipoVenta" class="form-label">Tipo de Venta:</label>
                             <select class="form-select form-control" id="tipoVentaModificarProducto"
                                     name="tipoVenta"
                                     aria-label="Default select example">
@@ -201,29 +203,40 @@
                                 <option value="delivery">Delivery</option>
                             </select>
                         </div>
-                        <div class="row" style="padding: 5px 5%">
-                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                                <label for="unidadMedida" class="form-label">Unidad de Medida:</label>
-                                <select class="form-select form-control" id="unidadMedidaModificarProducto"
-                                        name="unidadMedida"
-                                        aria-label="Default select example">
-                                    <option selected value="Kilogramos">Kilogramos (Kg.)</option>
-                                    <option value="Gramos">Gramos (Gr.)</option>
-                                    <option value="Unidad">Unidades (Und.)</option>
-                                </select>
-                            </div>
-                            <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                                <label for="stock" class="form-label">Stock de Productos:</label>
-                                <input type="number" class="form-control" id="stockModificarProducto"
-                                       placeholder="40" name="stock">
-                            </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="unidadMedida" class="form-label">Unidad de Medida:</label>
+                            <select class="form-select form-control" id="unidadMedidaModificarProducto"
+                                    name="unidadMedida"
+                                    aria-label="Default select example">
+                                <option selected value="Kilogramos">Kilogramos (Kg.)</option>
+                                <option value="Gramos">Gramos (Gr.)</option>
+                                <option value="Unidades">Unidades (Und.)</option>
+                            </select>
                         </div>
-                        <div class="row" style="padding: 5px 5%">
-                            <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
-                                <div class="dropzone" id="myDropzone2">
-                                    <div class="fallback">
-                                        <input name="urlImagenDropzone" type="file" id="urlImagenModificarProductoDropzone" />
-                                    </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Stock de Productos:</label>
+                            <input type="number" class="form-control" id="stockModificarProducto"
+                                   placeholder="40" name="stock">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Imagen Referencial:</label>
+                            <img src="~/assets/img/defaultPic.jpg" id="imagenProducto" style="width:100%;height:80%" />
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Codigo QR:</label>
+                            <img src="" id="codigoQR" style="width:100%;height:80%" />
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                            <div class="dropzone" id="myDropzone2">
+                                <div class="fallback">
+                                    <input name="urlImagenDropzone" type="file" id="urlImagenModificarProductoDropzone" />
                                 </div>
                             </div>
                         </div>
@@ -247,11 +260,113 @@
     </div>
 </div>
 
+<div class="modal" id="modalVisualizarProducto" tabindex="-1" aria-labelledby="registrarProductoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="visualizarProductoLabel">Detalle del producto</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form >
+                    <input type="hidden" id="idProductoVisualizar" name="id" />
+                    <input type="hidden" id="urlImagenVisualizarProducto" name="urlImagen" />
+
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="nombre" class="form-label">Nombre:</label>
+                            <input class="form-control" id="nombreVisualizarProducto"
+                                   placeholder="Filete de Cerdo" name="nombre"
+                                   disabled>
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="categoria" class="form-label">Categoria del Producto:</label>
+                            <select class="form-select form-control" id="categoriaVisualizarProducto"
+                                    name="categoriaID"
+                                    aria-label="Default select example"
+                                    disabled>
+                                @for (int i = 0; i < categoriaProductos.Count; i++)
+                                {
+                                    <option value="@categoriaProductos[i].id">@categoriaProductos[i].nombre</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                            <label for="descripcion" class="form-label">Descripcion:</label>
+                            <textarea class="form-control" id="descripcionVisualizarProducto"
+                                      name="descripcion"
+                                      rows="3" placeholder="Pechugas de pollo Empanizadas en Salsa BBQ"
+                                      disabled></textarea>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="precio" class="form-label">Precio Normal:</label>
+                            <input type="number" class="form-control" id="precioVisualizarProducto"
+                                   placeholder="S/. 34.00" name="precio"
+                                   disabled>
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="tipoVenta" class="form-label">Tipo de Venta:</label>
+                            <select class="form-select form-control" id="tipoVentaVisualizarProducto"
+                                    name="tipoVenta"
+                                    aria-label="Default select example"
+                                    disabled>
+                                <option selected value="tienda">Despacho En Tienda</option>
+                                <option value="delivery">Delivery</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="unidadMedida" class="form-label">Unidad de Medida:</label>
+                            <select class="form-select form-control" id="unidadMedidaVisualizarProducto" 
+                                    name="unidadMedida"
+                                    aria-label="Default select example"
+                                    disabled>
+                                <option selected value="Kilogramos">Kilogramos (Kg.)</option>
+                                <option value="Gramos">Gramos (Gr.)</option>
+                                <option value="Unidades">Unidades (Und.)</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Stock de Productos:</label>
+                            <input type="number" class="form-control" id="stockVisualizarProducto"
+                                   placeholder="40" name="stock" disabled>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Imagen Referencial:</label>
+                            <img src="~/assets/img/defaultPic.jpg" id="imagenProductoVisualizarProducto" style="width:100%;height:80%" />
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Codigo QR:</label>
+                            <img src="" id="codigoQRVisualizarProducto" style="width:100%;height:80%" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="row" style="padding: 5px 5%;width:100%">
+                    <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                        <button type="button" class="btn btn-block btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <input type="hidden" id="URL_ProductosListarTodos" value="@Url.Action("ObtenerProductos", "Producto")" />
 <input type="hidden" id="URL_ProductoPorID" value="@Url.Action("ObtenerProductoPorId", "Producto")" />
 <input type="hidden" id="URL_SubirImagen" value="@Url.Action("RegistrarImagenProducto", "Media")" />
 <input type="hidden" id="URL_SubirImagenYQRCode" value="@Url.Action("RegistrarImagenQRCodeProducto", "Media")" />
-
+<input type="hidden" id="URL_ActualizarImagen" value="@Url.Action("ActualizarImagenProducto", "Media")" />
 
 @section scripts{
     <script src="~/js/Producto/GestionarProducto.js"></script>

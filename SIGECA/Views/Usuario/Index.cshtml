@@ -1,7 +1,10 @@
 ﻿@using SIGECA.Entities;
+@using SIGECA.DTOs;
 @model IEnumerable<Usuario>
 @{
-    ViewData["Title"] = "Gestionar Producto";
+    ViewData["Title"] = "Gestionar Usuarios";
+    List<RolDTO> roles = (List<RolDTO>)ViewBag.rolesDTO;
+
 }
 <h1 class="mt-4">Gestion de Usuarios</h1>
 <ol class="breadcrumb mb-4">
@@ -17,10 +20,15 @@
             </div>
             <div class="col-2 col-sm-2 col-lg-2 col-xl-2">
                 <button type="button" class="btn btn-outline-success btn-block"
-                        id="btnRegistrarUsuario"
-                       >
+                        id="btnRegistrarUsuario">
                     <i class="fas fa-user-check"></i>
                     <span>Registrar Usuario</span>
+                </button>
+            </div>
+            <div class="col-2 col-sm-2 col-lg-2 col-xl-2">
+                <button type="button" class="btn btn-outline-success btn-block btnTest">
+                    <i class="fas fa-user-check"></i>
+                    <span>TEST Usuario</span>
                 </button>
             </div>
         </div>
@@ -118,6 +126,20 @@
                                    name="datos.fechaNacimiento" placeholder="yyyy-mm-dd">
                         </div>
                     </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                            <label for="rol" class="form-label">Rol de Usuario:</label>
+                            <select class="form-select form-control" id="rolRegistrarUsuario"
+                                    name="rol"
+                                    aria-label="Default select example">
+                                @for (int i = 0; i < roles.Count; i++)
+                                {
+                                    <option value="@roles[i].id">@roles[i].nombre</option>
+                                }
+
+                            </select>
+                        </div>
+                        </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -127,11 +149,13 @@
                     </div>
                     <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                         <button type="button" class="btn btn-block btn-primary"
-                                id="btnRegistrarUsuarioModal">Registrar Usuario</button>
+                                id="btnRegistrarUsuarioModal">
+                            Registrar Usuario
+                        </button>
                     </div>
                 </div>
-                </div>
             </div>
+        </div>
     </div>
 </div>
 
@@ -147,7 +171,7 @@
             <div class="modal-body">
                 <form action="@Url.Action("ActualizarUsuario","Usuario")" id="frmModificarUsuario" method="post">
                     <div class="row" style="padding: 5px 5%">
-                        <input type="hidden" id="idUsuarioModificar" name="id"/>
+                        <input type="hidden" id="idUsuarioModificar" name="id" />
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="nombre" class="form-label">Nombres:</label>
                             <input class="form-control" id="nombreUsuarioModificar" name="datos.nombre" placeholder="Jose Alberto">
@@ -213,6 +237,20 @@
                                    name="datos.fechaNacimiento" placeholder="yyyy-mm-dd">
                         </div>
                     </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                            <label for="rol" class="form-label">Rol de Usuario:</label>
+                            <select class="form-select form-control" id="rolModificarUsuario"
+                                    name="rol"
+                                    aria-label="Default select example">
+                                @for (int i = 0; i < roles.Count; i++)
+                                {
+                                    <option value="@roles[i].id">@roles[i].nombre</option>
+                                }
+
+                            </select>
+                        </div>
+                        </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -240,16 +278,20 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form >
+                <form>
                     <div class="row" style="padding: 5px 5%">
                         <input type="hidden" id="idUsuarioVisualizar" name="id" />
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="nombre" class="form-label">Nombres:</label>
-                            <input class="form-control" id="nombreUsuarioVisualizar" name="datos.nombre" placeholder="Jose Alberto">
+                            <input class="form-control" id="nombreUsuarioVisualizar"
+                                   name="datos.nombre" placeholder="Jose Alberto"
+                                   disabled>
                         </div>
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="apellido" class="form-label">Apellidos:</label>
-                            <input class="form-control" id="apellidoUsuarioVisualizar" name="datos.apellido" placeholder="Ramirez Perez">
+                            <input class="form-control" id="apellidoUsuarioVisualizar"
+                                   name="datos.apellido" placeholder="Ramirez Perez"
+                                   disabled>
                         </div>
                     </div>
                     <div class="row" style="padding: 5px 5%">
@@ -257,13 +299,15 @@
                             <label for="email" class="form-label">E-Mail: </label>
                             <input type="email" class="form-control" id="emailUsuarioVisualizar"
                                    name="datos.email"
-                                   placeholder="ejemplo@dominio.com">
+                                   placeholder="ejemplo@dominio.com"
+                                   disabled>
                         </div>
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="telefono" class="form-label">Nro Telefono:</label>
                             <input class="form-control" id="telefonoUsuarioVisualizar"
                                    name="datos.telefono"
-                                   placeholder="998877665">
+                                   placeholder="998877665"
+                                   disabled>
                         </div>
                     </div>
                     <div class="row" style="padding: 5px 5%">
@@ -271,7 +315,8 @@
                             <label for="direccion" class="form-label">Direccion</label>
                             <textarea class="form-control" id="direccionUsuarioVisualizar"
                                       name="datos.direccion"
-                                      rows="3" placeholder="Av. cerca 123 - Distrito"></textarea>
+                                      rows="3" placeholder="Av. cerca 123 - Distrito"
+                                      disabled></textarea>
                         </div>
                     </div>
                     <div class="row" style="padding: 5px 5%">
@@ -279,7 +324,8 @@
                             <label for="tipoDocumento" class="form-label">Tipo Documento: </label>
                             <select class="form-select form-control" id="tipoDocumentoUsuarioVisualizar"
                                     name="datos.tipoDocumento"
-                                    aria-label="Default select example">
+                                    aria-label="Default select example"
+                                    disabled>
                                 <option selected value="DNI">D.N.I.</option>
                                 <option value="CI">Carnet De Extranjeria</option>
                                 <option value="Pasaporte">Pasaporte</option>
@@ -288,7 +334,8 @@
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="numeroDocumento" class="form-label">Numero Documento:</label>
                             <input class="form-control" id="numeroDocumentoUsuarioVisualizar"
-                                   name="datos.numeroDocumento" placeholder="12345678">
+                                   name="datos.numeroDocumento" placeholder="12345678"
+                                   disabled>
                         </div>
                     </div>
                     <div class="row" style="padding: 5px 5%">
@@ -296,7 +343,8 @@
                             <label for="tipoUsuario" class="form-label">Tipo Usuario: </label>
                             <select class="form-select form-control" id="tipoUsuarioUsuarioVisualizar"
                                     name="tipoUsuario"
-                                    aria-label="Default select example">
+                                    aria-label="Default select example"
+                                    disabled>
                                 <option selected value="Administrador">Administrador</option>
                                 <option value="Vendedor">Vendedor</option>
                                 <option value="Cajero">Cajero</option>
@@ -305,9 +353,25 @@
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="fechaNacimiento" class="form-label">Fecha Nacimiento:</label>
                             <input class="form-control" id="fechaNacimientoUsuarioVisualizar"
-                                   name="datos.fechaNacimiento" placeholder="yyyy-mm-dd">
+                                   name="datos.fechaNacimiento"
+                                   disabled
+                                   placeholder="yyyy-mm-dd">
                         </div>
                     </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                            <label for="rol" class="form-label">Rol de Usuario:</label>
+                            <select class="form-select form-control" id="rolVisualizarUsuario"
+                                    name="rol"
+                                    aria-label="Default select example"
+                                    disabled>
+                                @for (int i = 0; i < roles.Count; i++)
+                                {
+                                    <option value="@roles[i].id">@roles[i].nombre</option>
+                                }
+
+                            </select>
+                        </div></div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -321,6 +385,8 @@
 <input type="hidden" id="URL_UsuariosListar" value="@Url.Action("GetAll", "Usuario")" />
 <input type="hidden" id="URL_UsuarioActualizarEstado" value="@Url.Action("CambiarEstadoUsuario", "Usuario")" />
 <input type="hidden" id="URL_UsuariosListarTodos" value="@Url.Action("ObtenerUsuarios", "Usuario")" />
+<input type="hidden" id="URL_UsuarioRolPermisoPorID" value="@Url.Action("getUsuariosRolPermiso", "Usuario")" />
+
 
 @section scripts{
     <script type="text/javascript" src="~/js/Usuarios/GestionarUsuario.js">

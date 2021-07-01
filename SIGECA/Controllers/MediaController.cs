@@ -36,9 +36,31 @@ namespace SIGECA.Controllers
                 return Json(result);
             }
         }
+        [HttpPost]
+        public async Task<JsonResult> ActualizarImagenProducto( String rutaAntigua,String productoId, IFormFile file)
+        {
+            String imageUrlNueva;
+            Object result = null;
+            try
+            {
+                imageUrlNueva = await _mediaService.ActualizarImagenProducto(file, "productos", "https://sigeca.blob.core.windows.net/productos/"+rutaAntigua+".jpg");
+                IFormFile qrFile = await _mediaService.generateQRCodeFromID(productoId);
+                //generacion de CodigoQR
+
+
+                await _productoService.UpdateProductoImagen(imageUrlNueva, productoId);
+                result = new { result = "success", title = "Satisfactorio", message = "Se registró correctamente", url = imageUrlNueva };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                result = new { result = "error", title = "Error del Servidor", message = "Error: " + ex, url = "null" };
+                return Json(result);
+            }
+        }
 
         [HttpPost]
-        public async Task<JsonResult> RegistrarImagenQRCodeProducto([FromQuery] String productoID,List<IFormFile> files)
+        public async Task<JsonResult> RegistrarImagenQRCodeProducto([FromQuery] String productoID,IFormFile file)
         {
 
             String imageUrl;
@@ -46,9 +68,11 @@ namespace SIGECA.Controllers
             Object result = null;
             try
             {
-                imageUrl = await _mediaService.RegistrarImagenProducto(files[0], "productos");
-                qrCode   = await _mediaService.RegistrarImagenProducto(files[1], "qrproductos");
-                await _productoService.UpdateProductoImagenYQRCodigo(productoID, imageUrl, qrCode);
+                IFormFile qrFile = await _mediaService.generateQRCodeFromID(productoID);
+                imageUrl = await _mediaService.RegistrarImagenProducto(file, "productos");
+                
+                qrCode = await _mediaService.RegistrarImagenProducto(qrFile, "qrproductos");
+                await  _productoService.UpdateProductoImagenYQRCodigo(productoID, imageUrl, qrCode);
                 result = new { result = "success", title = "Satisfactorio", message = "Se registró correctamente", url = productoID };
                 return Json(result);
             }
