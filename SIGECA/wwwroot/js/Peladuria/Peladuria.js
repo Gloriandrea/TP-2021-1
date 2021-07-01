@@ -81,7 +81,7 @@ function registrarProductos() {
         producto.nombre = $('#pollo' + `${i}` + '-nombre').html();
         if (producto.nombre == 'Menudencia') {
             producto.unidadMedida = 'Kilogramos';
-            producto.stock = 0;
+            producto.stock = Number($('#pesoMenudencia').val());
         }
         else {
             producto.unidadMedida = 'Unidades';
