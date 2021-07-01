@@ -1,6 +1,5 @@
 ﻿function AgregarCarrito(id) {
     var productoid = id;
-
     console.log('id producto add to cart',productoid);
     $.ajax({
         url: 'Catalogo/ObtenerProductoPorId',
@@ -10,7 +9,18 @@
         success: function (data) {
             if (data.result) {
                 var producto = data.value;
-                GuardarLocal(producto);
+                $("#productView").modal('hide');
+                if (GuardarLocal(producto) == false) {
+                    return false;
+                } else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Producto añadido al carrito',
+                        showConfirmButton: false,
+                        timer: 800
+                    });
+                }
                 $('#contadorItems').text(localStorage.length);
             } else {
                 console.log('ERROR al consultar el producto');
@@ -59,12 +69,13 @@ function MostrarInformacion(id) {
         success: function (data) {
             if (data.result) {
                 var producto = data.value;
+                $('#modalProducto').css('background', 'url(' + producto.urlImagen + ')');
                 $("#nombreProducto").text(producto.nombre);
                 $("#precioProducto").text(producto.precio);
                 $("#stockProducto").text(producto.stock);
                 $("#descripcionProducto").text(producto.descripcion);
                 $("#idProducto").val(producto.id);
-
+                $('#agregarCarritoModal').attr('onClick', 'AgregarCarrito(`' + producto.id + '`);');
                 $("#productView").modal('show');
             } else {
                 console.log('ERROR en Mostrar informacion!!');

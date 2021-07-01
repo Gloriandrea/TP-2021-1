@@ -68,11 +68,12 @@ $(document).ready(function () {
                 },
                 {
                     "render": function (data, type, full, meta) {
-                        var display = (full.estado) === "entregado" ? "display:none" : "";
+                        var display = (full.estado === "entregado") ? "display:none" : "";
+                        var displayco = (full.estado === "cobrado" || full.estado==="entregado") ? "display:none" : "";
                         var color = (full.estado == "pendiente" || full.estado == "anulada") ? 'red' : '#2374E3';
                         var icon = (full.estado == "pendiente" || full.estado == "anulada") ? "fas fa-ban" : "fas fa-shopping-basket";
                         return '<button class="btn btnVisualizarVenta" style="color: #4AB6B6" data-venta-id="' + full.id + '"><img class="fas fa-eye" /></button>' +
-                            '<button class="btn btnModificarVenta" style="color: #4AB6B6" data-venta-id="' + full.id + '"><img class="fas fa-edit" /></button>' +
+                            '<button class="btn btnModificarVenta" style="color: #4AB6B6;' + displayco + '" data-venta-id="' + full.id + '"><img class="fas fa-edit" /></button>' +
                             '<button class="btn btnCambiarEstadoVenta" style="color:' + color + '; ' + display + '" data-venta-id="' + full.id + '"><img class="' + icon + '" /></button>';
                     }
                 }

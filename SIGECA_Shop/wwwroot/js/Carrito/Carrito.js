@@ -7,7 +7,7 @@ $(document).ready(function () {
         var row = "<tr>" +
                 '<th class="pl-0 border-0" scope="row">' +
                     '<div class="media align-items-center">' +
-                            '<a class="reset-anchor d-block animsition-link" href="detail.html"><img src="https://www.ocu.org/-/media/ocu/images/themes/alimentacion/alimentos/tips/pollo%20guia%20para%20elegir%20y%20conservar/456844_thumbnail.jpg?rev=0e3d5afb-0096-4cbb-8cb9-681c40b3931b&hash=BFA0625F79DEFA51156AAB8C93A66D41" alt="..." width="70" /></a>' +
+                            '<a class="reset-anchor d-block animsition-link" href="detail.html"><img src="'+ producto.urlImagen +'" alt="..." width="70" /></a>' +
                         '<div class="media-body ml-3"><strong class="h6"><a class="reset-anchor animsition-link" href="javascript:void(0);">'+ producto.nombre +'</a></strong></div>' +
                     '</div>' +
                     '</th>' +
@@ -72,6 +72,7 @@ function procesarPago() {
 
 function registrarVenta() {
     var Venta = new Object();
+    var newTotal = 0.0;
     if ($('#presencialRadio').is(':checked')) {
         Venta.tipo = "presencial";
     }
@@ -84,11 +85,12 @@ function registrarVenta() {
         item.productoID = producto.id;
         item.cantidad = Number($('#' + `cartId${i}-cantidad`).val());
         item.subtotal = item.cantidad * parseFloat(producto.precio);
+        newTotal += item.subtotal;
         itemsProductos.push(item);
     }
-    Venta.total = parseFloat(total);
+    Venta.total = parseFloat(newTotal);
     Venta.tipoCliente = "Usuario";
-    Venta.usuarioID = "60b966682754c036746ba44b";
+    Venta.usuarioID = "60de101c23812efc0a091687";
     Venta.estado = "pendiente";
     Venta.items = itemsProductos;
     $.ajax({

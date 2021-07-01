@@ -26,7 +26,9 @@
             <div class="modal-content">
                 <div class="modal-body p-0">
                     <div class="row align-items-stretch">
-                        <div class="col-lg-6 p-lg-0"><a class="product-view d-block h-100 bg-cover bg-center" style="background: url(/assets/img/gallery/gallery-1.jpg)" href="img/product-5.jpg" data-lightbox="productview" title="Red digital smartwatch"></a><a class="d-none" href="img/product-5-alt-1.jpg" title="Red digital smartwatch" data-lightbox="productview"></a><a class="d-none" href="img/product-5-alt-2.jpg" title="Red digital smartwatch" data-lightbox="productview"></a></div>
+                        <div class="col-lg-6 p-lg-0">
+                            <a id="modalProducto" class="product-view d-block h-100 bg-cover bg-center" style="background: url(/assets/img/gallery/gallery-1.jpg)" href="img/product-5.jpg" data-lightbox="productview" title="Red digital smartwatch"></a>
+                        </div>
                         <div class="col-lg-6">
                             <button class="close p-4" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                             <div class="p-5 my-md-4">
@@ -37,7 +39,7 @@
                                     <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
                                     <li class="list-inline-item m-0"><i class="fas fa-star small text-warning"></i></li>
                                 </ul>
-                                @*id del producto*@ 
+                                @*id del producto*@
                                 <input id="idProducto" type="hidden" />
                                 @*end*@
                                 <h2 id="nombreProducto" class="h4"></h2>
@@ -45,7 +47,7 @@
                                 <p class="text-muted">Stock: <a id="stockProducto"></a></p>
                                 <p id="descripcionProducto" class="text-small mb-4"></p>
                                 <div class="row align-items-stretch mb-4">
-                                    <div class="col-sm-5 pl-sm-0"><a class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0" href="javascript:void(0);" onclick="AgregarCarrito()">Add to cart</a></div>
+                                    <div class="col-sm-5 pl-sm-0"><a id="agregarCarritoModal" class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0" href="javascript:void(0);">Agregar Carrito</a></div>
                                 </div>
                             </div>
                         </div>
@@ -86,21 +88,24 @@
                             @*CONSULTA PRODUCTO*@
                             @foreach (var product in Model)
                             {
-                                <div class="col-lg-4 col-sm-6">
-                                    <div class="product text-center">
-                                        <div class="mb-3 position-relative">
-                                            <div class="badge text-white badge-"></div><a class="d-block" href="detail.html"><img class="img-fluid w-100" src="~/assets/img/gallery/gallery-1.jpg" alt="..."></a>
-                                            <div class="product-overlay">
-                                                <ul class="mb-0 list-inline">
-                                                    <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="javascript:void(0);" onclick="AgregarCarrito(`@product.id`)">Add to cart</a></li>
-                                                    <li class="list-inline-item mr-0"><a class="btn btn-sm btn-outline-dark" onclick="MostrarInformacion(`@product.id`)" href="#javascript:void(0);" data-toggle="modal"><i class="fas fa-expand"></i></a></li>
-                                                </ul>
+                                @if (product.tipoVenta != "" && product.tipoVenta != null)
+                                {
+                                    <div class="col-lg-4 col-sm-6">
+                                        <div class="product text-center">
+                                            <div class="mb-3 position-relative">
+                                                <div class="badge text-white badge-"></div><a class="d-block" href="detail.html"><img class="img-fluid w-100" src="@product.urlImagen" alt="..."></a>
+                                                <div class="product-overlay">
+                                                    <ul class="mb-0 list-inline">
+                                                        <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="javascript:void(0);" onclick="AgregarCarrito(`@product.id`)">Agregar Carrito</a></li>
+                                                        <li class="list-inline-item mr-0"><a class="btn btn-sm btn-outline-dark" onclick="MostrarInformacion(`@product.id`)" href="#javascript:void(0);" data-toggle="modal"><i class="fas fa-expand"></i></a></li>
+                                                    </ul>
+                                                </div>
                                             </div>
+                                            <h6> <a class="reset-anchor" href="detail.html">@product.nombre</a></h6>
+                                            <p class="small text-muted">Precio: S/.@product.precio</p>
                                         </div>
-                                        <h6> <a class="reset-anchor" href="detail.html">@product.nombre</a></h6>
-                                        <p class="small text-muted">Precio: S/.@product.precio</p>
                                     </div>
-                                </div>
+                                }
                             }
                         </div>
                     </div>

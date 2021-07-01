@@ -111,7 +111,7 @@
                 <div class="row" style="padding: 5px 5%">
                     <div class="col-6 col-sm-4">
                         <label for="producto" class="form-label">Producto: </label>
-                        <select class="form-select form-control" id="productoVentaRegistrar" name="producto">
+                        <select class="form-select form-control" onchange="cambioProductoRegistrar();" id="productoVentaRegistrar" name="producto">
                             @foreach (var producto in Model.productos)
                             {
                                 <option selected value="@producto.id">@producto.nombre</option>
