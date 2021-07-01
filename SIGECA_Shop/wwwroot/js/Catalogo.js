@@ -1,5 +1,6 @@
 ﻿function AgregarCarrito(id) {
     var productoid = id;
+    console.log('id producto add to cart',productoid);
     $.ajax({
         url: 'Catalogo/ObtenerProductoPorId',
         type: 'post',
@@ -60,7 +61,8 @@ function MostrarInformacion(id) {
                 $("#precioProducto").text(producto.precio);
                 $("#stockProducto").text(producto.stock);
                 $("#descripcionProducto").text(producto.descripcion);
-                
+                $("#idProducto").val(producto.id);
+
                 
 
                 $("#productView").modal('show');
