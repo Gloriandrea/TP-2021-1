@@ -28,8 +28,9 @@ $(document).ready(function () {
         subtotal += producto.precio;
         total += producto.precio;
     }
+   
     $('#carrSubtotal').html("S/. " +parseFloat(subtotal).toFixed(2));
-    $('#carrTotal').html("S/. "+parseFloat(total).toFixed(2));
+    $('#carrTotal').html("S/. " + parseFloat(total).toFixed(2));
 })
 
 function CambiarCantidad(cartid) {
@@ -47,10 +48,12 @@ function CambiarCantidad(cartid) {
     }
     $('#carrSubtotal').html("S/. " + parseFloat(subtotal).toFixed(2));
     $('#carrTotal').html("S/. " + parseFloat(total).toFixed(2));
+    $('#contadorItems').text(localStorage.length);
 }
 
 function eliminarCompraCarrito(key) {
     localStorage.removeItem(key);
+    $('#contadorItems').text(localStorage.length);
 }
 
 $("#carritoTable").on("click", ".btnBorrar", function (event) {

@@ -1,5 +1,6 @@
 ﻿function AgregarCarrito(id) {
     var productoid = id;
+
     console.log('id producto add to cart',productoid);
     $.ajax({
         url: 'Catalogo/ObtenerProductoPorId',
@@ -10,6 +11,7 @@
             if (data.result) {
                 var producto = data.value;
                 GuardarLocal(producto);
+                $('#contadorItems').text(localStorage.length);
             } else {
                 console.log('ERROR al consultar el producto');
             }
@@ -62,8 +64,6 @@ function MostrarInformacion(id) {
                 $("#stockProducto").text(producto.stock);
                 $("#descripcionProducto").text(producto.descripcion);
                 $("#idProducto").val(producto.id);
-
-                
 
                 $("#productView").modal('show');
             } else {
