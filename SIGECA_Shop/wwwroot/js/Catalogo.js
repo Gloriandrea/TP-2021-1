@@ -44,3 +44,29 @@ function GuardarLocal(producto) {
         localStorage.setItem(cartId, JSON.stringify(producto));
     }
 }
+
+function MostrarInformacion(id) {
+    var productoid = id;
+    console.log('Producto id en catalogo:', productoid);
+    $.ajax({
+        url: 'Catalogo/ObtenerProductoPorId',
+        type: 'post',
+        data: "productoID=" + productoid,
+        dataType: "json",
+        success: function (data) {
+            if (data.result) {
+                var producto = data.value;
+                $("#nombreProducto").text(producto.nombre);
+                $("#precioProducto").text(producto.precio);
+                $("#stockProducto").text(producto.stock);
+                $("#descripcionProducto").text(producto.descripcion);
+                
+                
+
+                $("#productView").modal('show');
+            } else {
+                console.log('ERROR en Mostrar informacion!!');
+            }
+        }
+    });
+}

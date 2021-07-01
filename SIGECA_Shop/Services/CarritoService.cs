@@ -17,7 +17,7 @@ namespace SIGECA_Shop.Services
             var database = Cliente.GetDatabase(settings.DatabaseName);
 
             _carritoCollection = database.GetCollection<Carrito>("Carrito");
-        }
+        }   
 
         public async Task<List<Carrito>> GetAllById(string usuarioID)
         {
