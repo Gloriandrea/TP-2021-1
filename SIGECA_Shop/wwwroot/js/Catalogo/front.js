@@ -32,14 +32,14 @@
             siblings.val(parseInt(siblings.val(), 10) - 1);
         }
         var cartId = siblings[0].id.replace("-cantidad", "");
-        CambiarCantidad(cartId, Number(siblings.val()));
+        CambiarCantidad(cartId);
     });
 
     $('.inc-btn').click(function () {
         var siblings = $(this).siblings('input');
         siblings.val(parseInt(siblings.val(), 10) + 1);
         var cartId = siblings[0].id.replace("-cantidad", "");
-        CambiarCantidad(cartId, Number(siblings.val()));
+        CambiarCantidad(cartId);
     });
 
 
