@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "Peladuría";
+}
+
+
+<h2 class="mt-3" style="color:white">Productos en Almacen</h2>
+<div class="row">
+    <div class="col-9">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" style="color:midnightblue">Peladuría </li>
+            </ol>
+
+        </nav>
+    </div>
+    <div class="col-3">
+        <button type="button" class="btn btn-outline-success btn-block" onclick="$('#modalRegistrarProducto').modal('show')" id="btnRegistrarProducto">
+            <i class="fas fa-user-check"></i>
+            <span>Registrar Nuevo Producto</span>
+        </button>
+    </div>
+</div>
+
+<table id="TableProducto" class="table datatable-peladuria" style="background-color:white">
+    <thead class="thead-light">
+        <tr>
+            <th>Nombre</th>
+            <th>Categoria</th>
+            <th>Tipo Venta</th>
+            <th>Precio</th>
+            <th>Stock en Venta</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<div class="modal" id="modalRegistrarProducto" tabindex="-1" aria-labelledby="registrarProductoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registrarProductoLabel">Registro del productos</h5>
+                <button type="button" class="close" onclick="cerrarModal(); $('#modalRegistrarProducto').modal('hide')" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="padding: 5px 5%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <select class="form-select form-control" id="nombrePeladuriaRegistrar" name="usuario">
+                            <option value="pollo">Pollo</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="cantidad" class="form-label">Cantidad:</label>
+                        <input type="text" class="form-control" onblur="cambiarCantidadPeluderia()" id="cantidadRegistrarPeladuria" name="cantidad">
+                    </div>
+                </div>
+                <hr />
+                <table id="itemProductos" class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Nombre del producto</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Peso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="pollo1-nombre">Pechuga</td>
+                            <td id="pollo1-cantidad">0</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td id="pollo2-nombre">Piernas</td>
+                            <td id="pollo2-cantidad">0</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td id="pollo3-nombre">Alas</td>
+                            <td id="pollo3-cantidad">0</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td id="pollo4-nombre">Pescueso</td>
+                            <td id="pollo4-cantidad">0</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td id="pollo5-nombre">Menudencia</td>
+                            <td>-</td>
+                            <td><input id="pesoMenudencia" type="text" class="form-control col-3 col-sm-3 col-lg-3 col-xl-3" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div class="row" style="padding: 5px 5%;width:100%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-secondary" onclick="cerrarModal(); $('#modalRegistrarProducto').modal('hide')" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-primary" onclick="registrarProductos()" id="btnRegistrarProductoModal">
+                            Registrar Productos
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="URL_ProductosListarTodos" value="@Url.Action("ObtenerProductos", "Producto")" />
+<input type="hidden" id="URL_ProductoPorID" value="@Url.Action("ObtenerProductoPorId", "Producto")" />
+
+
+@section scripts{
+    <script src="~/js/Peladuria/Peladuria.js"></script>
+}
