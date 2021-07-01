@@ -3,28 +3,29 @@
 @{
     ViewData["Title"] = "Gestionar Proveedor";
 }
-<h1 class="mt-4">Gestion de Proveedores</h1>
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active" style="padding:10px 5px">Vista de Administrador</li>
-</ol>
 
+
+<h1 class="mt-4" style="color: white">Gestion de Proveedores</h1>
 <div class="card mb-4">
     <div class="card-header">
         <div class="row">
-            <div class=" col-10 col-sm-10 col-lg-10 col-xl-10">
-                <i class="fas fa-table mr-1"></i>
-                Proveedores Registrados actualmente
+            <div class="col-9 col-sm-9 col-lg-9 col-xl-9">
+                <div class=" col-4 col-sm-4 col-lg-4 col-xl-4">
+                    <i class="fas fa-table mr-1"></i>
+                    Proveedores Registrados
+                </div>
             </div>
-            <div class="col-2 col-sm-2 col-lg-2 col-xl-2">
-                <button type="button" class="btn btn-outline-success btn-block"
-                        id="btnRegistrarProveedor">
+            <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                <button type="button" class="btn btn-outline-success btn-block" id="btnRegistrarProveedor">
                     <i class="fas fa-user-check"></i>
                     <span>Registrar Proveedor</span>
                 </button>
             </div>
         </div>
     </div>
+
     <div class="card-body">
+        
         <table id="TableProveedor" class="table datatable-proveedor">
             <thead class="thead-light">
                 <tr>

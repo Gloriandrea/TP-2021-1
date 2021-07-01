@@ -37,6 +37,18 @@ namespace SIGECA_Shop.Models
 
         [BsonElement("productoID")]
         public string productoID { get; set; }
+
+        [BsonIgnore]
+        public string nombrePorducto { get; set; }
+
+        [BsonIgnore]
+        public string tipoVenta { get; set; }
+
+        [BsonIgnore]
+        public double precioProducto { get; set; }
+
+        [BsonIgnore]
+        public int stockProducto { get; set; }
     }
 
     public class OfertaPorcentaje : Oferta

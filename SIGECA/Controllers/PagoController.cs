@@ -13,31 +13,20 @@ namespace SIGECA.Controllers
     public class PagoController : Controller
     {
         private readonly PagoService _pagoService;
+        private readonly ProductoService _productoService;
 
-        public PagoController(PagoService pagoService)
+        public PagoController(PagoService pagoService, ProductoService productoService)
         {
             _pagoService = pagoService;
+            _productoService = productoService;
         }  
         /*UrlAPI urlAPI;*/
 
         public async Task<IActionResult> Pago()
         {
-            await _pagoService.GetAll();
-            List<Venta> ventas = await _pagoService.GetAll();
+            List<Venta> ventas = await _pagoService.GetAll();            
             return View(ventas);
-
-            //urlAPI = new UrlAPI($"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}");
-            //var httpClient = new HttpClient();
-            //var json = await httpClient.GetStringAsync(urlAPI.Pago);
-            //List<Venta> ventas = JsonConvert.DeserializeObject<List<Venta>>(json);
-            //List<Venta> venta = new List<Venta>();
-
-            //foreach (var vent in ventas)
-            //{
-            //    if (vent.codigoVenta  > 0) venta.Add(vent);
-            //}
-
-            //return View(venta);
+           
         }
 
 
@@ -53,17 +42,23 @@ namespace SIGECA.Controllers
         {
             Object result = null;
             Venta venta = await _pagoService.GetByCodigoVenta(codigoVenta);
+            List<Producto> productos = await _productoService.GetAll();
+            foreach (Items item in venta.items)
+            {
+                var itm = productos.Find(i => i.id == item.productoID);
+                item.nombre = itm.nombre;
+            }
             result = new { result = "success", value = venta };
             return Content(JsonConvert.SerializeObject(result));
         }
 
         [HttpPost]
-        public async Task<ActionResult> CambiarEstadoVenta(string codigoVenta, string estado)
+        public async Task<ActionResult> CambiarEstadoVenta(string codigoVenta, string estadoActual)
         {
             Object result = null;
-            await _pagoService.updateEstadoVenta(codigoVenta, estado);
+            await _pagoService.updateEstadoVenta(codigoVenta, estadoActual);
             result = new { result = "success", title = "Satisfactorio", url = "Pago/updateEstado" };
-            return Content(JsonConvert.SerializeObject(result));
+            return Content(JsonConvert.SerializeObject(result));           
         }
     }
 }

@@ -8,39 +8,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="keywords" content="Art Sign Up Form Responsive Widget, Audio and Video players, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates,
 		Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design" />
-    <link href="~/css/Login/Login.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assetsLog/css/estilos.css">
 </head>
 
 
 <body>
-    <h1>SIGECA</h1>
-    <div class=" w3l-login-form">
-        <h2>Iniciar Sesión</h2>
-        <form action="#" method="POST">
 
-            <div class=" w3l-form-group">
-                <label>Correo electronico:</label>
-                <div class="group">
-                    <i class="fas fa-user"></i>
-                    <input type="text" class="form-control" placeholder="Correo electronico" required="required" />
+    <main>
+
+        <div class="contenedor__todo">
+            <div class="caja__trasera">
+                <div class="caja__trasera-login">
+                    <h3>¿Ya tienes una cuenta?</h3>
+                    <p>Inicia sesión para entrar en la página</p>
+                    <button id="btn__iniciar-sesion">Iniciar Sesión</button>
+                </div>
+                <div class="caja__trasera-register">
+                    <h3>¿Olvido su contraseña?</h3>
+                    <p>Recordar Contraseña</p>
+                    <button id="btn__registrarse">Recuperar</button>
                 </div>
             </div>
-            <div class=" w3l-form-group">
-                <label>Contraseña:</label>
-                <div class="group">
-                    <i class="fas fa-unlock"></i>
-                    <input type="password" class="form-control" placeholder="Contraseña" required="required" />
-                </div>
-            </div>
-            <div class="forgot">
-                <a href="#">Olvidaste Contraseña?</a>
-            </div>
-            <button type="submit">Ingresar</button>
-        </form>
-        <p class=" w3l-register-p">No tienes una cuenta?<a href="#" class="register"> Registrar</a></p>
-    </div>
 
+            <!--Formulario de Login y registro-->
+            <div class="contenedor__login-register">
+                <!--Login-->
+                <form action="" class="formulario__login">
+                    <h2>Iniciar Sesión</h2>
+                    <input type="text" placeholder="Correo Electronico">
+                    <input type="password" placeholder="Contraseña">
+                    <!--<button>Entrar</button>-->
+                    <button><a href="@Url.Action("Index", "Home")" style=" color: white">Entrar</a></button>
+                    <!--<a href="../Views/Login/Index.cshtml"><button>Entrar</button></a>-->
+                </form>
+
+                <!--Register-->
+                <form action="" class="formulario__register">
+                    <h2>Recuperar Contraseña</h2>
+                    <input type="text" placeholder="Correo Electronico">
+                    <input type="text" placeholder="Confirmar Correo">
+
+                    <button>Enviar</button>
+                    <br />
+                    <p style="color:dimgrey">Se enviaran los datos al correo ingresado</p>
+                </form>
+            </div>
+        </div>
+
+    </main>
+    <script src="~/assetsLog/js/script.js"></script>
 </body>
 
 </html>
+
+

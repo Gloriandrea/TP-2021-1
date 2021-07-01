@@ -45,7 +45,6 @@ namespace SIGECA.Entities
         [Display(Name = "Codigo QR", ShortName = "QRCode", Description = "CodigoQR del Producto")]
         [BsonElement("codigoQR")]
         public string codigoQR { get; set; }
-
-
+        public Categoria categoria { get; set; }
     }
 }

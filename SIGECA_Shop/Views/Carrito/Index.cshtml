@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Carro Compras";
+    ViewBag.Inicio = true;
+    ViewBag.HomeActivate = "active";
+}
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/css/Catalogo/style.default.css" rel="stylesheet" />
+</head>
+<div class="page-holder">
+    <section class="py-5" style="padding-left:5%; padding-right:5%;">
+        <h2 class="h5 text-uppercase mb-4">Compra de Carrito</h2>
+        <div class="row">
+            <div class="col-lg-8 mb-4 mb-lg-0">
+                <!-- CART TABLE-->
+                <div class="table-responsive mb-4">
+                    <table id="carritoTable" class="table">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="border-0" scope="col"> <strong class="text-small text-uppercase">Producto</strong></th>
+                                <th class="border-0" scope="col"> <strong class="text-small text-uppercase">Precio</strong></th>
+                                <th class="border-0" scope="col"> <strong class="text-small text-uppercase">Cantidad</strong></th>
+                                <th class="border-0" scope="col"> <strong class="text-small text-uppercase">Total</strong></th>
+                                <th class="border-0" scope="col"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- CART NAV-->
+                <div class="bg-light px-4 py-3">
+                    <div class="row align-items-center text-center">
+                        <div class="col-md-6 mb-3 mb-md-0 text-md-left"><a class="btn btn-link p-0 text-dark btn-sm" href="Catalogo"><i class="fas fa-long-arrow-alt-left mr-2"> </i>Continuar Comprando</a></div>
+                        <div class="col-md-6 text-md-right"><a class="btn btn-outline-dark btn-sm" href="javascript:void(0);">Procesar al pago<i class="fas fa-long-arrow-alt-right ml-2"></i></a></div>
+                    </div>
+                </div>
+            </div>
+            <!-- ORDER TOTAL-->
+            <div class="col-lg-4">
+                <div class="card border-0 rounded-0 p-lg-4 bg-light">
+                    <div class="card-body">
+                        <h5 class="text-uppercase mb-4">Total de Compra</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li class="d-flex align-items-center justify-content-between"><strong class="text-uppercase small font-weight-bold">Subtotal</strong><span id="carrSubtotal" class="text-muted small">$250</span></li>
+                            <li class="border-bottom my-2"></li>
+                            <li class="d-flex align-items-center justify-content-between mb-4"><strong class="text-uppercase small font-weight-bold">Total</strong><span id="carrTotal">$250</span></li>
+                            @*<li>
+                                    <form action="#">
+                                        <div class="form-group mb-0">
+                                            <input class="form-control" type="text" placeholder="Enter your coupon">
+                                            <button class="btn btn-dark btn-sm btn-block" type="submit"> <i class="fas fa-gift mr-2"></i>Apply coupon</button>
+                                        </div>
+                                    </form>
+                                </li>*@
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="~/js/Carrito/Carrito.js"></script>
+    <script src="~/js/Catalogo/vendor/jquery.min.js"></script>
+    <script src="~/js/Catalogo/vendor/boostrap.bundle.min.js"></script>
+    <script src="~/js/Catalogo/vendor/lightbox.min.js"></script>
+    <script src="~/js/Catalogo/vendor/nouislider.min.js"></script>
+    <script src="~/js/Catalogo/vendor/boostrap-select.min.js"></script>
+    <script src="~/js/Catalogo/vendor/owl.carousel.min.js"></script>
+    <script src="~/js/Catalogo/vendor/owl.carousel2.thumbs.min.js"></script>
+    <script src="~/js/Catalogo/front.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+</div>

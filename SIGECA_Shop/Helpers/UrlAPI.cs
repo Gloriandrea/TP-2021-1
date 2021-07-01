@@ -7,16 +7,15 @@ namespace SIGECA_Shop.Helpers
 {
     public record UrlAPI
     {
-        public UrlAPI(string RootPath = "https://localhost:44311/")
+        public UrlAPI(string RootPath = "https://localhost:42315/")
         {
             this.Urapp = RootPath;
-            this.Producto = this.Urapp + "/api/Producto";
-            this.Oferta = this.Urapp + "/api/Oferta";
-            this.Catalogo = this.Urapp + "/api/Catalogo";
-            this.Usuario = this.Urapp + "/api/Usuario";
-            this.Cliente = this.Urapp + "/api/Cliente";
-            this.Compra = this.Urapp + "/api/Compra";
-           
+            this.Producto = this.Urapp + "api/Producto";
+            this.Oferta = this.Urapp + "api/Oferta";
+            this.Catalogo = this.Urapp + "api/Catalogo";
+            this.Usuario = this.Urapp + "api/Usuario";
+            this.Cliente = this.Urapp + "api/Cliente";
+            this.Compra = this.Urapp + "api/Compra";
         }
 
         public string Urapp { get; }
@@ -26,7 +25,7 @@ namespace SIGECA_Shop.Helpers
         public string Usuario { get; }
         public string Cliente { get; }
         public string Compra { get; }
-        
+
 
 
         public string Login() { return Cliente + "/Login"; }

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿    using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SIGECA.DTOs;
@@ -13,7 +13,6 @@ namespace SIGECA.Controllers
     public class ProductoController : Controller
     {
         private readonly ProductoService _productoService;
-
         public ProductoController(ProductoService productoService)
         {
             _productoService = productoService;
@@ -25,12 +24,32 @@ namespace SIGECA.Controllers
             ViewBag.categoriaProductos = categoriaProductos;
             return View(productos);
         }
+        public async Task<IActionResult> Index2()
+        {
+            List<Producto> productos = await _productoService.GetAll();
+            //List<Categoria> categoriaProductos = await _productoService.GetAllCategoriaProducto();
+            Categoria categoriaProductos = await _productoService.GetCategoryNameByID("6081f464a0b5022eac478209");
+            ViewBag.categoriaProductos = categoriaProductos;
+            return View(productos);
+        }
 
         [HttpPost]
         public async Task<ActionResult<List<ProductoDTO>>> ObtenerProductos()
         {
             List<ProductoDTO> productos = await _productoService.GetAllProductoDTO();
             return Json(new { recordsFiltered = productos.Count, recordsTotal = productos.Count, data = productos });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<List<Producto>>> ObtenerProductosCategoriaPollo()
+        {
+            List<Producto> productos = await _productoService.GetByCategoriaId("6081f464a0b5022eac478209");
+            foreach (Producto producto in productos)
+            {
+                producto.categoria = await _productoService.GetCategoryNameByID("6081f464a0b5022eac478209");
+            }
+            return Json(new { recordsFiltered = productos.Count, recordsTotal = productos.Count, data = productos});
+
         }
 
         public async Task<ActionResult<Producto>> RegistrarProducto(Producto producto)
@@ -77,5 +96,6 @@ namespace SIGECA.Controllers
             result = new { result = "success", title = "Satisfactorio", value = category, url = "Producto/Busqueda" };
             return Content(JsonConvert.SerializeObject(result));
         }
+
     }
 }

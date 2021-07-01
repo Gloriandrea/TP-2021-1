@@ -5,10 +5,8 @@ using System;
 
 namespace SIGECA.Entities
 {
-    [BsonDiscriminator(RootClass = true)]
-    [BsonKnownTypes(
-       typeof(OfertaPorcentaje),
-       typeof(OfertaMultiplicidad))]
+    //[BsonDiscriminator(RootClass = true)]
+    //[BsonKnownTypes(typeof(OfertaPorcentaje),typeof(OfertaMultiplicidad))]
     public class Oferta
     {
         [BsonId]
@@ -36,28 +34,37 @@ namespace SIGECA.Entities
         [BsonElement("productoID")]
         public string productoID { get; set; }
 
-        [BsonIgnore]
+        [BsonIgnoreIfDefault]
         public string nombrePorducto { get; set; }
 
-        [BsonIgnore]
+        [BsonIgnoreIfDefault]
         public string tipoVenta { get; set; }
 
-        [BsonIgnore]
+        [BsonIgnoreIfDefault]
         public double precioProducto { get; set; }
 
-        [BsonIgnore]
+        [BsonIgnoreIfDefault]
         public int stockProducto { get; set; }
-    }
 
-    public class OfertaPorcentaje : Oferta
-    {
+        [BsonIgnoreIfDefault]
         public int porcentajeDescuento { get; set; }
-    }
 
-    public class OfertaMultiplicidad : Oferta
-    {
+        [BsonIgnoreIfDefault]
         public int cantidadOfrecida { get; set; }
+
+        [BsonIgnoreIfDefault]
         public int cantidadPagada { get; set; }
     }
+
+    //public class OfertaPorcentaje : Oferta
+    //{
+    //    public int porcentajeDescuento { get; set; }
+    //}
+
+    //public class OfertaMultiplicidad : Oferta
+    //{
+    //    public int cantidadOfrecida { get; set; }
+    //    public int cantidadPagada { get; set; }
+    //}
 
 }

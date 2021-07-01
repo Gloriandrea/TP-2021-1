@@ -37,6 +37,11 @@ namespace SIGECA.Services
             return await _producto.Find(x => x.id == productoID).FirstOrDefaultAsync();
         }
 
+        public async Task<List<Producto>> GetByCategoriaId(string categoriaID)
+        {
+            return await _producto.Find(x => x.categoriaID == categoriaID).ToListAsync();
+        }
+
         public async Task Create(Producto producto)
         {
             await _producto.InsertOneAsync(producto);

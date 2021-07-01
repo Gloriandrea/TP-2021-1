@@ -3,22 +3,21 @@
     ViewData["Title"] = "Gestionar Ventas";
 }
 
-<h2 class="mt-3">Compras</h2>
+<h2 class="mt-3" style="color:white">Gestion de Ventas</h2>
 <div class="row">
     <div class="col">
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Gestionar Ventas</li>
+            <ol class="breadcrumb" style="border-radius:10px">
+                <p style="color:black;">Existen @Model.ventas.Count() ventas registradas</p>
             </ol>
         </nav>
     </div>
     <div class="col">
-        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#modalRegistrarVenta" onclick="clearDataVenta();"><i class="fas fa-plus"></i> Agregar Venta</button>
+        <button class="btn btn-primary float-right" onclick="clearDataVenta(); $('#modalRegistrarVenta').modal('show'); cambiarDNIusuario();"><i class="fas fa-plus"></i> Agregar Venta</button>
     </div>
 </div>
-<p style="color:gray;">Hay @Model.ventas.Count() ventas registradas</p>
-<table id="tableVenta" class="table datatable-venta">
+
+<table id="tableVenta" class="table datatable-venta" style="background-color:white">
     <thead class="thead-light">
         <tr>
             <th scope="col">Codigo de Venta</th>
@@ -35,7 +34,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="registrarUsuarioLabel">Registrar Nueva Compra</h5>
-                <button type="button" class="close" data-dismiss="modal" onclick="cerrarModal();" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" onclick="cerrarModal(); $('#modalRegistrarVenta').modal('hide')" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -66,7 +65,7 @@
                 <div id="usuarioForm" class="row" style="padding: 5px 5%; display:none;">
                     <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                         <label for="usuario" class="form-label">Usuario: </label>
-                        <select class="form-select form-control" id="proveedorCompraRegistrar" name="usuario" aria-label="Default select example">
+                        <select class="form-select form-control" id="usuarioVentaRegistrar" name="usuario" onchange="cambiarDNIusuario();">
                             @foreach (var usuario in Model.usuarios)
                             {
                                 if (usuario.tipoUsuario == "Cliente")
@@ -88,14 +87,31 @@
                     </div>
                     <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                         <label for="dniCliente" class="form-label">N° DNI: </label>
-                        <input class="form-control" type="text" id="dniCliente" name="dniCliente"/>
+                        <input class="form-control" type="text" id="dniCliente" maxlength="8" name="dniCliente" />
+                    </div>
+                </div>
+                <div class="row" style="padding: 5px 5%; margin-top: 30px;">
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <label class="form-label">Tipo de Venta: </label>
+                    </div>
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="presencialRadio" value="presencial" name="customRadioInline1" class="custom-control-input">
+                            <label class="custom-control-label" for="presencialRadio">Presencial</label>
+                        </div>
+                    </div>
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="onlineRadio" value="online" name="customRadioInline1" class="custom-control-input">
+                            <label class="custom-control-label" for="onlineRadio">Online</label>
+                        </div>
                     </div>
                 </div>
                 <hr />
                 <div class="row" style="padding: 5px 5%">
                     <div class="col-6 col-sm-4">
                         <label for="producto" class="form-label">Producto: </label>
-                        <select class="form-select form-control" id="productoVentaRegistrar" onchange="cambioProductoRegistrar();" name="producto" aria-label="Default select example">
+                        <select class="form-select form-control" id="productoVentaRegistrar" name="producto">
                             @foreach (var producto in Model.productos)
                             {
                                 <option selected value="@producto.id">@producto.nombre</option>
@@ -108,10 +124,10 @@
                     </div>
                     <div class="col-6 col-sm-2">
                         <label for="costoItem" class="form-label">Costo:</label>
-                        <input class="form-control" id="costoVentaRegistrar" name="costoItem">
+                        <input class="form-control" id="costoVentaRegistrar" name="costoItem" disabled>
                     </div>
                     <div class="col-6 col-sm-1" style="display:flex">
-                        <a class="btn btn-primary" id="agregaritemCompra" onclick="addItem();" style="align-self:flex-end"><i class="fas fa-plus"></i></a>
+                        <a class="btn btn-primary" id="agregaritemVenta" onclick="addItem();" style="align-self:flex-end"><i class="fas fa-plus"></i></a>
                     </div>
                 </div>
                 <hr />
@@ -135,7 +151,7 @@
             <div class="modal-footer">
                 <div class="row" style="padding: 5px 5%;width:100%">
                     <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                        <button type="button" onclick="cerrarModal();" class="btn btn-block btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="cerrarModal(); $('#modalRegistrarVenta').modal('hide')" class="btn btn-block btn-secondary" data-dismiss="modal">Cerrar</button>
                     </div>
                     <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
                         <button type="button" class="btn btn-block btn-primary" id="btnRegistrarVentaModal">
@@ -147,8 +163,230 @@
         </div>
     </div>
 </div>
+
+<div class="modal" id="modalModificarVenta" tabindex="-1" aria-labelledby="modificarVentaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modificarCompraLabel">Modificar Venta</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="cerrarModal(); $('#modalModificarVenta').modal('hide')" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="padding: 5px 5%">
+                    <input type="hidden" id="idVentaModificar" name="id" />
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <label class="form-label">Tipo de Cliente: </label>
+                    </div>
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="usuarioRadioModificar" value="usuario" name="customRadioInline2" class="custom-control-input" disabled>
+                            <label class="custom-control-label" for="usuarioRadioModificar">Usuario</label>
+                        </div>
+                    </div>
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="clienteRadioModificar" value="cliente" name="customRadioInline2" class="custom-control-input" disabled>
+                            <label class="custom-control-label" for="clienteRadioModificar">Cliente</label>
+                        </div>
+                    </div>
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="sinDocumentoRadioModificar" value="sinDocumentos" name="customRadioInline2" class="custom-control-input" disabled>
+                            <label class="custom-control-label" for="sinDocumentoRadioModificar">Sin Documento</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding: 5px 5%; margin-top: 30px;">
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <label class="form-label">Tipo de Venta: </label>
+                    </div>
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="presencialRadioModificar" value="presencial" name="customRadioInline3" class="custom-control-input">
+                            <label class="custom-control-label" for="presencialRadioModificar">Presencial</label>
+                        </div>
+                    </div>
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="onlineRadioModificar" value="online" name="customRadioInline3" class="custom-control-input">
+                            <label class="custom-control-label" for="onlineRadioModificar">Online</label>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row" style="padding: 5px 5%">
+                    <div class="col-6 col-sm-4">
+                        <label for="producto" class="form-label">Producto: </label>
+                        <select class="form-select form-control" id="productoVentaModificar" onchange="cambioProductoModificar();" name="producto" aria-label="Default select example">
+                            @foreach (var producto in Model.productos)
+                            {
+                                <option selected value="@producto.id">@producto.nombre</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-6 col-sm-2">
+                        <label for="cantidadItem" class="form-label">Cantidad:</label>
+                        <input class="form-control" id="cantidadVentaModificar" onblur="cambioCantidadModificar();" name="cantidadItem">
+                    </div>
+                    <div class="col-6 col-sm-2">
+                        <label for="costoItem" class="form-label">Costo:</label>
+                        <input class="form-control" id="costoVentaModificar" name="costoItem" disabled>
+                    </div>
+                    <div class="col-6 col-sm-1" style="display:flex">
+                        <a class="btn btn-primary" id="agregaritemVenta" onclick="addItemModificar();" style="align-self:flex-end"><i class="fas fa-plus"></i></a>
+                    </div>
+                </div>
+                <hr />
+                <table id="itemVentaModificar" class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Nombre del producto</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Costo</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <br />
+                <div style="text-align: right">
+                    <h2>Total: S/. <span id="itemModificarTotal">0.00</span></h2>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row" style="padding: 5px 5%;width:100%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" onclick="cerrarModal(); $('#modalModificarVenta').modal('hide')" class="btn btn-block btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-primary" id="btnModificarVentaModal">
+                            Modificar Venta
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modalConsultarVenta" tabindex="-1" aria-labelledby="consultarVentaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modificarCompraLabel">Detalle de Venta</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="$('#modalConsultarVenta').modal('hide')" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="padding: 5px 5%">
+                    <input type="hidden" id="idVentaConsultar" name="id" />
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <label class="form-label">Tipo de Cliente: </label>
+                    </div>
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="usuarioRadioConsultar" value="usuario" name="customRadioInline4" class="custom-control-input" disabled>
+                            <label class="custom-control-label" for="usuarioRadioConsultar">Usuario</label>
+                        </div>
+                    </div>
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="clienteRadioConsultar" value="cliente" name="customRadioInline4" class="custom-control-input" disabled>
+                            <label class="custom-control-label" for="clienteRadioConsultar">Cliente</label>
+                        </div>
+                    </div>
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="sinDocumentoRadioConsultar" value="sinDocumentos" name="customRadioInline4" class="custom-control-input" disabled>
+                            <label class="custom-control-label" for="sinDocumentoRadioConsultar">Sin Documento</label>
+                        </div>
+                    </div>
+                </div>
+                <div id="usuarioFormConsultar" class="row" style="padding: 5px 5%; display: none">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="usuarioVentaConsultar" class="form-label">Usuario: </label>
+                        <input class="form-control" type="text" id="usuarioVentaConsultar" name="usuarioVentaConsultar" disabled />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="dniUsuarioConsultar" class="form-label">N° DNI: </label>
+                        <input class="form-control" type="text" id="dniUsuarioConsultar" name="dniUsuarioConsultar" disabled />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="telefonoUsuarioConsultar" class="form-label" style=" margin-top: 9px;">Telefono: </label>
+                        <input class="form-control" type="text" id="telefonoUsuarioConsultar" name="telefonoUsuarioConsultar" disabled />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="emailUsuarioConsultar" class="form-label" style=" margin-top: 9px;">Correo: </label>
+                        <input class="form-control" type="text" id="emailUsuarioConsultar" name="emailUsuarioConsultar" disabled />
+                    </div>
+                    <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                        <label for="direccionUsuarioConsultar" class="form-label" style=" margin-top: 9px;">Direccion:</label>
+                        <textarea class="form-control" id="direccionUsuarioConsultar"
+                                  name="direccionUsuarioConsultar"
+                                  rows="3" disabled></textarea>
+                    </div>
+                </div>
+                <div id="clienteFormConsultar" class="row" style="padding: 5px 5%; display: none;">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="nombreClienteConsultar" class="form-label">Cliente: </label>
+                        <input class="form-control" type="text" id="nombreClienteConsultar" name="nombreClienteConsultar" disabled />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="dniClienteConsultar" class="form-label">N° DNI: </label>
+                        <input class="form-control" type="text" id="dniClienteConsultar" name="dniClienteConsultar" disabled />
+                    </div>
+                </div>
+                <div class="row" style="padding: 5px 5%; margin-top: 30px;">
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <label class="form-label">Tipo de Venta: </label>
+                    </div>
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="presencialRadioConsultar" value="presencial" name="customRadioInline5" class="custom-control-input" disabled>
+                            <label class="custom-control-label" for="presencialRadioConsultar">Presencial</label>
+                        </div>
+                    </div>
+                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="onlineRadioConsultar" value="online" name="customRadioInline5" class="custom-control-input" disabled>
+                            <label class="custom-control-label" for="onlineRadioConsultar">Online</label>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <table id="itemVentaConsultar" class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Nombre del producto</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Costo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <br />
+                <div style="text-align: right">
+                    <h2>Total: S/. <span id="itemConsultarTotal">0.00</span></h2>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="$('#modalConsultarVenta').modal('hide')" class="btn btn-block btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="URL_ObtenerVentaPorID" value="@Url.Action("ObtenerVentaID", "Venta")" />
 <input type="hidden" id="URL_VentasListarTodos" value="@Url.Action("ObtenerVentas", "Venta")" />
 <input type="hidden" id="URL_ObtenerProductoPorID" value="@Url.Action("ObtenerProductoPorId", "Producto")" />
+<input type="hidden" id="URL_VentaActualizarEstado" value="@Url.Action("CambiarEstadoVenta", "Venta")" />
+<input type="hidden" id="URL_ObtenerUsuario" value="@Url.Action("ObtenerUsuario", "Venta")" />
 @section scripts{
     <script src="~/js/Venta/GestionarVenta.js"></script>
+    <script src="~/js/Venta/Validation.js"></script>
 }
