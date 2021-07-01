@@ -34,7 +34,7 @@
                 <div class="bg-light px-4 py-3">
                     <div class="row align-items-center text-center">
                         <div class="col-md-6 mb-3 mb-md-0 text-md-left"><a class="btn btn-link p-0 text-dark btn-sm" href="Catalogo"><i class="fas fa-long-arrow-alt-left mr-2"> </i>Continuar Comprando</a></div>
-                        <div class="col-md-6 text-md-right"><a class="btn btn-outline-dark btn-sm" href="javascript:void(0);">Procesar al pago<i class="fas fa-long-arrow-alt-right ml-2"></i></a></div>
+                        <div class="col-md-6 text-md-right"><a class="btn btn-outline-dark btn-sm" onclick="procesarPago()" href="javascript:void(0);">Procesar al pago<i class="fas fa-long-arrow-alt-right ml-2"></i></a></div>
                     </div>
                 </div>
             </div>
@@ -61,6 +61,49 @@
             </div>
         </div>
     </section>
+    <div class="modal" id="modalRegistrarVenta" tabindex="-1" aria-labelledby="registrarVentaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registrarUsuarioLabel">Registrar Nueva Compra</h5>
+                    <button type="button" class="close" data-dismiss="modal" onclick="$('#modalRegistrarVenta').modal('hide')" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="padding: 5px 5%; margin-top: 30px;">
+                        <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                            <label class="form-label">Tipo de Venta: </label>
+                        </div>
+                        <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="presencialRadio" value="presencial" name="customRadioInline1" class="custom-control-input">
+                                <label class="custom-control-label" for="presencialRadio">Presencial</label>
+                            </div>
+                        </div>
+                        <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="onlineRadio" value="online" name="customRadioInline1" class="custom-control-input">
+                                <label class="custom-control-label" for="onlineRadio">Online</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row" style="padding: 5px 5%;width:100%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <button type="button" onclick="$('#modalRegistrarVenta').modal('hide')" class="btn btn-block btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <button type="button" class="btn btn-block btn-primary" onclick="registrarVenta()" id="btnRegistrarVentaModal">
+                                Realizar Venta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="~/js/Carrito/Carrito.js"></script>
     <script src="~/js/Catalogo/vendor/jquery.min.js"></script>
     <script src="~/js/Catalogo/vendor/boostrap.bundle.min.js"></script>
