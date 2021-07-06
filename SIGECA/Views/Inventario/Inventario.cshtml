@@ -1,0 +1,298 @@
+﻿@using SIGECA.Entities;
+@model IEnumerable<Producto>
+
+@{
+    ViewData["Title"] = "Inventario";
+    List<Categoria> categoriaProductos = (List<Categoria>)ViewBag.categoriaProductos;
+}
+
+
+<h2 class="mt-3" style="color:white">Productos Registrados</h2>
+<div class="row">
+    <div class="col-9">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" style="color:midnightblue">Inventario </li>
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+<table id="TableInventario" class="table datatable-inventario" style="background-color:white">
+    <thead class="thead-light">
+        <tr>
+            <th>Nombre</th>
+            <th>Categoria</th>
+            <th>Tipo Venta</th>
+            <th>Precio</th>
+            <th>Stock en Venta</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@* MODAL DEL INVENTARIO  INICIAL *@
+
+<div class="modal" id="modalInventarioInicial" tabindex="-1" aria-labelledby="registrarProductoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modificarProductoLabel">Inventario Inicial</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("ModificarProducto","Producto")" id="frmModificarProducto" method="post">
+                    <input type="hidden" id="idProductoModificar" name="id" />
+                    <input type="hidden" id="urlImagenModificarProducto" name="urlImagen" />
+
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="nombre" class="form-label">Nombre:</label>
+                            <input readonly class="form-control" id="nombreModificarProducto"
+                                   placeholder="Filete de Cerdo" name="nombre">
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="categoria" class="form-label">Categoria del Producto:</label>
+                            <select readonly class="form-select form-control" id="categoriaModificarProducto"
+                                    name="categoriaID"
+                                    aria-label="Default select example">
+                                @for (int i = 0; i < categoriaProductos.Count; i++)
+                                {
+                                    <option value="@categoriaProductos[i].id">@categoriaProductos[i].nombre</option>
+                                }
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                            <label for="descripcion" class="form-label">Descripcion:</label>
+                            <textarea readonly class="form-control" id="descripcionModificarProducto"
+                                      name="descripcion"
+                                      rows="3" placeholder="Pechugas de pollo Empanizadas en Salsa BBQ"></textarea>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="precio" class="form-label">Precio Normal:</label>
+                            <input readonly type="number" class="form-control" id="precioModificarProducto"
+                                   placeholder="S/. 34.00" name="precio">
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="tipoVenta" class="form-label">Tipo de Venta:</label>
+                            <input readonly class="form-select form-control" id="tipoVentaModificarProducto"
+                                   name="tipoVenta"
+                                   aria-label="Default select example">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="unidadMedida" class="form-label">Unidad de Medida:</label>
+                            <input readonly class="form-select form-control" id="unidadMedidaModificarProducto"
+                                   name="unidadMedida"
+                                   aria-label="Default select example">
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Stock de Productos:</label>
+                            <input readonly class="form-control" id="stock"
+                                   placeholder="0" name="stock">
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-4 col-sm-4 col-lg-4 col-xl-4">
+                            <label for="stock" class="form-label">Fecha de Inventario Inicial:</label>
+                            <input readonly class="form-control" id="fechaInicial"
+                                   placeholder="0" name="fechaIni">
+                        </div>
+                        <div class="col-4 col-sm-4 col-lg-4 col-xl-4">
+                            <label for="stock" class="form-label">Stock Inicial:</label>
+                            <input readonly type="number" class="form-control" id="stockInicial"
+                                   placeholder="0" name="stock">
+                        </div>
+
+                        <div class="col-4 col-sm-4 col-lg-4 col-xl-4">
+                            <label for="stock" class="form-label">Nuevo Stock:</label>
+                            <input class="form-control" id="nuevoStock"
+                                   placeholder="0" name="stock">
+                        </div>
+                    </div>
+
+                    <div hidden class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Imagen Referencial:</label>
+                            <img src="~/assets/img/defaultPic.jpg" id="imagenProducto" style="width:100%;height:80%" />
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Codigo QR:</label>
+                            <img src="" id="codigoQR" style="width:100%;height:80%" />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="row" style="padding: 5px 5%;width:100%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-primary"
+                                id="btnModificarProductoModal">
+                            Modificar Producto
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* MODAL DEL INVENTARIO  FINAL *@
+
+<div class="modal" id="modalInventarioFinal" tabindex="-1" aria-labelledby="registrarProductoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modificarProductoLabel">Inventario Final</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="@Url.Action("ModificarProducto","Producto")" id="frmInventarioFinal" method="post">
+                    <input type="hidden" id="idProd" name="id" />
+                    <input type="hidden" id="urlImagenProd" name="urlImagen" />
+
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="nombre" class="form-label">Nombre:</label>
+                            <input readonly class="form-control" id="nombreP"
+                                   placeholder="Filete de Cerdo" name="nombre">
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="categoria" class="form-label">Categoria del Producto:</label>
+                            <select readonly class="form-select form-control" id="categoriaP"
+                                    name="categoriaID"
+                                    aria-label="Default select example">
+                                @for (int i = 0; i < categoriaProductos.Count; i++)
+                                {
+                                    <option value="@categoriaProductos[i].id">@categoriaProductos[i].nombre</option>
+                                }
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                            <label for="descripcion" class="form-label">Descripcion:</label>
+                            <textarea readonly class="form-control" id="descripcionP"
+                                      name="descripcion"
+                                      rows="3" placeholder="Pechugas de pollo Empanizadas en Salsa BBQ"></textarea>
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="precio" class="form-label">Precio Normal:</label>
+                            <input readonly type="number" class="form-control" id="precioP"
+                                   placeholder="S/. 34.00" name="precio">
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="tipoVenta" class="form-label">Tipo de Venta:</label>
+                            <input readonly class="form-select form-control" id="tipoVentaP"
+                                   name="tipoVenta"
+                                   aria-label="Default select example">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="unidadMedida" class="form-label">Unidad de Medida:</label>
+                            <input readonly class="form-select form-control" id="unidadMedidaP"
+                                   name="unidadMedida"
+                                   aria-label="Default select example">
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Stock de Productos:</label>
+                            <input readonly class="form-control" id="stockS"
+                                   placeholder="40" name="stockS">
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Fecha de Inventario Inicial:</label>
+                            <input readonly  class="form-control" id="dateInicial"
+                                   placeholder="0" name="dateIni">
+                        </div>
+
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Stock Inicial:</label>
+                            <input readonly type="number" class="form-control" id="stockIni"
+                                   placeholder="0" name="stockIn">
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Fecha de Inventario Final:</label>
+                            <input readonly class="form-control" id="dateFinal"
+                                   placeholder="0" name="dateFin">
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Stock Final</label>
+                            <input readonly class="form-control" id="stockFinal"
+                                   placeholder="0" name="stockFin">
+                        </div>
+                    </div>
+                    <div class="row" style="padding: 5px 5%">
+
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Ventas del día:</label>
+                            <input readonly class="form-control" id="ventaDia"
+                                   placeholder="0" name="stockV">
+                        </div>
+                    </div>
+                    <div hidden class="row" style="padding: 5px 5%">
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Imagen Referencial:</label>
+                            <img src="~/assets/img/defaultPic.jpg" id="imagenProducto" style="width:100%;height:80%" />
+                        </div>
+                        <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                            <label for="stock" class="form-label">Codigo QR:</label>
+                            <img src="" id="codigoQR" style="width:100%;height:80%" />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="row" style="padding: 5px 5%;width:100%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <button type="button" class="btn btn-block btn-primary"
+                                id="btnModificarProductoModal2">
+                            Modificar Producto
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="hidden" id="URL_ProductosListarTodos" value="@Url.Action("ObtenerProductos", "Producto")" />
+<input type="hidden" id="URL_ProductoPorID" value="@Url.Action("ObtenerProductoPorId", "Producto")" />
+<input type="hidden" id="URL_ModificarProducto" value="@Url.Action("ModificarProducto", "Producto")" />
+
+@section scripts{
+    <script src="~/js/Producto/Inventario.js"></script>
+}
+

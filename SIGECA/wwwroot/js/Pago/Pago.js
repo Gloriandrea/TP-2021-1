@@ -265,8 +265,18 @@ $('#tablaVentaPorCódigo').on('click', '.btnRegistrarPago', function (e) {
                     venta.items.forEach(c => {
                         productos += c.nombre + "\n";
                     });
-                    $("#txaProductos").val(productos);                  
+                    $("#txaProductos").val(productos);     
                     $("#txtTotal").val(venta.total);
+                    $("#txtEfectivo").keyup(function () {
+                        var value = $(this).val();
+                        if (value > 0) {
+                            $("#txtVuelto").val(parseInt(value) - parseInt(venta.total));
+                        }
+                        else {
+                            $("#txtVuelto").val("0");
+                        }
+
+                    });
                     $("#modalPagoVenta").modal('show');
                 }
                 else {
@@ -300,7 +310,8 @@ $(function () {
                     console.log("total: ", total);
                     var efectivo = $("#txtEfectivo").val();
                     var ID = venta.id;
-                    console.log("efectivo: ", efectivo);
+                    console.log("efectivo: ", efectivo);                
+
                     if (total <= efectivo) {
                         $("#txtVuelto").val(efectivo - total);                 
 
@@ -314,6 +325,7 @@ $(function () {
                                     success: function (data, textStatus, jqXHR) {
                                         if (data.result == "success") {
                                             console.log("estado: ", estado);
+                                           
                                             Swal.fire(
                                                 'Modificado!',
                                                 'Venta ' + textoFinal + ' Satisfactoriamente',
