@@ -1,14 +1,14 @@
 ﻿//para imprimir la venta
-    function imprim1(imp1) {
-        var printContents = document.getElementById('imp1').innerHTML;
-        w = window.open();
-        w.document.write(printContents);
-        w.document.close(); // necessary for IE >= 10
-        w.focus(); // necessary for IE >= 10
-        w.print();
-        w.close();
-        return true;
-    }
+//    function imprim1(imp1) {
+//        var printContents = document.getElementById('imp1').innerHTML;
+//        w = window.open();
+//        w.document.write(printContents);
+//        w.document.close(); // necessary for IE >= 10
+//        w.focus(); // necessary for IE >= 10
+//        w.print();
+//        w.close();
+//        return true;
+//}
 //Tabla principal CUS Gestionar Pago
 $(document).ready(function () {
     
@@ -239,7 +239,6 @@ $(document).ready(function () {
     );
 });
 
-
 //carga del modal ver venta para CUS gestionar Pago
 $('#tablaVentaPorCódigo').on('click', '.btnRegistrarPago', function (e) {
         e.preventDefault();
@@ -287,7 +286,7 @@ $('#tablaVentaPorCódigo').on('click', '.btnRegistrarPago', function (e) {
                 console.log("ERROR AL OBTENER LOS DATOS 2");
             }
         });
-    });
+});
 
 
 // Pago de una venta
@@ -454,8 +453,12 @@ $(function () {
     });
 });
 
+//limpiar input buscar
+$("#btnLimpiar").on('click', function () {
+    $("#searchTerm").val(""); document.location.reload();
+});
 
-
+//Buscar una venta
 function doSearch() {
     const tableReg = document.getElementById('tablaVentaPorCódigo');
     const searchText = document.getElementById('searchTerm').value.toLowerCase();
@@ -487,7 +490,6 @@ function doSearch() {
             tableReg.rows[i].style.display = 'none';
         }
     }
-
     // mostramos las coincidencias
     const lastTR = tableReg.rows[tableReg.rows.length - 1];
     const td = lastTR.querySelector("td");
@@ -502,6 +504,3 @@ function doSearch() {
         Swal.fire("No se han encontrado coincidencias");
     }
 }
-
-//limpiar input buscar
-$("#btnLimpiar").on('click', function () { $("#searchTerm").val(""); document.location.reload(); })

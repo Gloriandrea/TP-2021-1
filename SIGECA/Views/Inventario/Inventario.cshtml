@@ -118,8 +118,8 @@
 
                         <div class="col-4 col-sm-4 col-lg-4 col-xl-4">
                             <label for="stock" class="form-label">Nuevo Stock:</label>
-                            <input class="form-control" id="nuevoStock"
-                                   placeholder="0" name="stock">
+                            <input type="text" pattern="[0-9]+"  class="form-control" id="nuevoStock"
+                                   placeholder="0" name="stock" onkeypress="return valideKey(event);">
                         </div>
                     </div>
 
@@ -293,6 +293,6 @@
 <input type="hidden" id="URL_ModificarProducto" value="@Url.Action("ModificarProducto", "Producto")" />
 
 @section scripts{
-    <script src="~/js/Producto/Inventario.js"></script>
+    <script src="~/js/Producto/Inventario.js"></script>    
 }
 
