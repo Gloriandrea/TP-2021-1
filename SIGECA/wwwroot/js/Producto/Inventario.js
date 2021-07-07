@@ -49,13 +49,13 @@ $('.datatable-inventario').DataTable(
             ]
         });
 
-    $('#fechaNacimientoUsuarioRegistrar').datepicker({
-        "format": "yyyy-mm-dd"
-    });
+    //$('#fechaNacimientoUsuarioRegistrar').datepicker({
+    //    "format": "yyyy-mm-dd"
+    //});
 
-    $('#fechaNacimientoUsuarioModificar').datepicker({
-        "format": "yyyy-mm-dd"
-    });
+    //$('#fechaNacimientoUsuarioModificar').datepicker({
+    //    "format": "yyyy-mm-dd"
+    //});
 
 
     function SwalFireMessageSuccess(title, icon, html) {
@@ -252,19 +252,3 @@ $("#btnModificarProductoModal2").on("click", function () {
 
 });
 
-/*validar que sólo se ingrese valores numéricos*/
-function valideKey(evt) {
-
-    // code is the decimal ASCII representation of the pressed key.
-    var code = (evt.which) ? evt.which : evt.keyCode;
-
-    if (code == 8) { // backspace.
-        SwalFireMessageError("Ingrese valores numéricos");
-        return true;
-    } else if (code >= 48 && code <= 57) { // is a number.
-        return true;
-    } else { // other keys.
-        SwalFireMessageError("Ingrese valores numéricos");
-        return false;
-    }
-}

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SIGECA.Entities;
 using SIGECA.Services;
 using System;
@@ -11,10 +12,12 @@ namespace SIGECA.Controllers
     public class InventarioController : Controller
     { 
         private readonly ProductoService _productoService;
+        private readonly InventarioService _inventarioService;
 
-        public InventarioController(ProductoService productoService)
+        public InventarioController(ProductoService productoService/*, InventarioService inventarioService*/)
         {
             _productoService = productoService;
+           // _inventarioService = inventarioService;
         }
         
         public async Task< IActionResult> Inventario()
@@ -24,6 +27,31 @@ namespace SIGECA.Controllers
             ViewBag.categoriaProductos = categoriaProductos;
             return View(productos);
         }
-       
+
+        [HttpPost]
+        public async Task<ActionResult<Producto>> RegistrarProductoInventario(Inventario inventario)
+        {
+            Object result = null;
+            try
+            {
+                inventario = await _inventarioService.CreateInventario(inventario);
+                result = new { result = "success", title = "Satisfactorio", productoID = inventario.id, message = "Producto Registrado Correctamente", url = "Producto/Registro" };
+                return Content(JsonConvert.SerializeObject(result));
+            }
+            catch (Exception ex)
+            {
+                result = new { result = "error", title = "Error", message = "Lo sentimos, hubo un problema no esperado. Vuelva a intentar por favor. " + ex.Message, url = "" };
+                return Content(JsonConvert.SerializeObject(result));
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> ModificarProductoInventario([FromQuery] String productoID, Inventario inventario)
+        {
+            Object result = null;
+            Inventario productoInventarioActualizado = await _inventarioService.UpdateProductoInventario(inventario);
+            result = new { result = "success", title = "Satisfactorio", value = productoInventarioActualizado, url = "Inventario/ActualizarProductoInventario" };
+            return Content(JsonConvert.SerializeObject(result));
+        }
+
     }
 }

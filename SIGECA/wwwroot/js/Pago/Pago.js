@@ -266,13 +266,17 @@ $('#tablaVentaPorCódigo').on('click', '.btnRegistrarPago', function (e) {
                     });
                     $("#txaProductos").val(productos);     
                     $("#txtTotal").val(venta.total);
+                    
                     $("#txtEfectivo").keyup(function () {
                         var value = $(this).val();
-                        if (value > 0) {
+
+                        if (parseInt(value) >= venta.total)
+                        {
                             $("#txtVuelto").val(parseInt(value) - parseInt(venta.total));
                         }
                         else {
-                            $("#txtVuelto").val("0");
+                           
+                            $("#txtVuelto").val("0");                            
                         }
 
                     });
@@ -311,8 +315,7 @@ $(function () {
                     var ID = venta.id;
                     console.log("efectivo: ", efectivo);                
 
-                    if (total <= efectivo) {
-                        $("#txtVuelto").val(efectivo - total);                 
+                    if (total <= efectivo) {                                   
 
                     if (estado=="pendiente") {
                                 var textoFinal = "pagada";
