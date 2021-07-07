@@ -34,5 +34,6 @@ namespace SIGECA.Entities
         public int cantidad { get; set; }
         public string unidadMedida { get; set; }
         public double costo { get; set; }
+        public string imagen { get; set; }
     }
 }
