@@ -3,31 +3,33 @@ var total = 0.0;
 var itemsProductos = [];
 $(document).ready(function () {
     for (var i = 0; i < localStorage.length; i++) {
-        var producto = JSON.parse(localStorage.getItem(`cartId${i}`));
-        var row = "<tr>" +
+        if (localStorage.getItem(`cartId${i}`) != null) {
+            var producto = JSON.parse(localStorage.getItem(`cartId${i}`));
+            var row = "<tr>" +
                 '<th class="pl-0 border-0" scope="row">' +
-                    '<div class="media align-items-center">' +
-                            '<a class="reset-anchor d-block animsition-link" href="detail.html"><img src="'+ producto.urlImagen +'" alt="..." width="70" /></a>' +
-                        '<div class="media-body ml-3"><strong class="h6"><a class="reset-anchor animsition-link" href="javascript:void(0);">'+ producto.nombre +'</a></strong></div>' +
-                    '</div>' +
-                    '</th>' +
-                    '<td class="align-middle border-0">' + '<p id="' + `cartId${i}-precio` +'" class="mb-0 small">S/. ' + parseFloat(producto.precio).toFixed(2) + '</p>' + '</td>' +
-                    '<td class="align-middle border-0">' +
-                        '<div class="border d-flex align-items-center justify-content-between px-3">' +
-                        '<span class="small text-uppercase text-gray headings-font-family">Cantidad</span>' +
-                        '<div class="quantity">' + '<button class="dec-btn p-0"><i class="fas fa-caret-left"></i></button>' + '<input onchange="CambiarCantidad(`' + `cartId${i}` + '`)" id="' + `cartId${i}-cantidad` +'" class="form-control form-control-sm border-0 shadow-0 p-0" type="text" value="1" />' +
-                        '<button class="inc-btn p-0"><i class="fas fa-caret-right"></i></button>' +
-                        '</div>' +
-                        '</div>' +
-                    '</td>' +
-                    '<td class="align-middle border-0">' +
-                    '<p id="'+ `cartId${i}-total` +'" class="mb-0 small">S/. '+ parseFloat(producto.precio).toFixed(2) +'</p>' +
-                    '</td>' +
+                '<div class="media align-items-center">' +
+                '<a class="reset-anchor d-block animsition-link" href="detail.html"><img src="' + producto.urlImagen + '" alt="..." width="70" /></a>' +
+                '<div class="media-body ml-3"><strong class="h6"><a class="reset-anchor animsition-link" href="javascript:void(0);">' + producto.nombre + '</a></strong></div>' +
+                '</div>' +
+                '</th>' +
+                '<td class="align-middle border-0">' + '<p id="' + `cartId${i}-precio` + '" class="mb-0 small">S/. ' + parseFloat(producto.precio).toFixed(2) + '</p>' + '</td>' +
+                '<td class="align-middle border-0">' +
+                '<div class="border d-flex align-items-center justify-content-between px-3">' +
+                '<span class="small text-uppercase text-gray headings-font-family">Cantidad</span>' +
+                '<div class="quantity">' + '<button class="dec-btn p-0"><i class="fas fa-caret-left"></i></button>' + '<input onchange="CambiarCantidad(`' + `cartId${i}` + '`)" id="' + `cartId${i}-cantidad` + '" class="form-control form-control-sm border-0 shadow-0 p-0" type="text" value="1" />' +
+                '<button class="inc-btn p-0"><i class="fas fa-caret-right"></i></button>' +
+                '</div>' +
+                '</div>' +
+                '</td>' +
+                '<td class="align-middle border-0">' +
+                '<p id="' + `cartId${i}-total` + '" class="mb-0 small">S/. ' + parseFloat(producto.precio).toFixed(2) + '</p>' +
+                '</td>' +
                 '<td class="align-middle border-0"><a  class="btnBorrar reset-anchor" onclick="eliminarCompraCarrito(`' + `cartId${i}` + '`)" href="javascript:void(0);"><i class="fas fa-trash-alt small text-muted"></i></a></td>' +
-            "</tr>";
-        $('#carritoTable > tbody').append(row);
-        subtotal += producto.precio;
-        total += producto.precio;
+                "</tr>";
+            $('#carritoTable > tbody').append(row);
+            subtotal += producto.precio;
+            total += producto.precio;
+        }
     }
    
     $('#carrSubtotal').html("S/. " +parseFloat(subtotal).toFixed(2));
@@ -68,6 +70,14 @@ $("#carritoTable").on("click", ".btnBorrar", function (event) {
 
 function procesarPago() {
     $('#modalRegistrarVenta').modal('show');
+    $('#clienteDatos').css("display", "flex");
+    $('#pay_pal_opcion').css("display", "none");
+}
+
+function registrarVentaTemp() {
+    $('#clienteDatos').css("display", "none");
+    $('#pay_pal_opcion').css("display", "block");
+    $('#pay_pal_opcion').addClass("animate__animated animate__zoomIn animate__fast");
 }
 
 function registrarVenta() {

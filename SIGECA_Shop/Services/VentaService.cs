@@ -27,5 +27,9 @@ namespace SIGECA_Shop.Services
             _venta.InsertOne(venta);
             return venta;
         }
+        public async Task<Venta> GetByIdUsuario(string usuarioID)
+        {
+            return await _venta.FindAsync(x => x.usuarioID == usuarioID).Result.FirstOrDefaultAsync();
+        }
     }
 }
