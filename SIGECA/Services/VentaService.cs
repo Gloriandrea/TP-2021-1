@@ -54,6 +54,12 @@ namespace SIGECA.Services
                 case "cobrado":
                     estado = "entregado";
                     break;
+                case "delivery":
+                    estado = "repartido";
+                    break;
+                case "repartido":
+                    estado = "entregado";
+                    break;
             };
             var update = Builders<Venta>.Update.Set("estado", estado);
             var filters = Builders<Venta>.Filter.Eq("id", ventaid);
