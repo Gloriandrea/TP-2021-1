@@ -1,7 +1,4 @@
-﻿@*
-
-*@
-
+﻿@model SIGECA_Shop.Controllers.TrackingController.ModelTracking
 @{
     ViewData["Title"] = "Tracking";
     ViewBag.Inicio = true;
@@ -17,31 +14,39 @@
     <article class="card">
         <header class="card-header"> Mi Orden / Seguimiento</header>
         <div class="card-body">
-            <h6>ID de la Orden: 123123123</h6>
+            <h6>ID de la Orden: @Model.venta.codigoVenta</h6>
             <article class="card">
                 <div class="card-body row">
                     <div class="col"> <strong>Entrega estimada del delivery:</strong> <br>10 julio 2021 </div>
-                    <div class="col"> <strong>Shipping BY:</strong> <br> AVICOLA NANCY, | <i class="fa fa-phone"></i> +51 987654321 </div>
-                    <div class="col"> <strong>Status:</strong> <br> Tomado por el courier </div>
-                    <div class="col"> <strong>Tracking #:</strong> <br> 123123123</div>
+                    <div class="col"> <strong>Direccion para:</strong> <br> @Model.usuario.datos.direccion | <i class="fa fa-phone"></i> @Model.usuario.datos.telefono </div>
+                    <div class="col"> <strong>Estado:</strong> <br> Cobrado</div>
                 </div>
             </article>
             <div class="track">
-                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Orden confirmada</span> </div>
-                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Tomado por el courier</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Venta Pendiente</span> </div>
+                <div class="step active"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">Venta Cobrado</span> </div>
                 <div class="step "> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> En camino </span> </div>
                 <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Entregado</span> </div>
             </div>
             <hr>
             <ul class="row">
-                <li class="col-md-4">
-                    <figure class="itemside mb-3">
-                        <div class="aside"><img src="" class="img-sm border"></div>
-                        <figcaption class="info align-self-center">
-                            <p class="title">Pechuga <br> 1 unidad</p> <span class="text-muted">S/. 25</span>
-                        </figcaption>
-                    </figure>
-                </li>
+                @foreach (Producto prod in Model.productos)
+                {
+                    @for (int i = 0; i < Model.venta.items.Count; i++)
+                    {
+                        @if (Model.venta.items[i].productoID == prod.id)
+                        {
+                            <li class="col-md-4">
+                                <figure class="itemside mb-3">
+                                    <div class="aside"><img src="@prod.urlImagen" class="img-sm border"></div>
+                                    <figcaption class="info align-self-center">
+                                        <p class="title">@prod.nombre <br>Cantidad: @Model.venta.items[i].cantidad</p> <span class="text-muted">S/. @Model.venta.items[i].subTotal</span>
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        }
+                    }
+                }
             </ul>
             <hr> <a href="@Url.Action("Index", "Catalogo")" class="btn btn-warning" data-abc="true"> <i class="fa fa-chevron-left"></i> Volver al Catalogo</a>
         </div>
