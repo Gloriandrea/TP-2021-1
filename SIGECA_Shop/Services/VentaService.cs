@@ -22,6 +22,10 @@ namespace SIGECA_Shop.Services
         {
             return _venta.Find(x => true).ToList();
         }
+        public async Task<Venta> GetById(string ventaID)
+        {
+            return await _venta.FindAsync(x => x.id == ventaID).Result.FirstOrDefaultAsync();
+        }
         public async Task<Venta> CreateVenta(Venta venta)
         {
             _venta.InsertOne(venta);

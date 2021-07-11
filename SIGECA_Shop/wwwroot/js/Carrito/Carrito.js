@@ -119,6 +119,7 @@ function registrarVenta() {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             if (data.result == "success") {
+                var venta = data.value;
                 $("#modalRegistrarVenta").modal('hide');
                 clearDataVenta();
                 Swal.fire({
@@ -134,6 +135,8 @@ function registrarVenta() {
                         '<i class="fa fa-thumbs-up"></i> Continuar',
                     confirmButtonAriaLabel: 'Continuar',
                 });
+                var url = '@Url.Action("../Pago")' + '?ventaid=' + venta.id;
+                window.location.href = url;
             }
             else {
                 Swal.fire({

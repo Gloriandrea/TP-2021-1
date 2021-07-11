@@ -36,7 +36,7 @@ namespace SIGECA_Shop.Controllers
             {
                 venta.fechaVenta = DateTime.Now;
                 venta = (Venta)await _ventaService.CreateVenta(venta);
-                result = new { result = "success", title = "Satisfactorio", message = "Venta Registrado Correctamente", url = "Carrito/Registro" };
+                result = new { result = "success", title = "Satisfactorio", message = "Venta Registrado Correctamente",value=venta, url = "Carrito/Registro" };
                 return Content(JsonConvert.SerializeObject(result));
             }
             catch (Exception ex)

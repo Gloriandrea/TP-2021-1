@@ -121,7 +121,7 @@
                             <button type="button" onclick="$('#modalRegistrarVenta').modal('hide')" class="btn btn-block btn-secondary" data-dismiss="modal">Cerrar</button>
                         </div>
                         <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <button type="button" class="btn btn-block btn-primary" onclick="registrarVenta()" id="btnRegistrarVentaModal">
+                            <button type="button" class="btn btn-block btn-primary" onclick="registrarVentaTemp()" id="btnRegistrarVentaModal">
                                 Realizar Venta
                             </button>
                         </div>
@@ -154,19 +154,11 @@
             },
             onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
-                    alert('Pago realizado satisfactoriamente');
-                    $('#modalRegistrarVenta').modal('hide');
-                    // Call your server to save the transaction
-                    //return fetch('/paypal-transaction-complete', {
-                    //    method: 'post',
-                    //    headers: {
-                    //        'content-type': 'application/json'
-                    //    },
-                    //    body: JSON.stringify({
-                    //        orderID: data.orderID
-                    //    })
-                    //});
+                    registrarVenta();
                 });
+            },
+            onError: (err) => {
+                console.error('Ocurrio un error', err);
             }
         }).render('#paypal-button-container');
     </script>

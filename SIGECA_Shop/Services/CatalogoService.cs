@@ -23,52 +23,52 @@ namespace SIGECA_Shop.Services
 
         public async Task<List<CatalogoDTO>> Get()
         {
-            var lookup = new BsonDocument("$lookup",
-                                    new BsonDocument
-                                        {
-                                            { "from", "Oferta" },
-                                            { "let",
-                                    new BsonDocument("prodID", "$_id") },
-                                            { "pipeline",
-                                    new BsonArray
-                                            {
-                                                new BsonDocument("$match",
-                                                new BsonDocument("$expr",
-                                                new BsonDocument("$eq",
-                                                new BsonArray
-                                                            {
-                                                                "$productoID",
-                                                                new BsonDocument("$toString", "$$prodID")
-                                                            }))),
-                                                new BsonDocument("$lookup",
-                                                new BsonDocument
-                                                    {
-                                                        { "from", "Tienda" },
-                                                        { "let",
-                                                new BsonDocument("tienID", "$tiendaID") },
-                                                        { "pipeline",
-                                                new BsonArray
-                                                        {
-                                                            new BsonDocument("$match",
-                                                            new BsonDocument("$expr",
-                                                            new BsonDocument("$eq",
-                                                            new BsonArray
-                                                                        {
-                                                                            new BsonDocument("$toObjectId", "$$tienID"),
-                                                                            "$_id"
-                                                                        })))
-                                                        } },
-                                                        { "as", "tienda" }
-                                                    }),
-                                                new BsonDocument("$unwind",
-                                                new BsonDocument("path", "$tienda"))
-                                            } },
-                                            { "as", "ofertas" }
-                                        });
+            //var lookup = new BsonDocument("$lookup",
+            //                        new BsonDocument
+            //                            {
+            //                                { "from", "Oferta" },
+            //                                { "let",
+            //                        new BsonDocument("prodID", "$_id") },
+            //                                { "pipeline",
+            //                        new BsonArray
+            //                                {
+            //                                    new BsonDocument("$match",
+            //                                    new BsonDocument("$expr",
+            //                                    new BsonDocument("$eq",
+            //                                    new BsonArray
+            //                                                {
+            //                                                    "$productoID",
+            //                                                    new BsonDocument("$toString", "$$prodID")
+            //                                                }))),
+            //                                    new BsonDocument("$lookup",
+            //                                    new BsonDocument
+            //                                        {
+            //                                            { "from", "Tienda" },
+            //                                            { "let",
+            //                                    new BsonDocument("tienID", "$tiendaID") },
+            //                                            { "pipeline",
+            //                                    new BsonArray
+            //                                            {
+            //                                                new BsonDocument("$match",
+            //                                                new BsonDocument("$expr",
+            //                                                new BsonDocument("$eq",
+            //                                                new BsonArray
+            //                                                            {
+            //                                                                new BsonDocument("$toObjectId", "$$tienID"),
+            //                                                                "$_id"
+            //                                                            })))
+            //                                            } },
+            //                                            { "as", "tienda" }
+            //                                        }),
+            //                                    new BsonDocument("$unwind",
+            //                                    new BsonDocument("path", "$tienda"))
+            //                                } },
+            //                                { "as", "ofertas" }
+            //                            });
 
-            var catalogo = await _clienteCollection.Aggregate().AppendStage<CatalogoDTO>(lookup).ToListAsync();
+            //var catalogo = await _clienteCollection.Aggregate().AppendStage<CatalogoDTO>(lookup).ToListAsync();
 
-            return catalogo;
+            return await _clienteCollection.FindAsync(x => true).Result.ToListAsync();
         }
     }
 }
