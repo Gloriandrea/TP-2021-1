@@ -135,8 +135,7 @@ function registrarVenta() {
                         '<i class="fa fa-thumbs-up"></i> Continuar',
                     confirmButtonAriaLabel: 'Continuar',
                 });
-                var url = '@Url.Action("../Pago")' + '?ventaid=' + venta.id;
-                window.location.href = url;
+                window.location.href = `/Pago?ventaid=${venta.id}`;
             }
             else {
                 Swal.fire({
