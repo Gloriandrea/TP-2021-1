@@ -33,7 +33,7 @@ namespace SIGECA_Shop.Controllers
         {
             Object result = null;
             //Usuario usuario= await _usuarioService.GetById("60de101c23812efc0a091687");
-            Venta venta = await _ventaService.GetByIdUsuario(productoID);
+            Venta venta = await _ventaService.GetByCodigoVenta(productoID);
             //Producto producto = await _productoService.GetById(venta.items.pro)
             List<Producto> productos = new List<Producto>();
             for (int i = 0; i < venta.items.Count; i++)
