@@ -10,7 +10,7 @@
     <link href="~/css/Catalogo/style.default.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
-<div class="page-holder">
+<div class="page-holder" style="min-height:85vh; width:100%;">
     <section class="py-5" style="padding-left:5%; padding-right:5%;">
         <h2 class="h5 text-uppercase mb-4">Compra de Carrito</h2>
         <div class="row">
@@ -140,7 +140,7 @@
     <script src="~/js/Catalogo/vendor/owl.carousel2.thumbs.min.js"></script>
     <script src="~/js/Catalogo/front.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <script src="https://www.paypal.com/sdk/js?client-id=AbTcZgmOPgOlwK8T7jqbEQfErIobD0Obt8uWqF5Mn6wwzP8SdSIAAYF2Z_w4uW2choBRU2rEqKAL2J8O"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AYt82QLeNqYyNldYo8NQa4hDoYC7VRWChE2u1hDvWhUK5WOIbvqOIF-bbe8O7elLSlliwevU2LD4YUT-"></script>
     <script>
         paypal.Buttons({
             createOrder: function (data, actions) {
@@ -154,19 +154,11 @@
             },
             onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
-                    ('Pago realizado satisfactoriamente');
-                    $('#modalRegistrarVenta').modal('hide');
-                    // Call your server to save the transaction
-                    return fetch('/paypal-transaction-complete', {
-                        method: 'post',
-                        headers: {
-                            'content-type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            orderID: data.orderID
-                        })
-                    });
+                    registrarVenta();
                 });
+            },
+            onError: (err) => {
+                console.error('Ocurrio un error', err);
             }
         }).render('#paypal-button-container');
     </script>

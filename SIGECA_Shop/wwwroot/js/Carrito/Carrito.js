@@ -82,6 +82,13 @@ function registrarVentaTemp() {
 
 function registrarVenta() {
     var Venta = new Object();
+    var datos = new Object();
+    datos.nombres = $('#nombreCliente').val();
+    datos.apellidos = $('#apellidoCliente').val();
+    datos.correo = $('#correoCliente').val();
+    datos.telefono = $('#telefonoCliente').val();
+    datos.direccion = $('#direccionCliente').val();
+    Venta.datos = datos;
     var newTotal = 0.0;
     if ($('#presencialRadio').is(':checked')) {
         Venta.tipo = "presencial";
@@ -90,18 +97,19 @@ function registrarVenta() {
         Venta.tipo = "online";
     }
     for (var i = 0; i < localStorage.length; i++) {
-        var producto = JSON.parse(localStorage.getItem(`cartId${i}`));
-        var item = new Object();
-        item.productoID = producto.id;
-        item.cantidad = Number($('#' + `cartId${i}-cantidad`).val());
-        item.subtotal = item.cantidad * parseFloat(producto.precio);
-        newTotal += item.subtotal;
-        itemsProductos.push(item);
+        if (localStorage.getItem(`cartId${i}`) != null) {
+            var producto = JSON.parse(localStorage.getItem(`cartId${i}`));
+            var item = new Object();
+            item.productoID = producto.id;
+            item.cantidad = Number($('#' + `cartId${i}-cantidad`).val());
+            item.subtotal = item.cantidad * parseFloat(producto.precio);
+            newTotal += item.subtotal;
+            itemsProductos.push(item);
+        }
     }
     Venta.total = parseFloat(newTotal);
-    Venta.tipoCliente = "Usuario";
-    Venta.usuarioID = "60de101c23812efc0a091687";
-    Venta.estado = "pendiente";
+    Venta.tipoCliente = "Cliente";
+    Venta.estado = "delivery";
     Venta.items = itemsProductos;
     $.ajax({
         type: 'post',
@@ -111,6 +119,7 @@ function registrarVenta() {
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             if (data.result == "success") {
+                var venta = data.value;
                 $("#modalRegistrarVenta").modal('hide');
                 clearDataVenta();
                 Swal.fire({
@@ -126,6 +135,8 @@ function registrarVenta() {
                         '<i class="fa fa-thumbs-up"></i> Continuar',
                     confirmButtonAriaLabel: 'Continuar',
                 });
+                var url = '@Url.Action("../Pago")' + '?ventaid=' + venta.id;
+                window.location.href = url;
             }
             else {
                 Swal.fire({
@@ -169,5 +180,5 @@ function clearDataVenta() {
     itemsProductos = [];
     $('#carritoTable tbody').empty();
     localStorage.clear()
-    $('#contadorItems').text(localStorage.length);
+    $('#contadorItems').text(0);
 }

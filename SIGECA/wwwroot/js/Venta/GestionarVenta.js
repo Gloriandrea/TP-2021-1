@@ -62,6 +62,12 @@ $(document).ready(function () {
                             case 'entregado':
                                 badge = 'bg-info';
                                 break;
+                            case 'delivery':
+                                badge = 'bg-primary';
+                                break;
+                            case 'repartido':
+                                badge = 'bg-secondary';
+                                break;
                         }
                         return '<span style="color: white" class="badge ' + badge + ' ">' + full.estado.charAt(0).toUpperCase() + full.estado.slice(1) + '</span>'
                     }
@@ -69,9 +75,31 @@ $(document).ready(function () {
                 {
                     "render": function (data, type, full, meta) {
                         var display = (full.estado === "entregado") ? "display:none" : "";
-                        var displayco = (full.estado === "cobrado" || full.estado==="entregado") ? "display:none" : "";
-                        var color = (full.estado == "pendiente" || full.estado == "anulada") ? 'red' : '#2374E3';
-                        var icon = (full.estado == "pendiente" || full.estado == "anulada") ? "fas fa-ban" : "fas fa-shopping-basket";
+                        var displayco = (full.estado === "cobrado" || full.estado === "entregado" || full.estado === "delivery" || full.estado ==="repartido") ? "display:none" : "";
+                        var color = '';
+                        var icon = '';
+                        switch (full.estado) {
+                            case 'pendiente':
+                                icon = 'fas fa-ban';
+                                color = 'red';
+                                break;
+                            case 'anulada':
+                                icon = 'fas fa-check';
+                                color = '#19F15D';
+                                break;
+                            case 'cobrado':
+                                icon = 'fas fa-shopping-basket';
+                                color = '#2374E3';
+                                break;
+                            case 'delivery':
+                                icon = 'fas fa-truck';
+                                color = '#E4860F';
+                                break;
+                            case 'repartido':
+                                icon = 'fas fa-shopping-basket';
+                                color = '#2374E3';
+                                break;
+                        }
                         return '<button class="btn btnVisualizarVenta" style="color: #4AB6B6" data-venta-id="' + full.id + '"><img class="fas fa-eye" /></button>' +
                             '<button class="btn btnModificarVenta" style="color: #4AB6B6;' + displayco + '" data-venta-id="' + full.id + '"><img class="fas fa-edit" /></button>' +
                             '<button class="btn btnCambiarEstadoVenta" style="color:' + color + '; ' + display + '" data-venta-id="' + full.id + '"><img class="' + icon + '" /></button>';
@@ -540,21 +568,29 @@ $('#tableVenta').on('click', '.btnCambiarEstadoVenta', function (e) {
                 var botonCon = '';
                 switch (estado) {
                     case "pendiente":
-                        texto = "Anular";
+                        texto = "Desea anular la venta seleccionada";
                         botonCon = "Anular";
                         break;
                     case "anulada":
-                        texto = "Activar";
+                        texto = "Desea activar la venta seleccionada";
                         botonCon = "Activar";
                         break;
                     case "cobrado":
-                        texto = "Entregar"
-                        botonCon = "Entregar";
+                        texto = "La venta seleccionada ha sido entregada?"
+                        botonCon = "Sí";
+                        break;
+                    case "delivery":
+                        texto = "Desea repartir la venta seleccionada"
+                        botonCon = "Sí";
+                        break;
+                    case "repartido":
+                        texto = "La venta seleccionada ha sido entregada?"
+                        botonCon = "Sí";
                         break;
                 };
                 Swal.fire({
                     title: 'Modificacion de Estado',
-                    text: "Desea " + texto + " la venta seleccionada",
+                    text: texto,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -566,13 +602,19 @@ $('#tableVenta').on('click', '.btnCambiarEstadoVenta', function (e) {
                         var textoFinal = '';
                         switch (estado) {
                             case "pendiente":
-                                textoFinal = "Desactivado";
+                                textoFinal = "La venta se ha anulado satisfactoriamente";
                                 break;
                             case "anulada":
-                                textoFinal = "Activado";
+                                textoFinal = "La venta se ha activado satisfactoriamente";
                                 break;
                             case "cobrado":
-                                textoFinal = "Entregado";
+                                textoFinal = "La venta se ha entregado satisfactoriamente";
+                                break;
+                            case "delivery":
+                                textoFinal = "La venta ha sido repartido";
+                                break;
+                            case "repartido":
+                                textoFinal = "La venta se ha entregado satisfactoriamente";
                                 break;
                         };
                         $.ajax({
@@ -587,7 +629,7 @@ $('#tableVenta').on('click', '.btnCambiarEstadoVenta', function (e) {
                                     //Mostrar Mensaje Final
                                     Swal.fire(
                                         'Modificado!',
-                                        'Venta ' + textoFinal + ' Satisfactoriamente',
+                                        textoFinal,
                                         'success'
                                     );
                                 }
