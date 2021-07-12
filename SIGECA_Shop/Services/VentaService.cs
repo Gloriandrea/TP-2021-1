@@ -29,7 +29,7 @@ namespace SIGECA_Shop.Services
         }
         public async Task<Venta> GetByIdUsuario(string usuarioID)
         {
-            return await _venta.FindAsync(x => x.usuarioID == usuarioID).Result.FirstOrDefaultAsync();
+            return await _venta.FindAsync(x => x.codigoVenta == usuarioID).Result.FirstOrDefaultAsync();
         }
     }
 }

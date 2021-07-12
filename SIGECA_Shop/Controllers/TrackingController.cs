@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SIGECA_Shop.Controllers
 {
@@ -21,23 +22,34 @@ namespace SIGECA_Shop.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var model = new ModelTracking();
-            model.usuario = await _usuarioService.GetById("60de101c23812efc0a091687");
-            model.venta = await _ventaService.GetByIdUsuario("60de101c23812efc0a091687");
+            //var model = new ModelTracking();
+            //model.usuario = await _usuarioService.GetAll();
+            //model.venta = await _ventaService.GetAll();
+            //model.productos = await _productoService.GetAll();
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> ObtenerProductoPorId(string productoID)
+        {
+            Object result = null;
+            //Usuario usuario= await _usuarioService.GetById("60de101c23812efc0a091687");
+            Venta venta = await _ventaService.GetByIdUsuario(productoID);
+            //Producto producto = await _productoService.GetById(venta.items.pro)
             List<Producto> productos = new List<Producto>();
-            for(int i = 0; i < model.venta.items.Count; i++)
+            for (int i = 0; i < venta.items.Count; i++)
             {
-                Producto prod = new Producto();
-                prod = await _productoService.GetById(model.venta.items[i].productoID);
-                productos.Add(prod);
+                Producto producto = new Producto();
+                producto = await _productoService.GetById(venta.items[i].productoID);
+                productos.Add(producto);
             }
-            model.productos = productos;
-            return View(model);
+            result = new { result = "success", title = "Satisfactorio", value = new { venta, productos}, url = "Tracking/Consultar" };
+
+            return Content(JsonConvert.SerializeObject(result));
         }
         public class ModelTracking
         {
-            public Usuario usuario { get; set; }
-            public Venta venta { get; set; }
+            public IEnumerable<Usuario >usuario { get; set; }
+            public IEnumerable<Venta> venta { get; set; }
             public IEnumerable<Producto> productos { get; set; }
         }
     }

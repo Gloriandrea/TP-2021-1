@@ -49,38 +49,39 @@
                     <li class="@ViewBag.HomeActivate"><a asp-controller="Home" asp-action="Index">Inicio</a></li>
                     <li id="catalogMenu"><a asp-controller="Home" asp-action="Index" asp-fragment="catalog">Catálogo</a></li>
                     @*<li><a href="#menu">Menu</a></li>
-                        <li><a href="#specials">Specials</a></li>
-                        <li><a href="#events">Events</a></li>
-                        <li><a href="#gallery">Gallery</a></li>*@
+        <li><a href="#specials">Specials</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#gallery">Gallery</a></li>*@
                     <li id="contactMenu"><a asp-controller="Home" asp-action="Index" asp-fragment="contact">Contacto</a></li>
                     <li id="aboutMenu"><a asp-controller="Home" asp-action="Index" asp-fragment="about">Acerca de</a></li>
+                    <li id="aboutMenu"><a asp-controller="Tracking" asp-action="Index">Seguimiento <i class="fas fa-search"></i></a></li>
                     <li id="carritoMenu"><a style="text-decoration:none" asp-controller="Carrito" asp-action="Index"><i class="fas fa-cart-plus"></i><span style="padding-left:4px" id="contadorItems">0</span></a></li>
 
                     @*<li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle d-flex align-items-center align-middle" id="userDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bx bxs-user  mr-2"></i>
-                                Ricardo Arbildo J.
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="bx bx-user"></i>
-                                    Mi Perfil
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="icofont-ssl-security"></i>
-                                    Cambiar Contraseña
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="bx bx-log-out"></i>
-                                    Cerrar Sesión
-                                </a>
-                            </div>
-                        </li>
+            <a class="nav-link dropdown-toggle d-flex align-items-center align-middle" id="userDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="bx bxs-user  mr-2"></i>
+                Ricardo Arbildo J.
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                 aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">
+                    <i class="bx bx-user"></i>
+                    Mi Perfil
+                </a>
+                <a class="dropdown-item" href="#">
+                    <i class="icofont-ssl-security"></i>
+                    Cambiar Contraseña
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="bx bx-log-out"></i>
+                    Cerrar Sesión
+                </a>
+            </div>
+        </li>
 
-                        <li><a href="#car"><h3><i class="bx bxs-cart-alt"></i></h3></a></li>*@
+        <li><a href="#car"><h3><i class="bx bxs-cart-alt"></i></h3></a></li>*@
 
                     @if (ViewBag.Inicio)
                     {
@@ -120,9 +121,9 @@
                         }
                     }
                     @*else
-                        {
-                            <li class="@ViewBag.LoginActivate"><a asp-controller="Home" asp-action="Login">Iniciar Sesión</a></li>
-                        }*@
+        {
+            <li class="@ViewBag.LoginActivate"><a asp-controller="Home" asp-action="Login">Iniciar Sesión</a></li>
+        }*@
 
 
 
