@@ -22,19 +22,13 @@ namespace SIGECA_Shop.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //var model = new ModelTracking();
-            //model.usuario = await _usuarioService.GetAll();
-            //model.venta = await _ventaService.GetAll();
-            //model.productos = await _productoService.GetAll();
             return View();
         }
         [HttpPost]
         public async Task<ActionResult> ObtenerProductoPorId(string productoID)
         {
             Object result = null;
-            //Usuario usuario= await _usuarioService.GetById("60de101c23812efc0a091687");
             Venta venta = await _ventaService.GetByCodigoVenta(productoID);
-            //Producto producto = await _productoService.GetById(venta.items.pro)
             List<Producto> productos = new List<Producto>();
             for (int i = 0; i < venta.items.Count; i++)
             {
@@ -43,7 +37,6 @@ namespace SIGECA_Shop.Controllers
                 productos.Add(producto);
             }
             result = new { result = "success", title = "Satisfactorio", value = new { venta, productos}, url = "Tracking/Consultar" };
-
             return Content(JsonConvert.SerializeObject(result));
         }
         public class ModelTracking
