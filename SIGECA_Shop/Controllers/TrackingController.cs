@@ -29,6 +29,11 @@ namespace SIGECA_Shop.Controllers
         {
             Object result = null;
             Venta venta = await _ventaService.GetByCodigoVenta(productoID);
+            if (venta == null)
+            {
+                result = new { result = "error" };
+                return Content(JsonConvert.SerializeObject(result));
+            }
             List<Producto> productos = new List<Producto>();
             for (int i = 0; i < venta.items.Count; i++)
             {
@@ -36,12 +41,12 @@ namespace SIGECA_Shop.Controllers
                 producto = await _productoService.GetById(venta.items[i].productoID);
                 productos.Add(producto);
             }
-            result = new { result = "success", title = "Satisfactorio", value = new { venta, productos}, url = "Tracking/Consultar" };
+            result = new { result = "success", title = "Satisfactorio", value = new { venta, productos }, url = "Tracking/Consultar" };
             return Content(JsonConvert.SerializeObject(result));
         }
         public class ModelTracking
         {
-            public IEnumerable<Usuario >usuario { get; set; }
+            public IEnumerable<Usuario> usuario { get; set; }
             public IEnumerable<Venta> venta { get; set; }
             public IEnumerable<Producto> productos { get; set; }
         }
