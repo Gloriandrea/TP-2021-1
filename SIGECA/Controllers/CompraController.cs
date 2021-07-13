@@ -40,6 +40,7 @@ namespace SIGECA.Controllers
                 {
                     var itm = productos.Find(i => i.nombre == item.nombre);
                     item.productoID = itm.id;
+                    item.imagen = itm.urlImagen;
                 }
                 compra = (Compra)await _compraService.CreateCompra(compra);
                 result = new { result = "success", title = "Satisfactorio", message = "Compra Registrado Correctamente", url = "Compra/Registro" };
@@ -71,6 +72,7 @@ namespace SIGECA.Controllers
             {
                 var itm = productos.Find(i => i.nombre == item.nombre);
                 item.productoID = itm.id;
+                item.imagen = itm.urlImagen;
             }
             Compra compraActualizado = await _compraService.UpdateCompra(compra);
             result = new { result = "success", title = "Satisfactorio", value = compraActualizado, url = "Compra/ActualizarUsuario" };

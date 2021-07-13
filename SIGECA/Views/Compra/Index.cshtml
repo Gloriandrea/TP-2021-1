@@ -3,7 +3,7 @@
     ViewData["Title"] = "Gestionar Compra";
 }
 
-<h2 class="mt-3"style="color: white">Gestion de Compras</h2>
+<h2 class="mt-3" style="color: white">Gestion de Compras</h2>
 <br />
 <div class="row">
     <div class="col">
@@ -88,6 +88,7 @@
                 <table id="itemCompra" class="table">
                     <thead class="thead-light">
                         <tr>
+                            <th scope="col">Imagen</th>
                             <th scope="col">Nombre del producto</th>
                             <th scope="col">Unidad</th>
                             <th scope="col">Cantidad</th>
@@ -151,6 +152,10 @@
                                 <option selected value="@producto.id">@producto.nombre</option>
                             }
                         </select>
+                        @foreach (var producto in Model.productos)
+                        {
+                            <input id="producto_@producto.id" type="hidden" value="@producto.urlImagen" />
+                        }
                     </div>
                     <div class="col-6 col-sm-2">
                         <label for="cantidad" class="form-label">Cantidad:</label>
@@ -177,6 +182,7 @@
                 <table id="itemCompraModificar" class="table">
                     <thead class="thead-light">
                         <tr>
+                            <th scope="col">Imagen</th>
                             <th scope="col">Nombre del producto</th>
                             <th scope="col">Unidad</th>
                             <th scope="col">Cantidad</th>
@@ -245,6 +251,7 @@
                 <table id="itemCompraConsulta" class="table">
                     <thead class="thead-light">
                         <tr>
+                            <th scope="col">Imagen</th>
                             <th scope="col">Nombre del producto</th>
                             <th scope="col">Unidad</th>
                             <th scope="col">Cantidad</th>
@@ -266,6 +273,9 @@
 <input type="hidden" id="URL_ComprasListarTodos" value="@Url.Action("ObtenerCompras", "Compra")" />
 <input type="hidden" id="URL_ObtenerProductoPorID" value="@Url.Action("ObtenerProductoPorId", "Producto")" />
 <input type="hidden" id="URL_CompraActualizarEstado" value="@Url.Action("CambiarEstadoCompra", "Compra")" />
+<input type="hidden" id="URL_SubirImagen" value="@Url.Action("RegistrarImagenProducto", "Media")" />
+<input type="hidden" id="URL_SubirImagenYQRCode" value="@Url.Action("RegistrarImagenQRCodeProducto", "Media")" />
+<input type="hidden" id="URL_ActualizarImagen" value="@Url.Action("ActualizarImagenProducto", "Media")" />
 @section scripts{
     <script src="~/js/Compra/GestionarCompra.js"></script>
     <script src="~/js/Compra/Validation.js"></script>
