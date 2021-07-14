@@ -1,4 +1,4 @@
-﻿@model SIGECA_Shop.Controllers.TrackingController.ModelTracking
+﻿
 @{
     ViewData["Title"] = "Tracking";
     ViewBag.Inicio = true;
@@ -49,7 +49,7 @@
                 var itemVenta = venta.items;
                 var fecharegis = venta.fechaVenta;
                 var date = new Date(fecharegis);
-                var usaDate = date.toLocaleDateString('en-US');
+                var usaDate = date.toLocaleDateString('es-ES');
                 var active1 = (venta.estado == "delivery" || venta.estado == "repartido" || venta.estado == "entregado") ? "active" : "";
                 var active2 = (venta.estado == "repartido" || venta.estado == "entregado") ? "active" : "";
                 var active3 = (venta.estado == "entregado") ? "active" : "";
@@ -60,14 +60,14 @@
                     '<article class="card">' +
                     '<div class="card-body row">' +
                     ' <div class="col"> <strong>Fecha de registro:</strong> <br>' + usaDate + '</div>' +
-                    '<div class="col"> <strong>Direccion para:</strong> <br> | <i class="fa fa-phone"></i> ' + venta.datos.telefono + '  </div>' +
+                    '<div class="col"> <strong>Direccion para:</strong> ' + venta.datos.direccion +'<br> | <i class="fa fa-phone"></i> ' + venta.datos.telefono + '  </div>' +
                     '<div id="estado" class="col"> <strong>Estado:</strong> <br>' + venta.estado + ' </div>' +
                     '</div>' +
                     '</article>' +
                     '<div class="track">' +
                     '<div class="step ' + active1 +'"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">Venta Cobrado</span> </div>' +
                     '<div class="step ' + active2 +'"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> En camino </span> </div>' +
-                    '<div class="step"' + active3 +'> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Entregado</span> </div>' +
+                    '<div class="step ' + active3 +'"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Entregado</span> </div>' +
                     '</div>' +
                     '<hr>' + '<h4>Productos: </h4>' +'<ul class="row">';
                     producto.forEach(p => {
