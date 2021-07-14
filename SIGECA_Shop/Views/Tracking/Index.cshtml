@@ -52,7 +52,7 @@
                 var usaDate = date.toLocaleDateString('es-ES');
                 var active1 = (venta.estado == "delivery" || venta.estado == "repartido" || venta.estado == "entregado") ? "active" : "";
                 var active2 = (venta.estado == "repartido" || venta.estado == "entregado") ? "active" : "";
-                var active3 = (venta.estado == "entregado") ? "active" : "";
+                var active3 = venta.estado == "entregado" ? "active" : "";
                 var row = '';
                 row += "<div>" +
                     '<div class="card-body">' +
