@@ -31,7 +31,7 @@ namespace SIGECA_Shop.Models
         [BsonElement("fechaVenta")]
         public DateTime? fechaVenta { get; set; }
 
-        [BsonElement("dniCliente")]
+        [BsonIgnoreIfNull]
         public string dniCliente { get; set; }
         [BsonIgnoreIfNull]
         public string nombreCliente { get; set; }
@@ -40,8 +40,8 @@ namespace SIGECA_Shop.Models
         public string tipoCliente { get; set; }
         [BsonIgnoreIfNull]
         public string usuarioID { get; set; }
-
-
+        [BsonIgnoreIfNull]
+        public DatosCliente datos { get; set; }
     }
 
     public class ItemsVenta
@@ -52,5 +52,14 @@ namespace SIGECA_Shop.Models
         [BsonElement("cantidad")]
         public int cantidad { get; set; }
         public double subTotal { get; set; }
+    }
+
+    public class DatosCliente
+    {
+        public string nombres { get; set; }
+        public string apellidos { get; set; }
+        public string correo { get; set; }
+        public string telefono { get; set; }
+        public string direccion { get; set; }
     }
 }

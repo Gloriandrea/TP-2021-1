@@ -22,10 +22,22 @@ namespace SIGECA_Shop.Services
         {
             return _venta.Find(x => true).ToList();
         }
+        public async Task<Venta> GetById(string ventaID)
+        {
+            return await _venta.FindAsync(x => x.id == ventaID).Result.FirstOrDefaultAsync();
+        }
+        public async Task<Venta> GetByCodigoVenta(string codigoVenta)
+        {
+            return await _venta.FindAsync(x => x.codigoVenta == codigoVenta).Result.FirstOrDefaultAsync();
+        }
         public async Task<Venta> CreateVenta(Venta venta)
         {
             _venta.InsertOne(venta);
             return venta;
+        }
+        public async Task<Venta> GetByIdUsuario(string usuarioID)
+        {
+            return await _venta.FindAsync(x => x.codigoVenta == usuarioID).Result.FirstOrDefaultAsync();
         }
     }
 }

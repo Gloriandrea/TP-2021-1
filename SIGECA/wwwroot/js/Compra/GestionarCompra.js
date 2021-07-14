@@ -409,7 +409,6 @@ $("#btnModificarCompraModal").on("click", function () {
                     confirmButtonAriaLabel: 'Volver',
                 });
             }
-
         },
         error: function (jqXHR, textStatus, errorThrown) {
 

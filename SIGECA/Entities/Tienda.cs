@@ -31,7 +31,7 @@ namespace SIGECA.Entities
     public class StockProducto
     {
         public string productoID { get; set; }
-        public string cantidad { get; set; }
+        public int cantidad { get; set; }
     }
 
 
