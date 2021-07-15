@@ -15,7 +15,7 @@ namespace SIGECA_Shop.Helpers
         {
             try
             {
-                var client = new SendGridClient("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");
+                var client = new SendGridClient("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");
                 var from = new EmailAddress("gustavo.troncos@urp.edu.pe", "Avicola Nancy");
                 var to = new EmailAddress(mailTo);
                 var msg = MailHelper.CreateSingleEmail(from, to, asunto, string.Empty, body);
