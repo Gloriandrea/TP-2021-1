@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@inject IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8">
@@ -36,6 +39,10 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
+    @{
+        /*var str = HttpContextAccessor.HttpContext.Session.GetString("isFiltered");
+        var obj = JsonConvert.DeserializeObject<UsuarioDTO>(str);*/
+    }
     <header id="header" class="">
         <div class="container d-flex align-items-center">
 
@@ -180,6 +187,8 @@
     @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>*@
+
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

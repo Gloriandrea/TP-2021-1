@@ -77,5 +77,14 @@ namespace SIGECA.Controllers
             return Content(JsonConvert.SerializeObject(result));
         }
 
+        [HttpGet]
+        public async Task<ActionResult> ObtenerProductoOfertaPorTienda(string productoId)
+        {
+            Object result = null;
+            List<ProductoOfertaDTO> producto = await _productoService.ObtenerProductoOfertaPorTienda(productoId);
+            result = new { result = "success", title = "Satisfactorio", value = producto, url = "Producto/Tienda/Oferta" };
+            return Content(JsonConvert.SerializeObject(result));
+        }
+
     }
 }

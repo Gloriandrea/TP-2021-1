@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SIGECA.DTOs;
 using SIGECA.Entities;
 using SIGECA.Helpers;
 using SIGECA.Models;
+using SIGECA.Services;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
@@ -13,11 +16,15 @@ namespace SIGECA.Controllers
     public class HomeController : Controller
     {
         UrlAPI urlAPI;
-
-
-        public async Task<IActionResult> Index()
+        private readonly UsuarioService _usuarioService;
+        public HomeController(UsuarioService usuarioService)
         {
+            _usuarioService = usuarioService;
+        }
 
+        [HttpGet]
+        public async Task<ActionResult> Index()
+        {
             return View();
         }
 

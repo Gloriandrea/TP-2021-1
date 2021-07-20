@@ -67,6 +67,14 @@ namespace SIGECA
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
 
+            services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.MaxValue;//You can set Time   
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+            services.AddMvc();
+
             #region Colecciones APIS
             services.AddSingleton<ProductoService>();
             services.AddSingleton<OfertaService>();
@@ -86,7 +94,7 @@ namespace SIGECA
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-
+     
             app.UseRouting();
 
             app.UseAuthorization();
@@ -94,7 +102,7 @@ namespace SIGECA
             //Autorizacion y auntenticacion mediante tokens JWT
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

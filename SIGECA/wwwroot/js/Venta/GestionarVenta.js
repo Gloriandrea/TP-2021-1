@@ -110,6 +110,75 @@ $(document).ready(function () {
     );
 });
 
+//-----------------LECTOR QR-----------------------
+function docReady(fn) {
+    // see if DOM is already available
+    if (document.readyState === "complete"
+        || document.readyState === "interactive") {
+        // call on next available tick
+        setTimeout(fn, 1);
+    } else {
+        document.addEventListener("DOMContentLoaded", fn);
+    }
+}
+
+docReady(function () {
+    var resultContainer = document.getElementById('qr-reader-results');
+    var lastResult, countResults = 0;
+    function onScanSuccess(decodedText, decodedResult) {
+        if (decodedText !== lastResult) {
+            ++countResults;
+            lastResult = decodedText;
+            var productoID = decodedText;
+            $.ajax({
+                url: $('#URL_ObtenerProductoPorID').val(),
+                type: 'post',
+                data: "productoID=" + decodedText,
+                dataType: "json",
+                success: function (data) {
+                    if (data.result) {
+                        var producto = data.value.producto;
+                        $("#productoVentaRegistrar").val(decodedText);
+                        $("#cantidadVentaRegistrar").val(1);
+                        $("#costoVentaRegistrar").val(producto.precio);
+                        console.log(producto);
+                    } else {
+                        console.log('ERROR al consultar el Usuario');
+                    }
+                }
+            });
+
+
+        }
+    }
+
+    var html5QrcodeScanner = new Html5QrcodeScanner(
+        "qr-reader", { fps: 10, qrbox: 250 });
+    html5QrcodeScanner.render(onScanSuccess);
+});
+
+//------------------------------------------------------------------
+
+
+
+function cambiarDNIusuario() {
+    var idUsuario = $('#usuarioVentaRegistrar').val();
+    $.ajax({
+        url: $('#URL_ObtenerUsuario').val(),
+        type: 'post',
+        data: "usuarioID=" + idUsuario,
+        dataType: "json",
+        success: function (data) {
+            if (data.result) {
+                var usuario = data.value;
+                $('#dniUsuario').val(usuario.datos.numeroDocumento);
+            } else {
+                console.log('ERROR al consultar el Usuario');
+            }
+        }
+    });
+}
+
 $("#itemVenta").on("click", ".btnBorrar", function (event) {
     $(this).closest("tr").remove();
     var costoBorrar = parseFloat($(this).closest("tr")[0].cells[2].textContent);

@@ -119,7 +119,7 @@ namespace SIGECA.Controllers
         public async Task<ActionResult> getUsuariosRolPermiso(string usuarioid)
         {
             Object result = null;
-            List<UsuarioDTO> usuario = await _usuarioService.getUsuariosRolPermiso(usuarioid);
+            UsuarioDTO usuario = await _usuarioService.getUsuariosRolPermiso(usuarioid);
             result = new { result = "success", title = "Satisfactorio", value = usuario, url = "Usuario/datos" };
             return Content(JsonConvert.SerializeObject(result));
         }

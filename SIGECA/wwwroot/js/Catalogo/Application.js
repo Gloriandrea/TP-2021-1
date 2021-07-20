@@ -41,8 +41,9 @@
                 {
                     "render": function (data, type, full, meta) {
                         return '<button class="btn btnConsultarOfertas" data-producto-id="' + full.id + '"><img class="fas fa-eye" /></button>' +
-                            '<button class="btn btnModificarOferta1" data-producto-id="' + full.id + '"><img class="fas fa-edit" /></button>' +
-                            '<button class="btn btnAgregarCompra" style="color: #4AB6B6" data-producto-id="' + full.id + '"><img class="fas fa-plus" /></button>';;
+                            '<button class="btn btnModificarOferta" data-producto-id="' + full.id + '"><img class="fas fa-edit" /></button>' +
+                            '<button class="btn btnAgregarCompra" style="color: #4AB6B6" data-producto-id="' + full.id + '"><img class="fas fa-plus" /></button>' +
+                            '<button class="btn btnModificarPrecio" style="color: #4AB6B6" data-producto-id="' + full.id + '"><img class="fas fa-plus" /></button>';
                     }
                 }
             ]
@@ -178,6 +179,7 @@ $("#ddl_Descuento").change(function () {
     }
 });
 
+
 //CONSULTAR oferta section
 $('#tableCatalogo').on('click', '.btnConsultarOfertas', function (e) {
     $('#tableTiendaDetalleProducto tbody').empty();
@@ -204,13 +206,10 @@ $('#tableCatalogo').on('click', '.btnConsultarOfertas', function (e) {
                 //sec1 Detalle del producto
                 //nombre producto
                 $("#nombreProductoConsultar").val(producto.nombre);
-
                 //precio producto
                 $("#precioNormalConsultar").val(producto.precio);
-
                 //descripcion producto
                 $("#DescripcionConsultar").val(producto.descripcion);
-
                 //stock producto
                 $("#stockConsultar").val(producto.stock);
                 //END sec 1
@@ -277,7 +276,7 @@ $('#tableCatalogo').on('click', '.btnConsultarOfertas', function (e) {
 });
 
 //MODIFICAR oferta section
-$('#tableCatalogo').on('click', '.btnModificarOferta1', function (e) {
+$('#tableCatalogo').on('click', '.btnModificarOferta', function (e) {
     $('#fechaIniModificar').datepicker({
         "format": "yyyy-mm-dd"
     });
@@ -381,6 +380,57 @@ $('#tableCatalogo').on('click', '.btnModificarOferta1', function (e) {
         }
     });
 
+});
+
+
+//MODIFICAR oferta section
+$('#tableCatalogo').on('click', '.btnModificarPrecio', function (e) {
+
+
+    var productoID = $(this).attr('data-producto-id');
+    console.log('compra ID en agregar', productoID)
+    $.ajax({
+        url: $("#URL_ObtenerProductoPorID").val(),
+        type: 'post',
+        data: "productoID=" + productoID,
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            if (data.result == "success") {
+                console.log("entro data result add:", productoID)
+                var oferta = data.value.oferta;
+                var producto = data.value.producto;
+                var categoria = data.value.category;
+                //id collection producto
+                $("#productoRegistrarOferta").val(producto.id)
+                $("#categoriaProducto").val(categoria.nombre);
+                $("#precioProducto").val(producto.precio);
+
+
+                $("#registrarProductoOferta").modal('show');
+            }
+            else {
+                console.log("ERROR AL OBTENER LOS DATOS 1");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            Swal.fire({
+                title: '<strong>Error!</strong>',
+                icon: 'error',
+                html:
+                    'Este producto no cuenta con ofertas!',
+                showCloseButton: false,
+                focusConfirm: false,
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'Volver',
+                confirmButtonAriaLabel: 'Volver',
+            });
+        }
+    });
+
+
+    $("#productoActualizarOferta").val(producto.id)
+    $("#categoriaActualizarProducto").val(categoria.nombre);
+    $("#precioActualizarProducto").val(producto.precio);
 });
 
 //AGREGAR oferta segun producto
