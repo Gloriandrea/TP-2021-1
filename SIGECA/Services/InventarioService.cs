@@ -12,6 +12,8 @@ namespace SIGECA.Services
         private readonly IMongoCollection<Producto> _producto;
         private readonly IMongoCollection<Inventario> _inventario;
 
+
+
         public InventarioService(ISigecaDataBaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
@@ -21,6 +23,14 @@ namespace SIGECA.Services
             _inventario = database.GetCollection<Inventario>("Inventario");
 
         }
+
+
+        public async Task<List<Inventario>> GetAllInventario()
+        {
+            return await _inventario.FindAsync(x => true).Result.ToListAsync();
+        }
+
+
 
         public async Task<Inventario> CreateInventario(Inventario inventario)
         {
@@ -32,9 +42,10 @@ namespace SIGECA.Services
             var update = Builders<Inventario>.Update.Set("productoID", inventario.productoID)
                                            .Set("stockInicial", inventario.stockInicial)
                                            .Set("stockFinal", inventario.stockFinal)
-                                           .Set("nuevoStock", inventario.nuevoStock)
                                            .Set("fechaInicial", inventario.fechaInicial)
-                                           .Set("fechaFinal", inventario.fechaFinal);
+                                           .Set("fechaFinal", inventario.fechaFinal)
+                                           .Set("usuarioID", inventario.usuarioId)
+                                           .Set("tiendaID", inventario.tiendaID);
             var filters = Builders<Inventario>.Filter.Eq("id", inventario.id);
             _inventario.UpdateOne(filters, update);
             return inventario;

@@ -10,22 +10,36 @@ using System.Threading.Tasks;
 namespace SIGECA.Controllers
 {
     public class InventarioController : Controller
-    { 
+    {
         private readonly ProductoService _productoService;
         private readonly InventarioService _inventarioService;
 
-        public InventarioController(ProductoService productoService/*, InventarioService inventarioService*/)
+        public InventarioController(ProductoService productoService, InventarioService inventarioService)
         {
             _productoService = productoService;
-           // _inventarioService = inventarioService;
+            _inventarioService = inventarioService;
+
         }
-        
-        public async Task< IActionResult> Inventario()
+
+        public async Task<IActionResult> Inventario()
         {
             List<Producto> productos = await _productoService.GetAll();
             List<Categoria> categoriaProductos = await _productoService.GetAllCategoriaProducto();
             ViewBag.categoriaProductos = categoriaProductos;
             return View(productos);
+        }
+
+        public async Task<ActionResult> VerInventario()
+        {
+            List<Inventario> inventario = await _inventarioService.GetAllInventario();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<List<Inventario>>> VerInventarioTabla()
+        {
+            List<Inventario> inventario = await _inventarioService.GetAllInventario();
+            return Json(new { recordsFiltered = inventario.Count, recordsTotal = inventario.Count, data = inventario });
         }
 
         [HttpPost]

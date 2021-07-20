@@ -1,0 +1,42 @@
+﻿@using SIGECA.Entities;
+
+
+@{
+    ViewData["Title"] = "MiInventario";
+
+}
+
+
+<h2 class="mt-3" style="color:white">Inventario de los productos Registrados</h2>
+<div class="row">
+    <div class="col-9">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" style="color:midnightblue">Inventario </li>
+            </ol>
+
+        </nav>
+    </div>
+</div>
+
+<table id="frmInventario" class="table datatable-frmInventario" style="background-color:white">
+    <thead class="thead-light">
+        <tr>
+            <th>productoID</th>
+            <th>Stock Inicial</th>
+            <th>Fecha y hora de Registro</th>
+            <th>Stock Final</th>
+            <th>Fecha y Hora de Cierre</th>
+            <th>usuarioID</th>
+            <th>tiendaID</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<input type="hidden" id="URL_VerProductosInventario" value="@Url.Action("VerInventarioTabla","Inventario")" />
+@section scripts{
+    <script src="~/js/Producto/Inventario.js"></script>
+}
+
+
