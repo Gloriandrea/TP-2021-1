@@ -29,6 +29,9 @@ namespace SIGECA.Controllers
             model.ofertas = await _catalogoService.AllOferta();
             model.productos = await _productoService.GetAll();
             model.tiendas = await _catalogoService.AllTienda();
+
+
+
             return View(model);
         }
         [HttpPost]
