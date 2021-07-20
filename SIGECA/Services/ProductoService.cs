@@ -169,6 +169,168 @@ namespace SIGECA.Services
             return productoID;
         }
 
-   
+        public async Task<List<ProductoOfertaDTO>> ObtenerProductoOfertaPorTienda(string productoID)
+        {
+            List<ProductoOfertaDTO> listaProductoOderta = new List<ProductoOfertaDTO>();
+            var _match = new BsonDocument("$match",
+                        new BsonDocument("_id",
+                        new ObjectId(productoID)));
+            var _lookupOferta = new BsonDocument("$lookup",
+                                    new BsonDocument
+                                        {
+                                            { "from", "Oferta" },
+                                            { "let",
+                                    new BsonDocument("prodid", "$_id") },
+                                            { "pipeline",
+                                    new BsonArray
+                                            {
+                                                new BsonDocument("$match",
+                                                new BsonDocument("$expr",
+                                                new BsonDocument("$and",
+                                                new BsonArray
+                                                            {
+                                                                "$$prodid",
+                                                                new BsonDocument("$toObjectId", "$productoID")
+                                                            })))
+                                            } },
+                                            { "as", "oferta" }
+                                        });
+            var _unwindOferta = new BsonDocument("$unwind",
+                                    new BsonDocument
+                                        {
+                                            { "path", "$oferta" },
+                                            { "preserveNullAndEmptyArrays", false }
+                                        });
+            var _lookTienda = new BsonDocument("$lookup",
+                                    new BsonDocument
+                                        {
+                                            { "from", "Tienda" },
+                                            { "let",
+                                    new BsonDocument("tiendaid", "$oferta.tiendaID") },
+                                            { "pipeline",
+                                    new BsonArray
+                                            {
+                                                new BsonDocument("$match",
+                                                new BsonDocument("$expr",
+                                                new BsonDocument("$and",
+                                                new BsonArray
+                                                            {
+                                                                new BsonDocument("$toObjectId", "$$tiendaid"),
+                                                                "$_id"
+                                                            })))
+                                            } },
+                                            { "as", "tienda" }
+                                        });
+            var _unwindTienda = new BsonDocument("$unwind",
+                                    new BsonDocument
+                                        {
+                                            { "path", "$tienda" },
+                                            { "preserveNullAndEmptyArrays", false }
+                                        });
+            var _group1 = new BsonDocument("$group",
+                                new BsonDocument
+                                    {
+                                        { "_id", "$_id" },
+                                        { "categoriaID",
+                                new BsonDocument("$first", "$categoriaID") },
+                                        { "nombre",
+                                new BsonDocument("$first", "$nombre") },
+                                        { "descripcion",
+                                new BsonDocument("$first", "$descripcion") },
+                                        { "tipoVenta",
+                                new BsonDocument("$first", "$tipoVenta") },
+                                        { "unidadMedida",
+                                new BsonDocument("$first", "$unidadMedida") },
+                                        { "precio",
+                                new BsonDocument("$first", "$precio") },
+                                        { "stock",
+                                new BsonDocument("$first", "$stock") },
+                                        { "urlImagen",
+                                new BsonDocument("$first", "$urlImagen") },
+                                        { "codigoQR",
+                                new BsonDocument("$first", "$codigoQR") },
+                                        { "tienda",
+                                new BsonDocument("$addToSet", "$tienda") },
+                                        { "ofertas",
+                                new BsonDocument("$addToSet", "$oferta") }
+                                    });
+            var _unwindTienda2 = new BsonDocument("$unwind",
+                                    new BsonDocument("path", "$tienda"));
+            var _project = new BsonDocument("$project",
+                                    new BsonDocument
+                                        {
+                                            { "_id", 1 },
+                                            { "categoriaID", 1 },
+                                            { "nombre", 1 },
+                                            { "descripcion", 1 },
+                                            { "tipoVenta", 1 },
+                                            { "unidadMedida", 1 },
+                                            { "precio", 1 },
+                                            { "stock", 1 },
+                                            { "urlImagen", 1 },
+                                            { "codigoQR", 1 },
+                                            { "tienda",
+                                    new BsonDocument
+                                            {
+                                                { "_id", 1 },
+                                                { "nombre", 1 },
+                                                { "ubicacion", 1 },
+                                                { "stock", 1 },
+                                                { "horarioApertura", 1 },
+                                                { "horarioCierre", 1 },
+                                                { "trabajadores", 1 },
+                                                { "ofertas",
+                                    new BsonDocument("$filter",
+                                    new BsonDocument
+                                                    {
+                                                        { "input", "$ofertas" },
+                                                        { "as", "oferta" },
+                                                        { "cond",
+                                    new BsonDocument("$eq",
+                                    new BsonArray
+                                                            {
+                                                                "$$oferta.tiendaID",
+                                                                new BsonDocument("$toString", "$tienda._id")
+                                                            }) }
+                                                    }) }
+                                            } }
+                                        });
+            var _group2 = new BsonDocument("$group",
+                            new BsonDocument
+                                {
+                                    { "_id", "$_id" },
+                                    { "categoriaID",
+                            new BsonDocument("$first", "$categoriaID") },
+                                    { "nombre",
+                            new BsonDocument("$first", "$nombre") },
+                                    { "descripcion",
+                            new BsonDocument("$first", "$descripcion") },
+                                    { "tipoVenta",
+                            new BsonDocument("$first", "$tipoVenta") },
+                                    { "unidadMedida",
+                            new BsonDocument("$first", "$unidadMedida") },
+                                    { "precio",
+                            new BsonDocument("$first", "$precio") },
+                                    { "stock",
+                            new BsonDocument("$first", "$stock") },
+                                    { "urlImagen",
+                            new BsonDocument("$first", "$urlImagen") },
+                                    { "codigoQR",
+                            new BsonDocument("$first", "$codigoQR") },
+                                    { "tiendas",
+                            new BsonDocument("$addToSet", "$tienda") }
+                                });
+            listaProductoOderta = await _producto.Aggregate()
+                .AppendStage<dynamic>(_match)
+                .AppendStage<dynamic>(_lookupOferta)
+                .AppendStage<dynamic>(_unwindOferta)
+                .AppendStage<dynamic>(_lookTienda)
+                .AppendStage<dynamic>(_unwindTienda)
+                .AppendStage<dynamic>(_group1)
+                .AppendStage<dynamic>(_unwindTienda2)
+                .AppendStage<dynamic>(_project)
+                .AppendStage<ProductoOfertaDTO>(_group2).ToListAsync();
+            return listaProductoOderta;
+        }
     }
 }

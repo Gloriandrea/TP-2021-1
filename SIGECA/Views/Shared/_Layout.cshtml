@@ -43,120 +43,125 @@
             </ul>
 </nav>
     <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu"  style="background-color: #000080" >
-                    <div class="nav">
-                        <div class="sb-sidenav-menu-heading">------------------------------</div>
-                        <a class="nav-link" href="@Url.Action("Index", "Home")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Inicio
-                        </a>
-                        <a class="nav-link" href="@Url.Action("cambiarContraseña", "Usuario")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Perfil
-                        </a>
+        @{ 
+            var usuarioID = new Byte[20];
+            bool usuarioIDOK = Context.Session.TryGetValue("usuarioID", out usuarioID);
+        }
+        @await Component.InvokeAsync("Barside", new { usuarioID = System.Text.Encoding.UTF8.GetString(usuarioID) })
+        <!--div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu"  style="background-color: #000080" >
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">------------------------------</div>
+                    <a class="nav-link" href="@Url.Action("Index", "Home")">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Inicio
+                    </a>
+                    <a class="nav-link" href="@Url.Action("cambiarContraseña", "Usuario")">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Perfil
+                    </a>
 
-                        <div class="sb-sidenav-menu-heading">--------------</div>
+                    <div class="sb-sidenav-menu-heading">--------------</div>
 
-                        <a class="nav-link" href="@Url.Action("Index", "Usuario")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Gestion de Usuarios
-                        </a>
+                    <a class="nav-link" href="@Url.Action("Index", "Usuario")">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Gestion de Usuarios
+                    </a>
 
-                        <a class="nav-link" href="@Url.Action("Index", "Proveedor")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Proveedor
-                        </a>
+                    <a class="nav-link" href="@Url.Action("Index", "Proveedor")">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Proveedor
+                    </a>
 
-                        <a class="nav-link" asp-controller="Compra" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Compras
-                        </a>
-                        <a class="nav-link" asp-controller="Venta" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Gestionar Ventas
-                        </a>
-                        <a class="nav-link" href="@Url.Action("Pago", "Pago")">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Gestionar Pago
-                        </a>
-
-
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Catalogo
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" asp-controller="Catalogo" asp-action="Index">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                    Tienda 1
-                                </a>
-                                <a class="nav-link" asp-controller="Catalogo" asp-action="Index">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                    Tienda 2
-                                </a>
-                            </nav>
-                        </div>
-
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Gestionar Almacen
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link" asp-controller="Producto" asp-action="Index">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                    Productos Almacen
-                                </a>
-                                <a class="nav-link" asp-controller="Peladuria" asp-action="Index">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                    Peladuria
-                                </a>
-
-                            </nav>
-                        </div>
-
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="collapse">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Gestionar Compras
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapse" aria-labelledby="headingThree" data-parent="#sidenav">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" asp-controller="Producto" asp-action="Index">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                    Productos Almacen
-                                </a>
-                                <a class="nav-link" asp-controller="Producto" asp-action="Index">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                    Peladuria
-                                </a>
-
-                            </nav>
-                        </div>
+                    <a class="nav-link" asp-controller="Compra" asp-action="Index">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Compras
+                    </a>
+                    <a class="nav-link" asp-controller="Venta" asp-action="Index">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Gestionar Ventas
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Pago", "Pago")">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Gestionar Pago
+                    </a>
 
 
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Catalogo
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
 
-
-                        <div class="sb-sidenav-menu-heading">--------------</div>
-                        <a class="nav-link" href="charts.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Estadisticas
-                        </a>
-                        <a class="nav-link" href="tables.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Cerrar Sesion
-                        </a>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" asp-controller="Catalogo" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Tienda 1
+                            </a>
+                            <a class="nav-link" asp-controller="Catalogo" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Tienda 2
+                            </a>
+                        </nav>
                     </div>
-                    <br />
+
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        Gestionar Almacen
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                            <a class="nav-link" asp-controller="Producto" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Productos Almacen
+                            </a>
+                            <a class="nav-link" asp-controller="Peladuria" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Peladuria
+                            </a>
+
+                        </nav>
+                    </div>
+
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="collapse">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        Gestionar Compras
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapse" aria-labelledby="headingThree" data-parent="#sidenav">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" asp-controller="Producto" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Productos Almacen
+                            </a>
+                            <a class="nav-link" asp-controller="Producto" asp-action="Index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Peladuria
+                            </a>
+
+                        </nav>
+                    </div>
+
+
+
+
+                    <div class="sb-sidenav-menu-heading">--------------</div>
+                    <a class="nav-link" href="charts.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                        Estadisticas
+                    </a>
+                    <a class="nav-link" href="tables.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        Cerrar Sesion
+                    </a>
                 </div>
-            </nav>
-        </div>
+                <br />
+            </div>
+        </nav>
+    </div-->
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid">
@@ -165,7 +170,7 @@
 
                 </div>
             </main>
-           
+
         </div>
     </div>
 

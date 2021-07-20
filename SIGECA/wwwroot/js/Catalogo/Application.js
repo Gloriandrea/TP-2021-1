@@ -41,7 +41,7 @@
                 {
                     "render": function (data, type, full, meta) {
                         return '<button class="btn btnConsultarOfertas" data-producto-id="' + full.id + '"><img class="fas fa-eye" /></button>' +
-                            '<button class="btn btnModificarOferta1" data-producto-id="' + full.id + '"><img class="fas fa-edit" /></button>' +
+                            '<button class="btn btnModificarOferta" data-producto-id="' + full.id + '"><img class="fas fa-edit" /></button>' +
                             '<button class="btn btnAgregarCompra" style="color: #4AB6B6" data-producto-id="' + full.id + '"><img class="fas fa-plus" /></button>';;
                     }
                 }
@@ -204,13 +204,10 @@ $('#tableCatalogo').on('click', '.btnConsultarOfertas', function (e) {
                 //sec1 Detalle del producto
                 //nombre producto
                 $("#nombreProductoConsultar").val(producto.nombre);
-
                 //precio producto
                 $("#precioNormalConsultar").val(producto.precio);
-
                 //descripcion producto
                 $("#DescripcionConsultar").val(producto.descripcion);
-
                 //stock producto
                 $("#stockConsultar").val(producto.stock);
                 //END sec 1
@@ -277,7 +274,7 @@ $('#tableCatalogo').on('click', '.btnConsultarOfertas', function (e) {
 });
 
 //MODIFICAR oferta section
-$('#tableCatalogo').on('click', '.btnModificarOferta1', function (e) {
+$('#tableCatalogo').on('click', '.btnModificarOferta', function (e) {
     $('#fechaIniModificar').datepicker({
         "format": "yyyy-mm-dd"
     });

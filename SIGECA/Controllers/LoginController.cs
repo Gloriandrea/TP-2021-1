@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SIGECA.Services;
 using System;
@@ -25,7 +26,11 @@ namespace SIGECA.Controllers
         public async Task<ActionResult> LogearUsuario(string nombreUsuario, string clave)
         {
             Object result = null;
-            bool login = await _usuarioService.Login(nombreUsuario, clave);
+            string login = await _usuarioService.Login(nombreUsuario, clave);
+            if (!login.Equals(""))
+            {
+                HttpContext.Session.SetString("usuarioID", login);
+            }
             result = new { result = "success", title = "Satisfactorio", value = login, url = "Producto/Busqueda" };
             return Content(JsonConvert.SerializeObject(result));
         }

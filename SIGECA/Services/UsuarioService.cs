@@ -27,11 +27,6 @@ namespace SIGECA.Services
             return _usuarios.Find(x => true).ToList();
         }
 
-        /* public async Task<List<Trabajador>> GetAllTrabajador()
-         {
-             return _usuarios.Find(x => x.tipoUsuario != "Cliente").ToList();
-         }*/
-
         public async Task<Usuario> GetById(string usuarioID)
         {
             return _usuarios.Find(x => x.id == usuarioID).FirstOrDefault();
@@ -70,9 +65,9 @@ namespace SIGECA.Services
             _usuarios.UpdateOne(filters, update);
         }
 
-        public async Task<List<UsuarioDTO>> getUsuariosRolPermiso(string usuarioid) {
+        public async Task<UsuarioDTO> getUsuariosRolPermiso(string usuarioid) {
 
-            List<UsuarioDTO> listUsuarioDTO = new List<UsuarioDTO>();
+            UsuarioDTO listUsuarioDTO = new UsuarioDTO();
 
             var match = new BsonDocument("$match",
                                 new BsonDocument("_id",
@@ -181,7 +176,7 @@ namespace SIGECA.Services
                                 .AppendStage<dynamic>(unwind3)
                                 .AppendStage<dynamic>(group)
                                 .AppendStage<UsuarioDTO>(project)
-                                .ToListAsync();
+                                .SingleOrDefaultAsync();
             return listUsuarioDTO;
         }
 
@@ -237,9 +232,10 @@ namespace SIGECA.Services
 
         }
 
-        public async Task<bool> Login(string nombre , string clave)
+        public async Task<string> Login(string nombre , string clave)
         {
-            return _usuarios.Find(x => x.nombreUsuario == nombre && x.contraseña == clave).Count() == 0 ? false : true;
+            Usuario usuario = await _usuarios.Find(x => x.nombreUsuario == nombre && x.contraseña == clave).FirstOrDefaultAsync();
+            return usuario == null ? "" : usuario.id;
         }
 
     }

@@ -23,12 +23,12 @@
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
                 if (data.result == "success") {
-                    if (data.value === false) {
+                    if (data.value === "") {
                         SwalFireMessageError("Error!",
                             "error",
                             'Lo sentimos, Ocurrió un error Inesperado al registrar archivos del producto');
                     } else {
-                        window.location.href = $("#URL_Redirect").val();
+                        window.location.href = $("#URL_Redirect").val() + "?usuarioID=" + data.value;
                     }
                 } else {
                     console.log("ERROR AL OBTENER LOS DATOS");
