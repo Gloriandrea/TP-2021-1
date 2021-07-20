@@ -150,6 +150,16 @@ namespace SIGECA.Services
             _producto.UpdateOne(filters, update);
             return producto;
         }
+
+        public async Task<Producto> UpdateProductoPrecio(Producto producto)
+        {
+
+            var update = Builders<Producto>.Update.Set("precio", producto.precio);
+            var filters = Builders<Producto>.Filter.Eq("id", producto.id);
+            _producto.UpdateOne(filters, update);
+            return producto;
+        }
+
         public async Task<string> UpdateProductoImagen(string imagenProducto, string productoID)
         {
 

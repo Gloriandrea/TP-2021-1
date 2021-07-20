@@ -67,6 +67,15 @@ namespace SIGECA.Controllers
         }
 
         [HttpPost]
+        public async Task<ActionResult> ModificarPrecioProducto(Producto producto)
+        {
+            Object result = null;
+            Producto productoActualizado = await _productoService.UpdateProductoPrecio(producto);
+            result = new { result = "success", title = "Satisfactorio", value = productoActualizado, url = "Usuario/ActualizarUsuario" };
+            return Content(JsonConvert.SerializeObject(result));
+        }
+
+        [HttpPost]
         public async Task<ActionResult> ObtenerNombreCategoriaPorId(string productoId)
         {
             Object result = null;
