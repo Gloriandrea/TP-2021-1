@@ -295,12 +295,12 @@ $('.datatable-frmInventario').DataTable(
             { "data": "fechaFinal" },
             { "data": "usuarioId" },
             { "data": "tiendaID" },
-            {
-                "render": function (data, type, full, meta) {
-                    return '<button class="btn btnInventarioInicial" style="color:#4AB6B6" data-frmInvent-id="' + full.id + '"><img class="fas fa-edit" />Inicial</button>' +
-                        '<button class="btn btnInventarioFinal" style="color:red" data-frmInvent-id="' + full.id + '"><img class="fas fa-edit" />Final</button>';
+            //{
+            //    "render": function (data, type, full, meta) {
+            //        return '<button class="btn btnInventarioInicial" style="color:#4AB6B6" data-frmInvent-id="' + full.id + '"><img class="fas fa-edit" />Inicial</button>' +
+            //            '<button class="btn btnInventarioFinal" style="color:red" data-frmInvent-id="' + full.id + '"><img class="fas fa-edit" />Final</button>';
 
-                }
-            }
+            //    }
+           /* }*/
         ]
     });
