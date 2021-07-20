@@ -1,0 +1,11 @@
+#preloader{
+
+    background: rgb(0, 0, 0) url(../../assets/img/PollitoLoading.gif) no-repeat center center;
+    background-size: 20%;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    animation: loader 5s infinite ease-in-out;
+}
+

@@ -5,8 +5,7 @@ using System.Collections.Generic;
 
 namespace SIGECA.Entities
 {
-    [BsonDiscriminator(RootClass = true)]
-
+    
     public class Venta
     {
         [BsonId]
@@ -31,12 +30,12 @@ namespace SIGECA.Entities
         [BsonElement("fechaVenta")]
         public DateTime? fechaVenta { get; set; }
 
-        [BsonElement("dniCliente")]
+        [BsonIgnoreIfNull]
         public string dniCliente { get; set; }
         [BsonIgnoreIfNull]
         public string nombreCliente { get; set; }
 
-        [BsonElement("tipoCliente")]
+        [BsonIgnoreIfNull]
         public string tipoCliente { get; set; }
         [BsonIgnoreIfNull]
         public string usuarioID { get; set; }

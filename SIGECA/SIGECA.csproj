@@ -6,9 +6,13 @@
 
   <ItemGroup>
     <Compile Remove="Views\Cliente\**" />
+    <Compile Remove="wwwroot\css\Login\**" />
     <Content Remove="Views\Cliente\**" />
+    <Content Remove="wwwroot\css\Login\**" />
     <EmbeddedResource Remove="Views\Cliente\**" />
+    <EmbeddedResource Remove="wwwroot\css\Login\**" />
     <None Remove="Views\Cliente\**" />
+    <None Remove="wwwroot\css\Login\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -15,7 +15,7 @@
     });
 }
 
-setInputFilter(document.getElementById("dniCliente"), function (value) {
+setInputFilter(document.getElementById("telefonoCliente"), function (value) {
     return /^\d*$/.test(value);
 });
 

@@ -13,7 +13,7 @@
         </nav>
     </div>
     <div class="col">
-        <button class="btn btn-primary float-right" onclick="clearDataVenta(); $('#modalRegistrarVenta').modal('show'); cambiarDNIusuario();"><i class="fas fa-plus"></i> Agregar Venta</button>
+        <button class="btn btn-primary float-right" onclick="clearDataVenta(); $('#modalRegistrarVenta').modal('show')"><i class="fas fa-plus"></i> Agregar Venta</button>
     </div>
 </div>
 
@@ -41,57 +41,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row" style="padding: 5px 5%">
-                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
-                        <label class="form-label">Tipo de Cliente: </label>
-                    </div>
-                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="usuarioRadio" value="usuario" name="customRadioInline" class="custom-control-input">
-                            <label class="custom-control-label" for="usuarioRadio">Usuario</label>
-                        </div>
-                    </div>
-                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="clienteRadio" value="cliente" name="customRadioInline" class="custom-control-input">
-                            <label class="custom-control-label" for="clienteRadio">Cliente</label>
-                        </div>
-                    </div>
-                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="sinDocumentoRadio" value="sinDocumentos" name="customRadioInline" class="custom-control-input">
-                            <label class="custom-control-label" for="sinDocumentoRadio">Sin Documento</label>
-                        </div>
-                    </div>
-                </div>
-                <div id="usuarioForm" class="row" style="padding: 5px 5%; display:none;">
-                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                        <label for="usuario" class="form-label">Usuario: </label>
-                        <select class="form-select form-control" id="usuarioVentaRegistrar" name="usuario" onchange="cambiarDNIusuario();">
-                            @foreach (var usuario in Model.usuarios)
-                            {
-                                if (usuario.tipoUsuario == "Cliente")
-                                {
-                                    <option value="@usuario.id">@usuario.datos.nombre @usuario.datos.apellido</option>
-                                }
-                            }
-                        </select>
-                    </div>
-                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                        <label for="dniUsuario" class="form-label">N° DNI: </label>
-                        <input class="form-control" type="text" id="dniUsuario" name="dniUsuario" disabled />
-                    </div>
-                </div>
-                <div id="clienteForm" class="row" style="padding: 5px 5%; display: none;">
-                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                        <label for="nombreCliente" class="form-label">Cliente: </label>
-                        <input class="form-control" type="text" id="nombreCliente" name="nombreCliente" />
-                    </div>
-                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                        <label for="dniCliente" class="form-label">N° DNI: </label>
-                        <input class="form-control" type="text" id="dniCliente" maxlength="8" name="dniCliente" />
-                    </div>
-                </div>
                 <div class="row" style="padding: 5px 5%; margin-top: 30px;">
                     <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
                         <label class="form-label">Tipo de Venta: </label>
@@ -107,6 +56,30 @@
                             <input type="radio" id="onlineRadio" value="online" name="customRadioInline1" class="custom-control-input">
                             <label class="custom-control-label" for="onlineRadio">Online</label>
                         </div>
+                    </div>
+                </div>
+                <div id="clienteForm" class="row" style="padding: 5px 5%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="nombreCliente" class="form-label">Nombre del Cliente: </label>
+                        <input class="form-control" type="text" id="nombreCliente" name="nombreCliente" />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="apellidoCliente" class="form-label">Apellidos del Cliente: </label>
+                        <input class="form-control" type="text" id="apellidoCliente" name="dniCliente" />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="correoCliente" class="form-label">Correo: </label>
+                        <input class="form-control" type="text" id="correoCliente" name="dniCliente" />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="telefonoCliente" class="form-label">Telefono: </label>
+                        <input class="form-control" type="text" id="telefonoCliente" name="dniCliente" maxlength="9" />
+                    </div>
+                    <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                        <label for="direccionCliente" class="form-label" style=" margin-top: 9px;">Direccion:</label>
+                        <textarea class="form-control" id="direccionCliente"
+                                  name="direccionCliente"
+                                  rows="3"></textarea>
                     </div>
                 </div>
                 <hr />
@@ -182,31 +155,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row" style="padding: 5px 5%">
-                    <input type="hidden" id="idVentaModificar" name="id" />
-                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
-                        <label class="form-label">Tipo de Cliente: </label>
-                    </div>
-                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="usuarioRadioModificar" value="usuario" name="customRadioInline2" class="custom-control-input" disabled>
-                            <label class="custom-control-label" for="usuarioRadioModificar">Usuario</label>
-                        </div>
-                    </div>
-                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="clienteRadioModificar" value="cliente" name="customRadioInline2" class="custom-control-input" disabled>
-                            <label class="custom-control-label" for="clienteRadioModificar">Cliente</label>
-                        </div>
-                    </div>
-                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="sinDocumentoRadioModificar" value="sinDocumentos" name="customRadioInline2" class="custom-control-input" disabled>
-                            <label class="custom-control-label" for="sinDocumentoRadioModificar">Sin Documento</label>
-                        </div>
-                    </div>
-                </div>
                 <div class="row" style="padding: 5px 5%; margin-top: 30px;">
+                    <input type="hidden" id="idVentaModificar" name="id" />
                     <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
                         <label class="form-label">Tipo de Venta: </label>
                     </div>
@@ -290,65 +240,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row" style="padding: 5px 5%">
-                    <input type="hidden" id="idVentaConsultar" name="id" />
-                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
-                        <label class="form-label">Tipo de Cliente: </label>
-                    </div>
-                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="usuarioRadioConsultar" value="usuario" name="customRadioInline4" class="custom-control-input" disabled>
-                            <label class="custom-control-label" for="usuarioRadioConsultar">Usuario</label>
-                        </div>
-                    </div>
-                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="clienteRadioConsultar" value="cliente" name="customRadioInline4" class="custom-control-input" disabled>
-                            <label class="custom-control-label" for="clienteRadioConsultar">Cliente</label>
-                        </div>
-                    </div>
-                    <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="sinDocumentoRadioConsultar" value="sinDocumentos" name="customRadioInline4" class="custom-control-input" disabled>
-                            <label class="custom-control-label" for="sinDocumentoRadioConsultar">Sin Documento</label>
-                        </div>
-                    </div>
-                </div>
-                <div id="usuarioFormConsultar" class="row" style="padding: 5px 5%; display: none">
-                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                        <label for="usuarioVentaConsultar" class="form-label">Usuario: </label>
-                        <input class="form-control" type="text" id="usuarioVentaConsultar" name="usuarioVentaConsultar" disabled />
-                    </div>
-                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                        <label for="dniUsuarioConsultar" class="form-label">N° DNI: </label>
-                        <input class="form-control" type="text" id="dniUsuarioConsultar" name="dniUsuarioConsultar" disabled />
-                    </div>
-                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                        <label for="telefonoUsuarioConsultar" class="form-label" style=" margin-top: 9px;">Telefono: </label>
-                        <input class="form-control" type="text" id="telefonoUsuarioConsultar" name="telefonoUsuarioConsultar" disabled />
-                    </div>
-                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                        <label for="emailUsuarioConsultar" class="form-label" style=" margin-top: 9px;">Correo: </label>
-                        <input class="form-control" type="text" id="emailUsuarioConsultar" name="emailUsuarioConsultar" disabled />
-                    </div>
-                    <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
-                        <label for="direccionUsuarioConsultar" class="form-label" style=" margin-top: 9px;">Direccion:</label>
-                        <textarea class="form-control" id="direccionUsuarioConsultar"
-                                  name="direccionUsuarioConsultar"
-                                  rows="3" disabled></textarea>
-                    </div>
-                </div>
-                <div id="clienteFormConsultar" class="row" style="padding: 5px 5%; display: none;">
-                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                        <label for="nombreClienteConsultar" class="form-label">Cliente: </label>
-                        <input class="form-control" type="text" id="nombreClienteConsultar" name="nombreClienteConsultar" disabled />
-                    </div>
-                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                        <label for="dniClienteConsultar" class="form-label">N° DNI: </label>
-                        <input class="form-control" type="text" id="dniClienteConsultar" name="dniClienteConsultar" disabled />
-                    </div>
-                </div>
                 <div class="row" style="padding: 5px 5%; margin-top: 30px;">
+                    <input type="hidden" id="idVentaConsultar" name="id" />
                     <div class="col-3 col-sm-3 col-lg-3 col-xl-3">
                         <label class="form-label">Tipo de Venta: </label>
                     </div>
@@ -364,6 +257,33 @@
                             <label class="custom-control-label" for="onlineRadioConsultar">Online</label>
                         </div>
                     </div>
+                </div>
+                <div id="clienteFormConsultar" class="row" style="padding: 5px 5%">
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="nombreClienteConsultar" class="form-label">Nombre del Cliente: </label>
+                        <input class="form-control" type="text" id="nombreClienteConsultar" name="nombreClienteConsultar" disabled />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="apellidoClienteConsultar" class="form-label">Apellidos del Cliente: </label>
+                        <input class="form-control" type="text" id="apellidoClienteConsultar" name="dniClienteConsultar" disabled />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="correoClienteConsultar" class="form-label">Correo: </label>
+                        <input class="form-control" type="text" id="correoClienteConsultar" name="dniClienteConsultar" disabled />
+                    </div>
+                    <div class="col-6 col-sm-6 col-lg-6 col-xl-6">
+                        <label for="telefonoClienteConsultar" class="form-label">Telefono: </label>
+                        <input class="form-control" type="text" id="telefonoClienteConsultar" name="dniClienteConsultar" disabled />
+                    </div>
+                    <div class="col-12 col-sm-12 col-lg-12 col-xl-12">
+                        <label for="direccionClienteConsultar" class="form-label" style=" margin-top: 9px;">Direccion:</label>
+                        <textarea class="form-control" id="direccionClienteConsultar"
+                                  name="direccionCliente"
+                                  rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="row" style="padding: 5px 5%; margin-top: 30px;">
+                    
                 </div>
                 <hr />
                 <table id="itemVentaConsultar" class="table">

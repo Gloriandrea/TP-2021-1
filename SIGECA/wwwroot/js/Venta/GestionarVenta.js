@@ -193,37 +193,14 @@ $("#itemVentaModificar").on("click", ".btnBorrar", function (event) {
     $('#itemModificarTotal').text(parseFloat(costoTotal).toFixed(2));
 });
 
-$('input[name=customRadioInline]').on('click', function () {
-    let tipoCliente = $("input[name=customRadioInline]:checked").val()
-    switch (tipoCliente) {
-        case "usuario":
-            $('#clienteForm').css('display', 'none');
-            $('#usuarioForm').css('display', 'flex');
-            break;
-        case "cliente":
-            $('#usuarioForm').css('display', 'none');
-            $('#clienteForm').css('display', 'flex');
-            break;
-        default:
-            $('#usuarioForm').css('display', 'none');
-            $('#clienteForm').css('display', 'none');
-            break;
-    }
-});
-
 function clearDataVenta() {
-    $('#usuarioRadio').prop('checked', false);
-    $('#clienteRadio').prop('checked', false);
-    $('#sinDocumentoRadio').prop('checked', false);
     $('#presencialRadio').prop('checked', false);
     $('#onlineRadio').prop('checked', false);
-    let tipoCliente = $("input:checked").val();
-    if (tipoCliente == undefined || tipoCliente == "") {
-        $('#usuarioForm').css('display', 'none');
-        $('#clienteForm').css('display', 'none');
-    }
     $('#nombreCliente').val('');
-    $('#dniCliente').val('');
+    $('#apellidoCliente').val('');
+    $('#correoCliente').val('');
+    $('#telefonoCliente').val('');
+    $('#direccionCliente').val('');
     $('#productoVentaRegistrar').val('');
     $('#cantidadVentaRegistrar').val('');
     $('#costoVentaRegistrar').val('0.00');
@@ -344,9 +321,20 @@ function cambioCantidadModificar() {
 
 function validarVacioVentaRegistrar() {
     var msj = '';
-    let tipoCliente = $("input[name=customRadioInline]:checked").val();
-    if (tipoCliente == undefined || tipoCliente == "") {
-        msj += '*Debe seleccionar un tipo de Cliente. <br>'
+    if ($('#nombreCliente').val().length <= 0) {
+        msj += '*Debe ingresar un nombre del Cliente. <br>'
+    }
+    if ($('#apellidoCliente').val().length <= 0) {
+        msj += '*Debe ingresar los apellidos del Cliente. <br>'
+    }
+    if ($('#correoCliente').val().length <= 0) {
+        msj += '*Debe ingresar un correo del Cliente. <br>'
+    }
+    if ($('#telefonoCliente').val().length <= 0) {
+        msj += '*Debe ingresar un telefono del Cliente. <br>'
+    }
+    if ($('#direccionCliente').val().length <= 0) {
+        msj += '*Debe ingresar la dirección del Cliente. <br>'
     }
     if ($('#presencialRadio').is(':checked') == false && $('#onlineRadio').is(':checked') == false) {
         msj += '*Debe seleccionar un tipo de Venta. <br>'
@@ -371,34 +359,20 @@ $("#btnRegistrarVentaModal").on("click", function () {
         return false;
     }
     var Venta = new Object();
-
+    var datos = new Object();
     if ($('#presencialRadio').is(':checked')) {
         Venta.tipo = "presencial";
     }
     if ($('#onlineRadio').is(':checked')) {
         Venta.tipo = "online";
     }
-    let tipoCliente = $("input[name=customRadioInline]:checked").val()
-
-    switch (tipoCliente) {
-        case "usuario":
-            Venta.tipoCliente = "Usuario";
-            Venta.usuarioID = $('#usuarioVentaRegistrar').val();
-            Venta.dniCliente = $('#dniUsuario').val();
-            break;
-        case "cliente":
-            Venta.tipoCliente = "Con Documentos";
-            Venta.nombreCliente = $('#nombreCliente').val();
-            Venta.dniCliente = $('#dniCliente').val();
-            break;
-        default:
-            Venta.tipoCliente = "Sin Documentos";
-            Venta.nombreCliente = null;
-            Venta.dniCliente = null;
-            break;
-    }
+    datos.nombres = $('#nombreCliente').val();
+    datos.apellidos = $('#apellidoCliente').val();
+    datos.correo = $('#correoCliente').val();
+    datos.telefono = $('#telefonoCliente').val();
+    datos.direccion = $('#direccionCliente').val();
     Venta.total = costoTotal;
-
+    Venta.datos = datos;
     var row = document.getElementById('itemVenta').rows.length;
     for (i = 1; i < row; i++) {
         var item = new Object();
@@ -498,15 +472,6 @@ $('#tableVenta').on('click', '.btnModificarVenta', function (e) {
                 var venta = data.value.venta;
                 var itemsventas = venta.items;
                 $("#idVentaModificar").val(venta.id)
-                if (venta.usuarioID != null) {
-                    $('#usuarioRadioModificar').prop('checked', true);
-                }
-                if (venta.nombreCliente != null) {
-                    $('#clienteRadioModificar').prop('checked', true);
-                }
-                if (venta.tipoCliente == "Sin Documentos") {
-                    $('#sinDocumentoRadioModificar').prop('checked', true);
-                }
                 if (venta.tipo == "presencial") {
                     $('#presencialRadioModificar').prop('checked', true);
                 }
@@ -548,37 +513,18 @@ $('#tableVenta').on('click', '.btnVisualizarVenta', function (e) {
         success: function (data, textStatus, jqXHR) {
             if (data.result == "success") {
                 var venta = data.value.venta;
+                var datos = venta.datos;
                 if (venta.tipo == "presencial") {
                     $('#presencialRadioConsultar').prop('checked', true);
                 }
                 if (venta.tipo == "online") {
                     $('#onlineRadioConsultar').prop('checked', true);
                 }
-                switch (venta.tipoCliente) {
-                    case "Usuario":
-                        var usuario = data.value.usuario;
-                        $('#clienteFormConsultar').css('display', 'none');
-                        $('#usuarioFormConsultar').css('display', 'flex');
-                        $('#usuarioRadioConsultar').prop('checked', true);
-                        $('#usuarioVentaConsultar').val(usuario.datos.nombre + ' ' + usuario.datos.apellido);
-                        $('#dniUsuarioConsultar').val(usuario.datos.numeroDocumento);
-                        $('#telefonoUsuarioConsultar').val(usuario.datos.telefono);
-                        $('#emailUsuarioConsultar').val(usuario.datos.email);
-                        $('#direccionUsuarioConsultar').val(usuario.datos.direccion);
-                        break;
-                    case "Con Documentos":
-                        $('#usuarioFormConsultar').css('display', 'none');
-                        $('#clienteFormConsultar').css('display', 'flex');
-                        $('#clienteRadioConsultar').prop('checked', true);
-                        $('#nombreClienteConsultar').val(venta.nombreCliente);
-                        $('#dniClienteConsultar').val(venta.nombreCliente);
-                        break;
-                    default:
-                        $('#clienteFormConsultar').css('display', 'none');
-                        $('#usuarioFormConsultar').css('display', 'none');
-                        $('#sinDocumentoRadioConsultar').prop('checked', true);
-                        break;
-                }
+                $('#nombreClienteConsultar').val(datos.nombres);
+                $('#apellidoClienteConsultar').val(datos.apellidos);
+                $('#correoClienteConsultar').val(datos.correo);
+                $('#telefonoClienteConsultar').val(datos.telefono);
+                $('#direccionClienteConsultar').val(datos.direccion);
                 var itemscompra = venta.items;
                 var costoTotalConsulta = 0.0;
                 $("#idVentaConsultar").val(venta.id);

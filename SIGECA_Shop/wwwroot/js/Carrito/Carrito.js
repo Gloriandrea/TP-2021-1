@@ -56,7 +56,13 @@ function CambiarCantidad(cartid) {
 
 function eliminarCompraCarrito(key) {
     localStorage.removeItem(key);
-    $('#contadorItems').text(localStorage.length);
+    var contador = 0;
+    for (var i = 0; i < localStorage.length; i++) {
+        if (localStorage.getItem(`cartId${i}`) != null) {
+            contador++;
+        }
+    }
+    $('#contadorItems').text(contador);
 }
 
 $("#carritoTable").on("click", ".btnBorrar", function (event) {
@@ -108,7 +114,6 @@ function registrarVenta() {
         }
     }
     Venta.total = parseFloat(newTotal);
-    Venta.tipoCliente = "Cliente";
     Venta.estado = "delivery";
     Venta.items = itemsProductos;
     $.ajax({
