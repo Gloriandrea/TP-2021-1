@@ -74,18 +74,35 @@
                         Proveedor
                     </a>
 
-                    <a class="nav-link" asp-controller="Compra" asp-action="Index">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Compras
-                    </a>
-                    <a class="nav-link" asp-controller="Venta" asp-action="Index">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Gestionar Ventas
-                    </a>
-                    <a class="nav-link" href="@Url.Action("Pago", "Pago")">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Gestionar Pago
-                    </a>
+                        <a class="nav-link" asp-controller="Compra" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Compras
+                        </a>
+
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePaginas" aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Gestionar Ventas
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapsePaginas" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" asp-controller="Venta" asp-action="Index">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                    Ventas
+                                </a>
+                                <a class="nav-link" asp-controller="Inventario" asp-action="Inventario">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                    Inventario
+                                </a>
+                            </nav>
+                            
+                        </div>
+                       
+                        <a class="nav-link" href="@Url.Action("Pago", "Pago")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Gestionar Pago
+                        </a>
 
 
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">

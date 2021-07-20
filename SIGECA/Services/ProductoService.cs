@@ -168,6 +168,8 @@ namespace SIGECA.Services
             _producto.UpdateOne(filters, update);
             return productoID;
         }
+        public async Task<string> UpdateProductoQRCodigo(string productoID, string codigoQR)
+        {
 
         public async Task<List<ProductoOfertaDTO>> ObtenerProductoOfertaPorTienda(string productoID)
         {

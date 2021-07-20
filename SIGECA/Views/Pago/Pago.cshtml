@@ -4,7 +4,6 @@
 @{
     ViewData["Title"] = "Gestionar Pago";
 }
-
 <h1 class="mt-4" style="color: white">Gestion de Pagos</h1>
 <div class="card mb-4">
     <div class="card-header">
@@ -29,135 +28,93 @@
                 </td>
                 <td>
                     <input id="searchTerm" type="text" onkeyup="doSearch()" />
-                </td>              
-                <td>  
+                </td>
+                <td>
                     <button id="btnLimpiar" class="btn btn-outline-success">Limpiar</button>
                 </td>
             </tr>
         </table>
 
-    </div>    
-        <table id="tablaVentaPorCódigo" class="table datatable-ventas">
-            <thead class="thead-light">
-                <tr>
-                    <th>Código</th>
-                    <th>Total</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-                <tr class='noSearch hide'>
-                    <td colspan="5"></td>
-                </tr>
-            </thead>
-        </table> 
-    
+    </div>
+    <table id="tablaVentaPorCódigo" class="table datatable-ventas">
+        <thead class="thead-light">
+            <tr>
+                <th>Código</th>
+                <th>Total</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            <tr class='noSearch hide'>
+                <td colspan="5"></td>
+            </tr>
+        </thead>
+    </table>
+
 </div>
-
-
 
 
 <input type="hidden" id="URL_ObtenerVentaPorCodigoVenta" value="@Url.Action("ObtenerVentaPorCodigoVenta", "Pago")" />
 <input type="hidden" id="URL_VentaListar" value="@Url.Action("obtenerAllVentas", "Pago")" />
 <input type="hidden" id="URL_CambiarEstadoVenta" value="@Url.Action("CambiarEstadoVenta", "Pago")" />
 
+@section scripts{
+
+    <script src="~/js/Pago/Pago.js"></script>
+
+    <script src="~/js/Validaciones.js"></script>
+}
 
 
-<script src="~/js/Pago/Pago.js"></script>
 
 
-
+@* Modal para realizar el pago de la venta *@
 <div class="modal" id="modalPagoVenta" tabindex="-1" aria-labelledby="registrarPagoLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-
+            <div class="modal-header">
+                <h5 class="modal-title" id="consultarProveedorLabel">Detalle de Venta</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
             <div class="modal-body" id="imp1">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="consultarProveedorLabel">Detalle de Venta</h5>
-                </div>
                 <form>
                     <div class="row" style="padding: 5px 5%">
 
                         <input type="hidden" id="idCodigoVenta" name="id" />
                         <div id="codVent" class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="codigo" class="form-label">Código de Venta:</label>
-                            <input class="form-control"
-                                   id="txtCodVenta"
-                                   name="CodVenta"
-                                   disabled
-                                   style="border-top-style:none ;
-                                   border-left-style:none;
-                                   border-right-style:none;
-                                   border-right-style: none;
-                                   border-bottom-style:none">
+                            <input class="form-control" id="txtCodVenta" name="CodVenta" readonly>
                         </div>
                         <div id="fecha" class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="fecha" class="form-label">Fecha:</label>
-
-                            <input class="form-control"
-                                   id="txtFecha"
-                                   name="fecha"
-                                   disabled
-                                   style="border-top-style:none ;
-                                   border-left-style:none;
-                                   border-right-style:none;
-                                   border-right-style: none;
-                                   border-bottom-style:none">
+                            <input class="form-control" id="txtFecha" name="fecha" readonly>
                         </div>
                     </div>
                     <div class="row" style="padding: 5px 5%">
                         <div id="productos" class="col-12 col-sm-12 col-lg-12 col-xl-12">
                             <label for="productos" class="form-label">Productos:</label>
-
-                            <textarea class="form-control"
-                                      id="txaProductos"
-                                      name="items"
-                                      rows="6"
-                                      disabled
-                                      style="border-top-style:none ;
-                                      border-left-style:none;
-                                      border-right-style:none;
-                                      border-right-style: none;
-                                      border-bottom-style:none">
-
+                            <textarea class="form-control" id="txaProductos" name="items" rows="5" readonly>
                             </textarea>
                         </div>
                     </div>
                     <div class="row" style="padding: 5px 5%">
                         <div id="total" class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <label for="total" class="form-label">Total:</label>
-                            <input class="form-control"
-                                   id="txtTotal"
-                                   name="total"
-                                   disabled style="border-top-style:none ;
-                                   border-left-style:none;
-                                   border-right-style:none;
-                                   border-right-style: none;
-                                   border-bottom-style:none">
+                            <input class="form-control" id="txtTotal" name="total" readonly>
                         </div>
 
 
                         <div id="efectivo" class="col-6 col-sm-6 col-lg-6 col-xl-6">
-                            <h5> <label for="Efectivo" class="form-label">Efectivo:</label></h5>
-                            <input class="form-control"
-                                   id="txtEfectivo"
-                                   style="border-top-style:none ;
-                                   border-left-style:none;
-                                   border-right-style:none;
-                                   border-right-style: none;
-                                   border-bottom-style:none">
+                            <label for="Efectivo" class="form-label">Efectivo:</label>
+                            <input type="text" pattern="[0-9]+" class="form-control" id="txtEfectivo"
+                                   placeholder="0" name="efect" onkeypress="return valideKey(event);">
                         </div>
 
                         <div id="vuelto" class="col-6 col-sm-6 col-lg-6 col-xl-6">
                             <h5><label for="Vuelto" class="form-label">Vuelto: </label></h5>
-                            <input class="form-control"
-                                   id="txtVuelto"
-                                   readonly="readonly"
-                                   style="border-top-style:none ;
-                                   border-left-style:none;
-                                   border-right-style:none;
-                                   border-right-style: none;
-                                   border-bottom-style:none">
+                            <input class="form-control" id="txtVuelto" readonly>
                         </div>
                     </div>
                 </form>

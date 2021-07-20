@@ -35,8 +35,8 @@ namespace SIGECA.Services
         public async Task<Venta> UpdateVenta(Venta venta)
         {
             var update = Builders<Venta>.Update.Set("tipo", venta.tipo)
-                                            .Set("total",venta.total)
-                                            .Set("items", venta.items);
+                                               .Set("total",venta.total)
+                                               .Set("items", venta.items);
             var filters = Builders<Venta>.Filter.Eq("id", venta.id);
             _venta.UpdateOne(filters, update);
             return venta;
@@ -52,6 +52,12 @@ namespace SIGECA.Services
                     estado = "pendiente";
                     break;
                 case "cobrado":
+                    estado = "entregado";
+                    break;
+                case "delivery":
+                    estado = "repartido";
+                    break;
+                case "repartido":
                     estado = "entregado";
                     break;
             };

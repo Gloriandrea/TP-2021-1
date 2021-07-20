@@ -136,11 +136,13 @@ function addItem() {
     if (validarAddItem() == false) {
         return false;
     }
+    var compra = data.value.compra;
     var nombre = $("#productoCompraRegistrar option:selected").text();
     var cantidad = $('#cantidadCompraRegistrar').val();
     var unidad = $("#unidadCompraRegistrar option:selected").text();
     var costo = $('#costoCompraRegistrar').val();
     var row = "<tr>" +
+                "<td><img src=\"" + compra.imagen + "\" style=\"height:40px;\"></td>" +
                 "<td>" + nombre + "</td>" +
                 "<td>" + unidad + "</td>" +
                 "<td>" + cantidad + "</td>" +
@@ -164,10 +166,13 @@ function addItemModificar() {
         return false;
     }
     var nombre = $('#productoCompraModificar option:selected').text();
+    var idproducto = $('#productoCompraModificar option:selected').val();
+    var imagen = $('#producto_' + idproducto).val();
     var cantidad = $('#cantidadCompraModificar').val();
     var unidad = $('#unidadCompraModificar option:selected').text();
     var costo = $('#costoCompraModificar').val();
     var row = "<tr>" +
+        "<td><img src=\"" + imagen + "\" style=\"height:40px;\"></td>" +
         "<td>" + nombre + "</td>" +
         "<td>" + unidad + "</td>" +
         "<td>" + cantidad + "</td>" +
@@ -221,10 +226,11 @@ $("#btnRegistrarCompraModal").on("click", function () {
     var row = document.getElementById('itemCompra').rows.length;
     for (i = 1; i < row; i++) {
         var item = new Object();
-        item.nombre = document.getElementById("itemCompra").rows[i].cells.item(0).innerHTML;
-        item.unidadMedida = document.getElementById("itemCompra").rows[i].cells.item(1).innerHTML;
-        item.cantidad = Number(document.getElementById("itemCompra").rows[i].cells.item(2).innerHTML);
-        item.costo = parseFloat(document.getElementById("itemCompra").rows[i].cells.item(3).innerHTML);
+        item.imagen = document.getElementById("itemCompra").rows[i].cells.item(0).innerHTML;
+        item.nombre = document.getElementById("itemCompra").rows[i].cells.item(1).innerHTML;
+        item.unidadMedida = document.getElementById("itemCompra").rows[i].cells.item(2).innerHTML;
+        item.cantidad = Number(document.getElementById("itemCompra").rows[i].cells.item(3).innerHTML);
+        item.costo = parseFloat(document.getElementById("itemCompra").rows[i].cells.item(4).innerHTML);
         itemsProductos.push(item);
     }
 
@@ -313,6 +319,7 @@ $('#tableCompra').on('click', '.btnModificarCompra', function (e) {
                 $("#proveedorCompraModificar").val(compra.proveedorID);
                 itemscompra.forEach(c => {
                     var row = "<tr>" +
+                        "<td><img src=\"" + c.imagen + "\" style=\"height:40px;\"></td>" +
                         "<td>" + c.nombre + "</td>" +
                         "<td>" + c.unidadMedida + "</td>" +
                         "<td>" + c.cantidad + "</td>" +
@@ -348,10 +355,11 @@ $("#btnModificarCompraModal").on("click", function () {
     var row = document.getElementById('itemCompraModificar').rows.length;
     for (i = 1; i < row; i++) {
         var item = new Object();
-        item.nombre = document.getElementById("itemCompraModificar").rows[i].cells.item(0).innerHTML;
-        item.unidadMedida = document.getElementById("itemCompraModificar").rows[i].cells.item(1).innerHTML;
-        item.cantidad = Number(document.getElementById("itemCompraModificar").rows[i].cells.item(2).innerHTML);
-        item.costo = parseFloat(document.getElementById("itemCompraModificar").rows[i].cells.item(3).innerHTML);
+        item.imagen = document.getElementById("urlImagenModificar").rows[i].cells.item(0).innerHTML;
+        item.nombre = document.getElementById("itemCompraModificar").rows[i].cells.item(1).innerHTML;
+        item.unidadMedida = document.getElementById("itemCompraModificar").rows[i].cells.item(2).innerHTML;
+        item.cantidad = Number(document.getElementById("itemCompraModificar").rows[i].cells.item(3).innerHTML);
+        item.costo = parseFloat(document.getElementById("itemCompraModificar").rows[i].cells.item(4).innerHTML);
         itemsProductos.push(item);
     }
 
@@ -401,7 +409,6 @@ $("#btnModificarCompraModal").on("click", function () {
                     confirmButtonAriaLabel: 'Volver',
                 });
             }
-
         },
         error: function (jqXHR, textStatus, errorThrown) {
 
@@ -444,6 +451,7 @@ $('#tableCompra').on('click', '.btnVisualizarCompra', function (e) {
                 $("#idCompraConsultar").val(compra.id);
                 itemscompra.forEach(c => {
                     var row = "<tr>" +
+                        "<td><img src=\"" + c.imagen + "\" style=\"height:40px;\"></td>"+
                         "<td>" + c.nombre + "</td>" +
                         "<td>" + c.unidadMedida + "</td>" +
                         "<td>" + c.cantidad + "</td>" +

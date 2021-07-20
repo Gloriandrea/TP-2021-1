@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SIGECA.Entities;
 using SIGECA.Services;
@@ -12,9 +13,11 @@ namespace SIGECA.Controllers
     public class PeladuriaController : Controller
     {
         private readonly ProductoService _productoService;
-        public PeladuriaController(ProductoService productoService)
+        private readonly MediaService _mediaService;
+        public PeladuriaController(ProductoService productoService, MediaService mediaService)
         {
             _productoService = productoService;
+            _mediaService = mediaService;
         }
         public IActionResult Index()
         {
@@ -25,6 +28,7 @@ namespace SIGECA.Controllers
         public async Task<ActionResult> RegistrarProductosPeladuria([FromBody] List<Producto> productos)
         {
             Object result = null;
+            String qrCode;
             List<Producto> produtemp = await _productoService.GetAll();
             try
             {
@@ -35,6 +39,9 @@ namespace SIGECA.Controllers
                     if (tempProducto == null)
                     {
                         newProducto = await _productoService.CreateProducto(prod);
+                        IFormFile qrFile = await _mediaService.generateQRCodeFromID(newProducto.id);
+                        qrCode = await _mediaService.RegistrarImagenProducto(qrFile, "qrproductos");
+                        await _productoService.UpdateProductoQRCodigo(newProducto.id, qrCode);
                     }
                     else
                     {
