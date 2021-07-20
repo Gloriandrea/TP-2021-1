@@ -21,7 +21,8 @@
                         timer: 800
                     });
                 }
-                $('#contadorItems').text(localStorage.length);
+                let contador = ContarLocal();
+                $('#contadorItems').text(contador);
             } else {
                 console.log('ERROR al consultar el producto');
             }
@@ -29,8 +30,19 @@
     });
 }
 
+function ContarLocal() {
+    var conta = 0;
+    for (var i = 0; i < localStorage.length; i++) {
+        if (localStorage.getItem(`cartId${i}`) != null) {
+            conta++;
+        }
+    }
+    return conta;
+}
+
 function GuardarLocal(producto) {
     var cartId;
+    var contador = 0;
     if (localStorage.length == 0) {
         cartId = 'cartId0';
         localStorage.setItem(cartId, JSON.stringify(producto));
@@ -52,8 +64,11 @@ function GuardarLocal(producto) {
                 })
                 return false;
             }
+            if (localStorage.getItem(`cartId${i}`) != null) {
+                contador++;
+            }
         }
-        cartId = `cartId${localStorage.length}`;
+        cartId = `cartId${contador}`;
         localStorage.setItem(cartId, JSON.stringify(producto));
     }
 }

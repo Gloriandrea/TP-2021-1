@@ -12,19 +12,16 @@ namespace SIGECA.Controllers
     {
         private readonly VentaService _ventaService;
         private readonly ProductoService _productoService;
-        private readonly UsuarioService _usuarioService;
         public VentaController(VentaService ventaService, ProductoService productoService, UsuarioService usuarioService)
         {
             _ventaService = ventaService;
             _productoService = productoService;
-            _usuarioService = usuarioService;
         }
         public async Task<IActionResult> Index()
         {
             ModelVenta model = new ModelVenta();
             model.ventas = await _ventaService.GetAll();
             model.productos = await _productoService.GetAll();
-            model.usuarios = await _usuarioService.GetAll();
             return View(model);
         }
         [HttpPost]
@@ -66,26 +63,13 @@ namespace SIGECA.Controllers
         {
             Object result = null;
             Venta venta = await _ventaService.GetById(idventa);
-            Usuario usuario = null;
-            if(venta.usuarioID != null)
-            {
-                usuario = await _usuarioService.GetById(venta.usuarioID);
-            }
             List<Producto> productos = await _productoService.GetAll();
             foreach (Items item in venta.items)
             {
                 var itm = productos.Find(i => i.id == item.productoID);
                     item.nombre = itm.nombre;
             }
-            result = new { result = "success", title = "Satisfactorio", value = new { venta, usuario } , url = "Compra/Consultar" };
-            return Content(JsonConvert.SerializeObject(result));
-        }
-        [HttpPost]
-        public async Task<ActionResult> ObtenerUsuario(string usuarioID)
-        {
-            Object result = null;
-            Usuario usuario = await _usuarioService.GetById(usuarioID);
-            result = new { result = "success", title = "Satisfactorio", value = usuario, url = "Compra/Consultar" };
+            result = new { result = "success", title = "Satisfactorio", value = new { venta } , url = "Compra/Consultar" };
             return Content(JsonConvert.SerializeObject(result));
         }
         [HttpPost]
@@ -114,7 +98,6 @@ namespace SIGECA.Controllers
         {
             public IEnumerable<Venta> ventas { get; set; }
             public IEnumerable<Producto> productos { get; set; }
-            public IEnumerable<Usuario> usuarios { get; set; }
         }
     }
 }
