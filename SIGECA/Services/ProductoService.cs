@@ -170,6 +170,11 @@ namespace SIGECA.Services
         }
         public async Task<string> UpdateProductoQRCodigo(string productoID, string codigoQR)
         {
+            var update = Builders<Producto>.Update.Set("codigoQR", codigoQR);
+            var filters = Builders<Producto>.Filter.Eq("id", productoID);
+            _producto.UpdateOne(filters, update);
+            return productoID;
+        }
 
         public async Task<List<ProductoOfertaDTO>> ObtenerProductoOfertaPorTienda(string productoID)
         {
