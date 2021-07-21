@@ -26,5 +26,13 @@ namespace SIGECA_Shop.Services
         {
             return await _producto.Find(x => x.id == productoID).FirstOrDefaultAsync();
         }
+        public async Task<Producto> UpdateProductoStock(Producto producto)
+        {
+
+            var update = Builders<Producto>.Update.Set("stock", producto.stock);
+            var filters = Builders<Producto>.Filter.Eq("id", producto.id);
+            _producto.UpdateOne(filters, update);
+            return producto;
+        }
     }
 }

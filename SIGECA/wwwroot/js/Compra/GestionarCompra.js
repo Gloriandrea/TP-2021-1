@@ -136,13 +136,11 @@ function addItem() {
     if (validarAddItem() == false) {
         return false;
     }
-    var compra = data.value.compra;
     var nombre = $("#productoCompraRegistrar option:selected").text();
     var cantidad = $('#cantidadCompraRegistrar').val();
     var unidad = $("#unidadCompraRegistrar option:selected").text();
     var costo = $('#costoCompraRegistrar').val();
     var row = "<tr>" +
-                "<td><img src=\"" + compra.imagen + "\" style=\"height:40px;\"></td>" +
                 "<td>" + nombre + "</td>" +
                 "<td>" + unidad + "</td>" +
                 "<td>" + cantidad + "</td>" +
@@ -167,12 +165,11 @@ function addItemModificar() {
     }
     var nombre = $('#productoCompraModificar option:selected').text();
     var idproducto = $('#productoCompraModificar option:selected').val();
-    var imagen = $('#producto_' + idproducto).val();
+    //var imagen = $('#producto_' + idproducto).val();
     var cantidad = $('#cantidadCompraModificar').val();
     var unidad = $('#unidadCompraModificar option:selected').text();
     var costo = $('#costoCompraModificar').val();
     var row = "<tr>" +
-        "<td><img src=\"" + imagen + "\" style=\"height:40px;\"></td>" +
         "<td>" + nombre + "</td>" +
         "<td>" + unidad + "</td>" +
         "<td>" + cantidad + "</td>" +

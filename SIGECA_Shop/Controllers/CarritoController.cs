@@ -47,10 +47,13 @@ namespace SIGECA_Shop.Controllers
                 string productosHTML = string.Empty;
                 foreach (ItemsVenta prod in venta.items)
                 {
+                    Producto prodtemp = productos.Find(x => x.id == prod.productoID);
                     productosHTML += "<tr>";
-                    productosHTML += "<td width='75%' align='left' style='font - family: Open Sans, Helvetica, Arial, sans-serif; font - size: 16px; font - weight: 400; line - height: 24px; padding: 15px 10px 5px 10px;'>" + productos.Find(x => x.id == prod.productoID).nombre + " ( " + prod.cantidad + " ) " + "</td>";
+                    productosHTML += "<td width='75%' align='left' style='font - family: Open Sans, Helvetica, Arial, sans-serif; font - size: 16px; font - weight: 400; line - height: 24px; padding: 15px 10px 5px 10px;'>" + prodtemp.nombre + " ( " + prod.cantidad + " ) " + "</td>";
                     productosHTML += "<td width='25 %' align='left' style='font - family: Open Sans, Helvetica, Arial, sans-serif; font - size: 16px; font - weight: 400; line - height: 24px; padding: 15px 10px 5px 10px;'>" +"S/. " +prod.subTotal.ToString("0.00") + "</td>";
                     productosHTML += "</tr>";
+                    prodtemp.stock = prodtemp.stock - prod.cantidad;
+                    await _productoService.UpdateProductoStock(prodtemp);
                 }
                 Htmlbody = Htmlbody.Replace("#PRODUCTOS#", productosHTML);
                 await Helpers.Email.SendMail_Gmail(venta.datos.correo, "Su venta con el codigo " + venta.codigoVenta + " en Avicola Nancy, ha sido satisfactoria",Htmlbody);
