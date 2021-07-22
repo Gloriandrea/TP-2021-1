@@ -31,7 +31,6 @@ $('.datatable-inventario').DataTable(
             "sInfoEmpty": "No hay registros para mostrar"
         },
         "serverParams": function (setting) {
-            //setting.UsuarioID = $('#UsuarioID').val();
         },
         "columns": [
             { "data": "nombre" },
@@ -41,13 +40,17 @@ $('.datatable-inventario').DataTable(
             { "data": "stock" },
             {
                 "render": function (data, type, full, meta) {
+
                     return '<button class="btn btnInventarioInicial" style="color:#4AB6B6" data-producto-id="' + full.id + '"><img class="fas fa-edit" />Inicial</button>' +
                         '<button class="btn btnInventarioFinal" style="color:red" data-producto-id="' + full.id + '"><img class="fas fa-edit" />Final</button>';
-
                 }
             }
+
         ]
-    });
+    }
+);
+
+              
 
 //$('#fechaNacimientoUsuarioRegistrar').datepicker({
 //    "format": "yyyy-mm-dd"
@@ -295,12 +298,6 @@ $('.datatable-frmInventario').DataTable(
             { "data": "fechaFinal" },
             { "data": "usuarioId" },
             { "data": "tiendaID" },
-            //{
-            //    "render": function (data, type, full, meta) {
-            //        return '<button class="btn btnInventarioInicial" style="color:#4AB6B6" data-frmInvent-id="' + full.id + '"><img class="fas fa-edit" />Inicial</button>' +
-            //            '<button class="btn btnInventarioFinal" style="color:red" data-frmInvent-id="' + full.id + '"><img class="fas fa-edit" />Final</button>';
-
-            //    }
-           /* }*/
+           
         ]
     });
