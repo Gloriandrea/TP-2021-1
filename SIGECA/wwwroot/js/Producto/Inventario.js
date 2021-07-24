@@ -149,10 +149,11 @@ $('.datatable-inventario').on('click', '.btnInventarioInicial', function (e) {
 
 $("#btnModificarProductoModal").on("click", function () {
     var frmModificarProducto = $('#frmModificarProducto');
+    var x = $("#idProductoModificar").val();
     $.ajax({
         url: frmModificarProducto.prop('action'),
         type: 'post',
-        data: frmModificarProducto.serializeArray(),
+        data: "productoID=" + $("#idProductoModificar").val() + "&&stockInicial=" + $("#stockInicial").val(),
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             if (data.result == "success") {
