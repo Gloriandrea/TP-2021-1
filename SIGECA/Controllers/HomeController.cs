@@ -6,6 +6,7 @@ using SIGECA.Entities;
 using SIGECA.Helpers;
 using SIGECA.Models;
 using SIGECA.Services;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
@@ -17,15 +18,39 @@ namespace SIGECA.Controllers
     {
         UrlAPI urlAPI;
         private readonly UsuarioService _usuarioService;
-        public HomeController(UsuarioService usuarioService)
+        private readonly InventarioService _inventarioService;
+        private readonly ProductoService _productoService;
+        private readonly VentaService _ventaService;
+        public HomeController(UsuarioService usuarioService, InventarioService inventarioService, ProductoService productoService, VentaService ventaService)
         {
             _usuarioService = usuarioService;
+            _inventarioService = inventarioService;
+            _productoService = productoService;
+            _ventaService = ventaService;
         }
 
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            return View();
+            List<Inventario> inventarios = await _inventarioService.GetAllInventario();
+            ModelHome modelHome = new ModelHome();
+            modelHome.inventarios = inventarios;
+            int vendida = 0;
+            int mayor = 0;
+            Producto productoMayor = new Producto();
+            foreach (Inventario inv in inventarios)
+            {
+                int resta = inv.stockInicial - inv.stockFinal;
+                vendida += resta;
+                if (resta > mayor)
+                {
+                    mayor = resta;
+                    productoMayor = await _productoService.GetById(inv.productoID);
+                }
+            }
+            modelHome.mayorCantidad = productoMayor.nombre;
+            modelHome.stockVendida = vendida;
+            return View(modelHome);
         }
 
         public async Task<IActionResult> Index2()
@@ -38,6 +63,93 @@ namespace SIGECA.Controllers
             return View(productos);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> CantidadProducto()
+        {
+            Object result = null;
+            try
+            {
+                result = new { result = "success", title = "Satisfactorio", message = "Venta Registrado Correctamente", url = "Venta/Registro" };
+                return Content(JsonConvert.SerializeObject(result));
+            }
+            catch(Exception ex)
+            {
+                result = new { result = "error", title = "Error", message = "Lo sentimos, hubo un problema no esperado. Vuelva a intentar por favor. " + ex.Message, url = "" };
+                return Content(JsonConvert.SerializeObject(result));
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> CantidadProductos()
+        {
+            Object result = null;
+            List<Inventario> inventarios = await _inventarioService.GetAllInventario();
+            List<string> productos = new List<string>();
+            List<int> cantidadproductos = new List<int>();
+            try
+            {
+                foreach (Inventario inv in inventarios)
+                {
+                    Producto prod = await _productoService.GetById(inv.productoID);
+                    int resta = inv.stockInicial - inv.stockFinal;
+                    if (resta != 0)
+                    {
+                        productos.Add(prod.nombre);
+                        cantidadproductos.Add(resta);
+                    }
+                }
+                result = new { result = "success", title = "Satisfactorio", data = new { productos,cantidadproductos } ,message = "Venta Registrado Correctamente", url = "Venta/Registro" };
+                return Content(JsonConvert.SerializeObject(result));
+            } catch(Exception ex)
+            {
+                result = new { result = "error", title = "Error", message = "Lo sentimos, hubo un problema no esperado. Vuelva a intentar por favor. " + ex.Message, url = "" };
+                return Content(JsonConvert.SerializeObject(result));
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> CantidadPedidos()
+        {
+            Object result = null;
+            List<Venta> ventas = await _ventaService.GetAll();
+            List<int> numerosSemanal = new List<int> { 0,0,0,0,0,0,0};
+            try
+            {
+                foreach(Venta ven in ventas)
+                {
+                    switch (ven.fechaVenta.Value.DayOfWeek.ToString())
+                    {
+                        case "Monday":
+                            numerosSemanal[0] += 1;
+                            break;
+                        case "Tuesday":
+                            numerosSemanal[1] += 1;
+                            break;
+                        case "Wednesday":
+                            numerosSemanal[2] += 1;
+                            break;
+                        case "Thursday ":
+                            numerosSemanal[3] += 1;
+                            break;
+                        case "Friday":
+                            numerosSemanal[4] += 1;
+                            break;
+                        case "Saturday":
+                            numerosSemanal[5] += 1;
+                            break;
+                        case "Sunday":
+                            numerosSemanal[6] += 1;
+                            break;
+                    }
+                }
+                result = new { result = "success", title = "Satisfactorio", lista = numerosSemanal, message = "Venta Registrado Correctamente", url = "Venta/Registro" };
+                return Content(JsonConvert.SerializeObject(result));
+            }
+            catch(Exception ex)
+            {
+                result = new { result = "error", title = "Error", message = "Lo sentimos, hubo un problema no esperado. Vuelva a intentar por favor. " + ex.Message, url = "" };
+                return Content(JsonConvert.SerializeObject(result));
+            }
+        }
+
         public IActionResult Privacy()
         {
             return View();
@@ -47,6 +159,12 @@ namespace SIGECA.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public class ModelHome
+        {
+            public IEnumerable<Inventario> inventarios { get; set; }
+            public int stockVendida { get; set; }
+            public string mayorCantidad { get; set; }
         }
     }
 }
