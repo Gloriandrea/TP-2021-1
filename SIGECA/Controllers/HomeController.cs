@@ -78,7 +78,33 @@ namespace SIGECA.Controllers
                 return Content(JsonConvert.SerializeObject(result));
             }
         }
-
+        [HttpPost]
+        public async Task<ActionResult> CantidadProductos()
+        {
+            Object result = null;
+            List<Inventario> inventarios = await _inventarioService.GetAllInventario();
+            List<string> productos = new List<string>();
+            List<int> cantidadproductos = new List<int>();
+            try
+            {
+                foreach (Inventario inv in inventarios)
+                {
+                    Producto prod = await _productoService.GetById(inv.productoID);
+                    int resta = inv.stockInicial - inv.stockFinal;
+                    if (resta != 0)
+                    {
+                        productos.Add(prod.nombre);
+                        cantidadproductos.Add(resta);
+                    }
+                }
+                result = new { result = "success", title = "Satisfactorio", data = new { productos,cantidadproductos } ,message = "Venta Registrado Correctamente", url = "Venta/Registro" };
+                return Content(JsonConvert.SerializeObject(result));
+            } catch(Exception ex)
+            {
+                result = new { result = "error", title = "Error", message = "Lo sentimos, hubo un problema no esperado. Vuelva a intentar por favor. " + ex.Message, url = "" };
+                return Content(JsonConvert.SerializeObject(result));
+            }
+        }
         [HttpPost]
         public async Task<ActionResult> CantidadPedidos()
         {
