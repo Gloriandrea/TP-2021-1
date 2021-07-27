@@ -137,10 +137,15 @@ docReady(function () {
                 dataType: "json",
                 success: function (data) {
                     if (data.result) {
-                        var producto = data.value.producto;
+                        var producto = data.value.producto;                        
                         $("#productoVentaRegistrar").val(decodedText);
                         $("#cantidadVentaRegistrar").val(1);
-                        $("#costoVentaRegistrar").val(producto.precio);
+                        var costo = parseFloat(producto.precio).toFixed(2);
+                        costoProductoRegistrar = costo;
+                        var costo = parseFloat(producto.precio).toFixed(2);
+                        var cantidad = $('#cantidadVentaRegistrar').val();
+                        var subtotal = parseFloat(costo * cantidad).toFixed(2);
+                        $('#costoVentaRegistrar').val(subtotal);
                         console.log(producto);
                     } else {
                         console.log('ERROR al consultar el Usuario');
