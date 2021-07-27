@@ -1,4 +1,5 @@
-﻿@{
+﻿@model SIGECA.Controllers.HomeController.ModelHome
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -75,7 +76,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 border-left text-center pt-2">
-                    <h3 class="mb-0 fw-bold">1185</h3>
+                    <h3 class="mb-0 fw-bold">@Model.stockVendida.ToString()</h3>
                     <span class="text-muted">Cantidad de stock vendida</span>
                 </div>
             </div>
@@ -95,7 +96,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 border-left text-center pt-2">
-                    <h3 class="mb-0 fw-bold">7</h3>
+                    <h3 class="mb-0 fw-bold">@Model.inventarios.Count()</h3>
                     <span class="text-muted">Cantidad de ordenes</span>
                 </div>
             </div>
@@ -111,11 +112,10 @@
                             <canvas width="0" height="0"></canvas>
                         </span>
                         <h6><i class="fas fa-chart-area mr-1"></i>+25%</h6>
-
                     </div>
                 </div>
                 <div class="col-md-6 border-left text-center pt-2">
-                    <h3 class="mb-0 fw-bold">Alas</h3>
+                    <h3 class="mb-0 fw-bold">@Model.mayorCantidad</h3>
                     <span class="text-muted">Producto mas vendido</span>
                 </div>
             </div>
