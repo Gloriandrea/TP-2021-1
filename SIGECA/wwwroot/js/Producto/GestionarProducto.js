@@ -1,4 +1,5 @@
-﻿Dropzone.autoDiscover = false;
+﻿/// <reference path="inventario.js" />
+Dropzone.autoDiscover = false;
 $(function () {
     var myDropzone;
     var myDropzoneMod;

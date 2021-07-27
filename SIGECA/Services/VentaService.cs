@@ -8,6 +8,7 @@ namespace SIGECA.Services
     public class VentaService
     {
         private readonly IMongoCollection<Venta> _venta;
+
         public VentaService(ISigecaDataBaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
@@ -41,6 +42,8 @@ namespace SIGECA.Services
             _venta.UpdateOne(filters, update);
             return venta;
         }
+
+
         public async Task UpdateEstadoVenta(string ventaid, string estado)
         {
             switch (estado)

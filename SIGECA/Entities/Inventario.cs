@@ -18,13 +18,13 @@ namespace SIGECA.Entities
         public string productoID { get; set; }
 
         [BsonElement("stockInicial")]
-        public int stockInicial { get; set; }
+        public int stockInicial { get; set; } = 0;
 
         [BsonElement("fechaInicial")]
         public DateTime? fechaInicial { get; set; }
 
         [BsonElement("stockFinal")]
-        public int stockFinal { get; set; }
+        public int stockFinal { get; set; } = 0;
 
         [BsonElement("fechaFinal")]
         public DateTime? fechaFinal { get; set; }

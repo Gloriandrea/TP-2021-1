@@ -136,6 +136,7 @@ $('.datatable-inventario').on('click', '.btnInventarioInicial', function (e) {
                 $("#urlImagenModificarProducto").val(producto.urlImagen);
                 $("#codigoQR").attr('src', producto.codigoQR);
                 $("#unidadMedidaModificarProducto").val(producto.unidadMedida);
+                $("#nuevoStock").val(0);
                 $("#modalInventarioInicial").modal('show');
             } else {
                 console.log("ERROR AL OBTENER LOS DATOS");
@@ -159,7 +160,7 @@ $("#btnModificarProductoModal").on("click", function () {
             if (data.result == "success") {
                 console.log("Data: ", data);
                 //Escondiendo el Modal
-                $("#modalModificarProducto").modal('hide');
+                $("#modalInventarioInicial").modal('hide');
 
                 //Recargar Tabla
                 $('.datatable-inventario').dataTable().fnDraw();
@@ -198,6 +199,8 @@ $('.datatable-inventario').on('click', '.btnInventarioFinal', function (e) {
         success: function (data, textStatus, jqXHR) {
             if (data.result == "success") {
                 var producto = data.value.producto;
+                var categoria = data.value.category;
+                var inventario = data.value.inventario;
                 $("#idProd").val(producto.id);
                 $("#nombreP").val(producto.nombre);
                 $("#categoriaP").val(producto.categoriaID);
@@ -212,12 +215,13 @@ $('.datatable-inventario').on('click', '.btnInventarioFinal', function (e) {
                 $("#urlImagenProd").val(producto.urlImagen);
                 $("#codigoQR").attr('src', producto.codigoQR);
                 $("#unidadMedidaP").val(producto.unidadMedida);
-                $("#modalInventarioFinal").modal('show');
                 const fecha = new Date();
                 const hh = fecha.getHours().toString();
                 const min = fecha.getMinutes().toString();
 
                 $("#dateFinal").val(formatoFecha(fecha, "dd/mm/yyyy") + " - " + hh + ":" + min);
+                $("#dateInicial").val(inventario.fechaInicial.split("T")[0] + "  -  " + inventario.fechaInicial.split("T")[1].substring(0,5));
+                $("#modalInventarioFinal").modal('show');
             } else {
                 console.log("ERROR AL OBTENER LOS DATOS");
             }
@@ -233,13 +237,13 @@ $("#btnModificarProductoModal2").on("click", function () {
     $.ajax({
         url: frmInventarioFinal.prop('action'),
         type: 'post',
-        data: frmInventarioFinal.serializeArray(),
+        data: "productoID=" + $("#idProd").val() + "&&stockFinal=" + $("#stockFinal").val(),
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
             if (data.result == "success") {
 
                 //Escondiendo el Modal
-                $("#modalModificarProducto").modal('hide');
+                $("#modalInventarioFinal").modal('hide');
 
                 //Recargar Tabla
                 $('.datatable-inventario').dataTable().fnDraw();

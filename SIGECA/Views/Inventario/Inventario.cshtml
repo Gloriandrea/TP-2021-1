@@ -46,7 +46,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="@Url.Action("ModificarProductoStocks","Producto")" id="frmModificarProducto" method="post">
+                <form action="@Url.Action("ModificarProductoInventarioInicial","Producto")" id="frmModificarProducto" method="post">
                     <input type="hidden" id="idProductoModificar" name="id" />
                     <input type="hidden" id="urlImagenModificarProducto" name="urlImagen" />
 
@@ -165,7 +165,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="@Url.Action("ModificarProducto","Producto")" id="frmInventarioFinal" method="post">
+                <form action="@Url.Action("ModificarProductoInventarioFinal","Producto")" id="frmInventarioFinal" method="post">
                     <input type="hidden" id="idProd" name="id" />
                     <input type="hidden" id="urlImagenProd" name="urlImagen" />
 
@@ -289,7 +289,7 @@
 
 
 <input type="hidden" id="URL_ProductosListarTodos" value="@Url.Action("ObtenerProductos", "Producto")" />
-<input type="hidden" id="URL_ProductoPorID" value="@Url.Action("ObtenerProductoPorId", "Producto")" />
+<input type="hidden" id="URL_ProductoPorID" value="@Url.Action("ObtenerProductoInventarioPorId", "Producto")" />
 <input type="hidden" id="URL_ModificarProducto" value="@Url.Action("ModificarProducto", "Producto")" />
 
 <input type="hidden" id="URL_ModificarInventario" value="@Url.Action("ModificarProducto", "Producto")" />

@@ -13,9 +13,11 @@ namespace SIGECA.Controllers
     public class ProductoController : Controller
     {
         private readonly ProductoService _productoService;
-        public ProductoController(ProductoService productoService)
+        private readonly InventarioService _inventarioService;
+        public ProductoController(ProductoService productoService, InventarioService inventarioService)
         {
             _productoService = productoService;
+            _inventarioService = inventarioService;
         }
         public async Task<IActionResult> Index()
         {
@@ -32,12 +34,14 @@ namespace SIGECA.Controllers
             return Json(new { recordsFiltered = productos.Count, recordsTotal = productos.Count, data = productos });
         }
 
+        [HttpPost]
         public async Task<ActionResult<Producto>> RegistrarProducto(Producto producto)
         {
             Object result = null;
             try
             {
-                producto = await _productoService.CreateProducto(producto);
+                String usuarioID = HttpContext.Session.GetString("usuarioID");
+                producto = await _productoService.CreateProducto(producto, usuarioID);
                 result = new { result = "success", title = "Satisfactorio",productoID=producto.id, message = "Producto Registrado Correctamente", url = "Producto/Registro" };
                 return Content(JsonConvert.SerializeObject(result));
             }
@@ -57,6 +61,18 @@ namespace SIGECA.Controllers
             result = new { result = "success", title = "Satisfactorio", value = new { producto, category }, url = "Producto/Busqueda" };
             return Content(JsonConvert.SerializeObject(result));
         }
+
+        [HttpPost]
+        public async Task<ActionResult> ObtenerProductoInventarioPorId(string productoID)
+        {
+            Object result = null;
+            Producto producto = await _productoService.GetById(productoID);
+            Categoria category = await _productoService.GetCategoryNameByID(producto.categoriaID);
+            Inventario inventario = await _inventarioService.GetInventarioByID(productoID);
+            result = new { result = "success", title = "Satisfactorio", value = new { producto, category, inventario }, url = "Producto/Busqueda" };
+            return Content(JsonConvert.SerializeObject(result));
+        }
+
         [HttpPost]
         public async Task<ActionResult> ModificarProducto([FromQuery] String productoID, Producto producto)
         {
@@ -67,10 +83,19 @@ namespace SIGECA.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ModificarProductoStocks( string productoID, int stockInicial)
+        public async Task<ActionResult> ModificarProductoInventarioInicial( string productoID, int stockInicial)
         {
             Object result = null;
-            await _productoService.UpdateProducto(productoID, stockInicial);
+            await _productoService.UpdateProductoStockInicial(productoID, stockInicial);
+            result = new { result = "success", title = "Satisfactorio", value = productoID, url = "Usuario/ActualizarUsuario" };
+            return Content(JsonConvert.SerializeObject(result));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ModificarProductoInventarioFinal(string productoID, int stockFinal)
+        {
+            Object result = null;
+            await _productoService.UpdateProductoStockFinal(productoID, stockFinal);
             result = new { result = "success", title = "Satisfactorio", value = productoID, url = "Usuario/ActualizarUsuario" };
             return Content(JsonConvert.SerializeObject(result));
         }

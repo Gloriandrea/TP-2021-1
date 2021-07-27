@@ -12,8 +12,6 @@ namespace SIGECA.Services
         private readonly IMongoCollection<Producto> _producto;
         private readonly IMongoCollection<Inventario> _inventario;
 
-
-
         public InventarioService(ISigecaDataBaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
@@ -21,16 +19,17 @@ namespace SIGECA.Services
 
             _producto = database.GetCollection<Producto>("Producto");
             _inventario = database.GetCollection<Inventario>("Inventario");
-
         }
-
 
         public async Task<List<Inventario>> GetAllInventario()
         {
             return await _inventario.FindAsync(x => true).Result.ToListAsync();
         }
 
-
+        public async Task<Inventario> GetInventarioByID(string productoID)
+        {
+            return await _inventario.Find(x => x.productoID == productoID).FirstOrDefaultAsync();
+        }
 
         public async Task<Inventario> CreateInventario(Inventario inventario)
         {

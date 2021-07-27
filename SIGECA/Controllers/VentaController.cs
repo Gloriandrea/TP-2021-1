@@ -47,7 +47,10 @@ namespace SIGECA.Controllers
                 {
                     var itm = productos.Find(i => i.nombre == item.nombre);
                     item.productoID = itm.id;
+                    int stockUpdated = productos.Find(i => i.id == item.productoID).stock - item.cantidad;
+                    _productoService.UpdateProductoStock(item.productoID, stockUpdated);
                 }
+
                 venta = (Venta)await _ventaService.CreateVenta(venta);
                 result = new { result = "success", title = "Satisfactorio", message = "Venta Registrado Correctamente", url = "Venta/Registro" };
                 return Content(JsonConvert.SerializeObject(result));

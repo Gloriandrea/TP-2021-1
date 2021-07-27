@@ -1,7 +1,9 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using SIGECA.DTOs;
 using SIGECA.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ namespace SIGECA.Services
     {
         private readonly IMongoCollection<Producto> _producto;
         private readonly IMongoCollection<Categoria> _categoria;
+        private readonly IMongoCollection<Inventario> _inventario;
 
         public ProductoService(ISigecaDataBaseSettings settings)
         {
@@ -20,6 +23,7 @@ namespace SIGECA.Services
 
             _producto = database.GetCollection<Producto>("Producto");
             _categoria = database.GetCollection<Categoria>("Categoria");
+            _inventario = database.GetCollection<Inventario>("Inventario");
         }
 
         public async Task<List<Producto>> Get()
@@ -129,10 +133,22 @@ namespace SIGECA.Services
 
             return productos;
         }
-
         public async Task<Producto> CreateProducto(Producto producto)
         {
             _producto.InsertOne(producto);
+            return producto;
+        }
+
+        public async Task<Producto> CreateProducto(Producto producto, String usuario)
+        {
+            _producto.InsertOne(producto);
+            Inventario inventarioProducto = new Inventario();
+            inventarioProducto.productoID = producto.id;
+            inventarioProducto.tiendaID = "60bd45c242990c144885550f";
+            inventarioProducto.usuarioId = usuario;
+            inventarioProducto.fechaFinal = DateTime.Now;
+            inventarioProducto.fechaInicial = DateTime.Now;
+            _inventario.InsertOne(inventarioProducto);
             return producto;
         }
 
@@ -150,13 +166,44 @@ namespace SIGECA.Services
             _producto.UpdateOne(filters, update);
             return producto;
         }
-
-        public async Task<string> UpdateProducto(string productoID, int stockProducto)
+        public async Task<string> UpdateProductoStock(string productoID, int stockProducto)
         {
 
             var update = Builders<Producto>.Update.Set("stock", stockProducto);
             var filters = Builders<Producto>.Filter.Eq("id", productoID);
             _producto.UpdateOne(filters, update);
+
+            return productoID;
+        }
+
+
+        public async Task<string> UpdateProductoStockInicial(string productoID, int stockProducto)
+        {
+
+            var update = Builders<Producto>.Update.Set("stock", stockProducto);
+            var filters = Builders<Producto>.Filter.Eq("id", productoID);
+            _producto.UpdateOne(filters, update);
+
+            var updateInv = Builders<Inventario>.Update.Set("stockInicial", stockProducto)
+                .Set("fechaInicial", DateTime.Now);
+            var filtersInv = Builders<Inventario>.Filter.Eq("productoID", productoID);
+            _inventario.UpdateOne(filtersInv, updateInv);
+
+            return productoID;
+        }
+
+        public async Task<string> UpdateProductoStockFinal(string productoID, int stockProducto)
+        {
+
+            var update = Builders<Producto>.Update.Set("stock", stockProducto);
+            var filters = Builders<Producto>.Filter.Eq("id", productoID);
+            _producto.UpdateOne(filters, update);
+
+            var updateInv = Builders<Inventario>.Update.Set("stockFinal", stockProducto)
+                .Set("fechaFinal", DateTime.Now);
+            var filtersInv = Builders<Inventario>.Filter.Eq("productoID", productoID);
+            _inventario.UpdateOne(filtersInv, updateInv);
+
             return productoID;
         }
 
